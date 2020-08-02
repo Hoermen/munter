@@ -118,16 +118,16 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         Cursor cursor = db.query("sequence", new String[]{"sequenceid", "title", "subject", "grade","comments","goal","preknowledge"}, null, null, null, null, null);
-        Sequence[] sequence = new Sequence[cursor.getCount()];
-        if (cursor != null) {
-            while(cursor.moveToNext()) {
-                int index = 0;
-                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+        int length = cursor.getCount();
+        Sequence[] sequence = new Sequence[length];
 
-                sequence[index].setTitle(title);
-                sequence[index].setId(id);
-            }
+        for (int i = 0; i < length; i++ ) {
+            cursor.moveToNext();
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+
+            sequence[i].setTitle(title);
+            sequence[i].setId(id);
         }
         return sequence;
     }

@@ -32,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
         lesson.setLength(90);
         lesson.setSequenceid(1);
 
+        Lesson lesson2 = new Lesson();
+        lesson.setTitle("Test");
+        lesson.setId(1);
+        lesson.setComments("test ist wichtig");
+        lesson.setGoal("neues Lernen");
+        lesson.setHomeworks("Übungsaufgaben");
+        lesson.setOrder(1);
+        lesson.setLength(90);
+        lesson.setSequenceid(1);
+
         final TextView tv = (TextView) findViewById(R.id.title);
         tv.setText("alt");
         SQLiteDatabase sql = db.getWritableDatabase();
@@ -39,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.onUpgrade(sql, 1, 2);
         db.createLesson(lesson);
+        db.createLesson(lesson2);
 
         final Lesson neu = db.getLesson();
 
