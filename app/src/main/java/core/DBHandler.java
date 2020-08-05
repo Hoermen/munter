@@ -270,29 +270,33 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public Resource getResource() {
+    public Resource[] getResource() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        Resource resource = new Resource();
+
 
         Cursor cursor = db.query("resource", new String[]{"resourceid", "filename","content","title","type"}, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+
+        int length = cursor.getCount();
+        Resource resources[] = new Resource[length];
+
+        for (int i = 0; i < length; i++) {
+            cursor.moveToNext();
+            String filename = cursor.getString(cursor.getColumnIndexOrThrow("filename"));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("resourceid"));
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+            String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+
+            resources[i] = new Resource();
+            resources[i].setTitle(title);
+            resources[i].setId(id);
+            //resources.setType(ResourceType.valueOf(type));
+            resources[i].setTextContent(content);
+            resources[i].setFilename(filename);
+
         }
 
-        String filename = cursor.getString(cursor.getColumnIndexOrThrow("filename"));
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow("resourceid"));
-        String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-        String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
-        String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-
-
-        resource.setTitle(title);
-        resource.setId(id);
-        resource.setType(ResourceType.valueOf(type));
-        resource.setTextContent(content);
-        resource.setFilename(filename);
-
-        return resource;
+        return resources;
     }
 }

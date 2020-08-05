@@ -32,16 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView tv = (TextView) findViewById(R.id.title);
         final TextView current = (TextView) findViewById(R.id.current);
+        final TextView previous = (TextView) findViewById(R.id.previous);
+        final TextView next = (TextView) findViewById(R.id.next);
         tv.setText("alt");
 
         final Lesson neu = db.getLesson();
         final Sequence sequence = db.getSequence();
+        final PlanEntry planEntry = db.getPlanentry();
+        final Resource[] resource = db.getResource();
 
         final Button button = findViewById(R.id.exit);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 tv.setText(neu.getTitle() + " " + neu.getComments() + " " + neu.getGoal() + " " + neu.getHomeworks() + " " + neu.getId() + " " + neu.getLength() + " " + neu.getOrder() + " " + neu.getSequenceid());
                current.setText(sequence.getComments());
+               previous.setText(planEntry.getTitle());
+               next.setText(resource[1].getTextContent());
+
             }
         });
 
@@ -122,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
         resource1.setTitle("Beispiel");
         resource1.setType(ResourceType.BLACKBOARD);
 
+        Resource resource2 = new Resource();
+        resource2.setId(2);
+        resource2.setFilename("guck.txt");
+        resource2.setTextContent("film");
+        resource2.setTitle("test");
+        resource2.setType(ResourceType.BLACKBOARD);
+
         DBHandler db = new DBHandler(getApplicationContext());
         db.createLesson(lesson1);
         db.createLesson(lesson2);
@@ -130,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         db.createPlanentry(planEntry1);
         db.createPlanentry(planEntry2);
         db.createResource(resource1);
+        db.createResource(resource2);
 
     }
 }
