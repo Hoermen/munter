@@ -36,17 +36,17 @@ public class MainActivity extends AppCompatActivity {
         final TextView next = (TextView) findViewById(R.id.next);
         tv.setText("alt");
 
-        final Lesson neu = db.getLesson();
-        final Sequence sequence = db.getSequence();
-        final PlanEntry planEntry = db.getPlanentry();
+        final Lesson[] neu = db.getLesson();
+        final Sequence[] sequence = db.getSequence();
+        final PlanEntry[] planEntry = db.getPlanentry();
         final Resource[] resource = db.getResource();
 
         final Button button = findViewById(R.id.exit);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                tv.setText(neu.getTitle() + " " + neu.getComments() + " " + neu.getGoal() + " " + neu.getHomeworks() + " " + neu.getId() + " " + neu.getLength() + " " + neu.getOrder() + " " + neu.getSequenceid());
-               current.setText(sequence.getComments());
-               previous.setText(planEntry.getTitle());
+                tv.setText(neu[0].getTitle());
+               current.setText(sequence[0].getComments());
+               previous.setText(planEntry[0].getTitle());
                next.setText(resource[1].getTextContent());
 
             }

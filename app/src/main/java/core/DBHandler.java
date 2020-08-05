@@ -83,33 +83,36 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public Lesson getLesson() {
+    public Lesson[] getLesson() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        Lesson lesson = new Lesson();
+
 
         Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToLast();
+        Lesson lesson[] = new Lesson[cursor.getCount()];
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+            int sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+            int _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
+            int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+            String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+            String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
+            String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+
+            lesson[i] = new Lesson();
+            lesson[i].setTitle(title);
+            lesson[i].setId(id);
+            lesson[i].setSequenceid(sequenceid);
+            lesson[i].setLength(length);
+            lesson[i].setOrder(_order);
+            lesson[i].setHomeworks(homeworks);
+            lesson[i].setGoal(goal);
+            lesson[i].setComments(comments);
         }
-
-        String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
-        int sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
-        int _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
-        int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
-        String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
-        String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
-        String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
-
-        lesson.setTitle(title);
-        lesson.setId(id);
-        lesson.setSequenceid(sequenceid);
-        lesson.setLength(length);
-        lesson.setOrder(_order);
-        lesson.setHomeworks(homeworks);
-        lesson.setGoal(goal);
-        lesson.setComments(comments);
 
         return lesson;
     }
@@ -133,15 +136,14 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public Sequence getSequence() {
+    public Sequence[] getSequence() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         Cursor cursor = db.query("sequence", new String[]{"sequenceid", "title", "subject", "grade","comments","goal","preknowledge"}, null, null, null, null, null);
 
-        Sequence sequence = new Sequence();
-        if (cursor != null) {
-            cursor.moveToLast();
-        }
+        Sequence[] sequence = new Sequence[cursor.getCount()];
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
 
             String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
@@ -151,15 +153,16 @@ public class DBHandler extends SQLiteOpenHelper {
             String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
             String preknowledge = cursor.getString(cursor.getColumnIndexOrThrow("preknowledge"));
 
-            sequence.setTitle(title);
-            sequence.setId(id);
-            sequence.setSubject(subject);
-            sequence.setGrade(grade);
-            sequence.setGoal(goal);
-            sequence.setComments(comments);
-            sequence.setPreknowledge(preknowledge);
+            sequence[i] = new Sequence();
+            sequence[i].setTitle(title);
+            sequence[i].setId(id);
+            sequence[i].setSubject(subject);
+            sequence[i].setGrade(grade);
+            sequence[i].setGoal(goal);
+            sequence[i].setComments(comments);
+            sequence[i].setPreknowledge(preknowledge);
 
-
+        }
 
         return sequence;
     }
@@ -186,39 +189,42 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public PlanEntry getPlanentry() {
+    public PlanEntry[] getPlanentry() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        PlanEntry planEntry = new PlanEntry();
+
 
         Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","steps","track"}, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        PlanEntry planEntry[] = new PlanEntry[cursor.getCount()];
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("planentryid"));
+            int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+            int start = cursor.getInt(cursor.getColumnIndexOrThrow("start"));
+            int track = cursor.getInt(cursor.getColumnIndexOrThrow("track"));
+            int lessonid = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+            String color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
+            String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+            String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+            String socialform = cursor.getString(cursor.getColumnIndexOrThrow("socialform"));
+            String steps = cursor.getString(cursor.getColumnIndexOrThrow("steps"));
+
+            planEntry[i] = new PlanEntry();
+            planEntry[i].setTitle(title);
+            planEntry[i].setId(id);
+            planEntry[i].setSteps(steps);
+            planEntry[i].setTrack(track);
+            planEntry[i].setStart(start);
+            planEntry[i].setSocialForm(socialform);
+            planEntry[i].setLessonId(lessonid);
+            planEntry[i].setGoal(goal);
+            planEntry[i].setColor(color);
+            planEntry[i].setComments(comments);
+            planEntry[i].setLength(length);
         }
-
-        String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow("planentryid"));
-        int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
-        int start = cursor.getInt(cursor.getColumnIndexOrThrow("start"));
-        int track = cursor.getInt(cursor.getColumnIndexOrThrow("track"));
-        int lessonid = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
-        String color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
-        String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
-        String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
-        String socialform = cursor.getString(cursor.getColumnIndexOrThrow("socialform"));
-        String steps = cursor.getString(cursor.getColumnIndexOrThrow("steps"));
-
-        planEntry.setTitle(title);
-        planEntry.setId(id);
-        planEntry.setSteps(steps);
-        planEntry.setTrack(track);
-        planEntry.setStart(start);
-        planEntry.setSocialForm(socialform);
-        planEntry.setLessonId(lessonid);
-        planEntry.setGoal(goal);
-        planEntry.setColor(color);
-        planEntry.setComments(comments);
-        planEntry.setLength(length);
 
         return planEntry;
     }
