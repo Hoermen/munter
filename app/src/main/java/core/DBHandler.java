@@ -29,7 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CUSTOMFIELD = "CREATE TABLE customfield (customfieldid INTEGER PRIMARY KEY, name TEXT, binarycontent BLOB, sequenceid INTEGER, lessonid INTEGER, planentryid INTEGER)";
 
     // todo_tag table create statement
-    private static final String CREATE_TABLE_RESOURCE = "CREATE TABLE resource (resourceid INTEGER PRIMARY KEY, title TEXT, content BLOB, filename TEXT, type TEXT, thumbnail BLOB)";
+    private static final String CREATE_TABLE_RESOURCE = "CREATE TABLE resource (resourceid INTEGER PRIMARY KEY, title TEXT,content BLOB, filename TEXT, type TEXT, thumbnail BLOB)";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -88,16 +88,28 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         Lesson lesson = new Lesson();
 
-        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title"}, null, null, null, null, null);
+        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, null, null, null, null, null);
         if (cursor != null) {
-            cursor.moveToFirst();
+            cursor.moveToLast();
         }
 
         String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
         int id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+        int sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+        int _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
+        int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+        String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+        String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
+        String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
 
         lesson.setTitle(title);
         lesson.setId(id);
+        lesson.setSequenceid(sequenceid);
+        lesson.setLength(length);
+        lesson.setOrder(_order);
+        lesson.setHomeworks(homeworks);
+        lesson.setGoal(goal);
+        lesson.setComments(comments);
 
         return lesson;
     }
@@ -108,27 +120,47 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("sequenceid", sequence.getId());
         values.put("title", sequence.getTitle());
+        values.put("subject",sequence.getSubject());
+        values.put("comments",sequence.getComments());
+        values.put("goal",sequence.getGoal());
+        values.put("grade",sequence.getGrade());
+        values.put("preknowledge",sequence.getPreknowledge());
+
+
 
         // insert row
         long key_id = db.insert("sequence", null, values);
         return key_id;
     }
 
-    public Sequence[] getSequence() {
+    public Sequence getSequence() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         Cursor cursor = db.query("sequence", new String[]{"sequenceid", "title", "subject", "grade","comments","goal","preknowledge"}, null, null, null, null, null);
-        int length = cursor.getCount();
-        Sequence[] sequence = new Sequence[length];
 
-        for (int i = 0; i < length; i++ ) {
-            cursor.moveToNext();
+        Sequence sequence = new Sequence();
+        if (cursor != null) {
+            cursor.moveToLast();
+        }
+
             String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+            String subject = cursor.getString(cursor.getColumnIndexOrThrow("subject"));
+            int grade = cursor.getInt(cursor.getColumnIndexOrThrow("grade"));
+            String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+            String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+            String preknowledge = cursor.getString(cursor.getColumnIndexOrThrow("preknowledge"));
 
-            sequence[i].setTitle(title);
-            sequence[i].setId(id);
-        }
+            sequence.setTitle(title);
+            sequence.setId(id);
+            sequence.setSubject(subject);
+            sequence.setGrade(grade);
+            sequence.setGoal(goal);
+            sequence.setComments(comments);
+            sequence.setPreknowledge(preknowledge);
+
+
+
         return sequence;
     }
 
@@ -137,7 +169,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("planentryid", planEntry.getId());
+        values.put("color", planEntry.getColor());
         values.put("title", planEntry.getTitle());
+        values.put("comments", planEntry.getComments());
+        values.put("goal", planEntry.getGoal());
+        values.put("length", planEntry.getLength());
+        values.put("lessonid", planEntry.getLessonId());
+        values.put("socialform", planEntry.getSocialForm());
+        values.put("start", planEntry.getStart());
+        values.put("steps", planEntry.getSteps());
+        values.put("track", planEntry.getTrack());
+
 
         // insert row
         long key_id = db.insert("planentry", null, values);
@@ -149,16 +191,34 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         PlanEntry planEntry = new PlanEntry();
 
-        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title"}, null, null, null, null, null);
+        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","steps","track"}, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
         String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
         int id = cursor.getInt(cursor.getColumnIndexOrThrow("planentryid"));
+        int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+        int start = cursor.getInt(cursor.getColumnIndexOrThrow("start"));
+        int track = cursor.getInt(cursor.getColumnIndexOrThrow("track"));
+        int lessonid = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+        String color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
+        String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+        String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+        String socialform = cursor.getString(cursor.getColumnIndexOrThrow("socialform"));
+        String steps = cursor.getString(cursor.getColumnIndexOrThrow("steps"));
 
         planEntry.setTitle(title);
         planEntry.setId(id);
+        planEntry.setSteps(steps);
+        planEntry.setTrack(track);
+        planEntry.setStart(start);
+        planEntry.setSocialForm(socialform);
+        planEntry.setLessonId(lessonid);
+        planEntry.setGoal(goal);
+        planEntry.setColor(color);
+        planEntry.setComments(comments);
+        planEntry.setLength(length);
 
         return planEntry;
     }
@@ -169,6 +229,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("customfieldid", customField.getId());
         values.put("name", customField.getName());
+
 
         // insert row
         long key_id = db.insert("customfield", null, values);
@@ -199,7 +260,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("resourceid", resource.getId());
-        values.put("title", resource.getFilename());
+        values.put("filename", resource.getFilename());
+        values.put("content", resource.getTextContent());
+        values.put("title", resource.getTitle());
+        values.put("type", resource.getType().toString());
 
         // insert row
         long key_id = db.insert("resource", null, values);
@@ -211,16 +275,23 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         Resource resource = new Resource();
 
-        Cursor cursor = db.query("resource", new String[]{"resourceid", "filename"}, null, null, null, null, null);
+        Cursor cursor = db.query("resource", new String[]{"resourceid", "filename","content","title","type"}, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        String title = cursor.getString(cursor.getColumnIndexOrThrow("filename"));
+        String filename = cursor.getString(cursor.getColumnIndexOrThrow("filename"));
         int id = cursor.getInt(cursor.getColumnIndexOrThrow("resourceid"));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+        String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+        String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+
 
         resource.setTitle(title);
         resource.setId(id);
+        resource.setType(ResourceType.valueOf(type));
+        resource.setTextContent(content);
+        resource.setFilename(filename);
 
         return resource;
     }
