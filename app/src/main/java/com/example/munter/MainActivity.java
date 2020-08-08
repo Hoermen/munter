@@ -1,7 +1,9 @@
 package com.example.munter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -25,33 +27,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //buttonLogin
+        Button ButtonSkip = (Button) findViewById(R.id.buttonSkip);
+        ButtonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent myIntent = new Intent(MainActivity.this, SequenceActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
+        //buttonLogin
+        Button ButtonNew = (Button) findViewById(R.id.buttonNew);
+        ButtonNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent myIntent = new Intent(MainActivity.this, PlatonLoginActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
         db = new DBHandler(getApplicationContext());
         SQLiteDatabase sql = db.getWritableDatabase();
         db.onUpgrade(sql, 1,2);
        createModel();
-
-        final TextView tv = (TextView) findViewById(R.id.title);
-        final TextView current = (TextView) findViewById(R.id.current);
-        final TextView previous = (TextView) findViewById(R.id.previous);
-        final TextView next = (TextView) findViewById(R.id.next);
-        tv.setText("alt");
-
-        final Lesson[] neu = db.getLesson();
-        final Sequence[] sequence = db.getSequence();
-        final PlanEntry[] planEntry = db.getPlanentry();
-        final Resource[] resource = db.getResource();
-
-        final Button button = findViewById(R.id.exit);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                tv.setText(neu[0].getTitle());
-               current.setText(sequence[0].getComments());
-               previous.setText(planEntry[0].getTitle());
-               next.setText(resource[1].getTextContent());
-
-            }
-        });
-
     }
 
     @Override
@@ -61,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
     }
     public void createModel() {
         Sequence sequence1 = new Sequence();
-        sequence1.setTitle("Epochen");
+        sequence1.setTitle("anders");
         sequence1.setComments("viel Sprechen");
         sequence1.setGoal("interessanter");
         sequence1.setGrade(8);
         sequence1.setSubject("Deutsch");
-        sequence1.setId(1);
+        sequence1.setId(8);
 
         Sequence sequence2 = new Sequence();
         sequence2.setTitle("Gleichungen");
@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         sequence2.setGoal("interessant");
         sequence2.setGrade(9);
         sequence2.setSubject("Mathe");
-        sequence2.setId(2);
+        sequence2.setId(1);
 
         Lesson lesson1 = new Lesson();
         lesson1.setTitle("Bilder");
-        lesson1.setId(2);
+        lesson1.setId(1);
         lesson1.setComments("aufpassen");
         lesson1.setGoal("vertiefen");
         lesson1.setHomeworks("Aufsatz");
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         Lesson lesson2 = new Lesson();
         lesson2.setTitle("Test");
-        lesson2.setId(1);
+        lesson2.setId(5);
         lesson2.setComments("test ist wichtig");
         lesson2.setGoal("neues Lernen");
         lesson2.setHomeworks("Übungsaufgaben");

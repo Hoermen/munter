@@ -6,29 +6,33 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".PlatonLoginActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bitte auswählen:" />
+        android:text="Mit PLATON verknüpfen" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Benutzername" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Password"/>
 
     <Button
-        android:id="@+id/buttonNew"
+        android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sequencen zum Synchronisieren auswählen" />
-
-    <Button
-        android:id="@+id/buttonRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="bestehende Sequenzen aktualisieren" />
-
-    <Button
-        android:id="@+id/buttonSkip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="überspringen" />
+        android:text="anmelden" />
 </LinearLayout>

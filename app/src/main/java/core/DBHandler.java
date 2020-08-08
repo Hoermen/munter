@@ -83,12 +83,12 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public Lesson[] getLesson() {
+    public Lesson[] getLessons(int sequence) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
 
-        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, null, null, null, null, null);
+        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, "sequenceid like ?",new String[]{sequence+"%"}, null, null, null);
         Lesson lesson[] = new Lesson[cursor.getCount()];
 
         for (int i = 0; i < cursor.getCount(); i++) {
@@ -113,6 +113,37 @@ public class DBHandler extends SQLiteOpenHelper {
             lesson[i].setGoal(goal);
             lesson[i].setComments(comments);
         }
+
+        return lesson;
+    }
+
+    public Lesson getLesson(int lessonid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, "lessonid like ?",new String[]{lessonid+"%"}, null, null, null);
+        Lesson lesson;
+
+        cursor.moveToFirst();
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+            int sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+            int _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
+            int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+            String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+            String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
+            String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+
+            lesson = new Lesson();
+            lesson.setTitle(title);
+            lesson.setId(id);
+            lesson.setSequenceid(sequenceid);
+            lesson.setLength(length);
+            lesson.setOrder(_order);
+            lesson.setHomeworks(homeworks);
+            lesson.setGoal(goal);
+            lesson.setComments(comments);
 
         return lesson;
     }
@@ -189,12 +220,12 @@ public class DBHandler extends SQLiteOpenHelper {
         return key_id;
     }
 
-    public PlanEntry[] getPlanentry() {
+    public PlanEntry[] getPlanentry(String lesson) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
 
-        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","steps","track"}, null, null, null, null, null);
+        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","steps","track"}, "lessonid like ?",new String[]{lesson+"%"},  null, null, null);
         PlanEntry planEntry[] = new PlanEntry[cursor.getCount()];
 
         for (int i = 0; i < cursor.getCount(); i++) {
