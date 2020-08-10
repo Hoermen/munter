@@ -5,41 +5,41 @@ import com.squareup.moshi.Moshi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit2.Call;
+/* import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.POST;
+import retrofit2.http.POST; */
 
 public class REST {
 
-    public static void rest() throws IOException {
+ /*   public static void rest() throws IOException {
 
-    Procedure data = getProcedure();
+        Procedure data = getProcedure();
 
-    Moshi moshi = new Moshi.Builder().build();
+        Moshi moshi = new Moshi.Builder().build();
 
-    // if you want to see the json that will be generated ...
-    //String json = moshi.adapter(Procedure.class).indent("  ").toJson(data);
-    //System.out.println(json);
+        // if you want to see the json that will be generated ...
+        //String json = moshi.adapter(Procedure.class).indent("  ").toJson(data);
+        //System.out.println(json);
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://localhost:8675/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi)) // com.squareup.retrofit2:converter-moshi:latest.version
-            .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:8675/")
+                .addConverterFactory(MoshiConverterFactory.create(moshi)) // com.squareup.retrofit2:converter-moshi:latest.version
+                .build();
 
-    MyApi api = retrofit.create(MyApi.class);
+        MyApi api = retrofit.create(MyApi.class);
 
-    Response<Void> resp = api.postProcedure(data).execute();
+        Response<Void> resp = api.postProcedure(data).execute();
         if (resp.isSuccessful())
             System.out.println("Success!");
-}
+    }
 
     /**
      * helper method to create a 'Procedure' object
      */
-    private static Procedure getProcedure() {
+/*    private static Procedure getProcedure() {
         Procedure proc = new Procedure();
         proc.name = "BR_SP_BRN_GET_STORE_ACTIVE_SHIPMENTS";
 
@@ -48,29 +48,29 @@ public class REST {
         return proc;
     }
 
-// ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------
 // DTO classes for json serialization.  Do better validation / immutability when for realsies
 // ------------------------------------------------------------------------------------------
-static class Procedure {
-    @Json(name = "ProcName") String name;
-    @Json(name = "Parameters") List<Parameter> parameters;
-}
-
-static class Parameter {
-    @Json(name = "Name") String name;
-    @Json(name = "Value") String value;
-
-    public Parameter(String name, String value) {
-        this.name = name;
-        this.value = value;
+    static class Procedure {
+        @Json(name = "ProcName") String name;
+        @Json(name = "Parameters") List<Parameter> parameters;
     }
-}
 
-// ------------------------------------------------------------------------------------------
+    static class Parameter {
+        @Json(name = "Name") String name;
+        @Json(name = "Value") String value;
+
+        public Parameter(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------
 // Retrofit Api
 // ------------------------------------------------------------------------------------------
-interface MyApi {
-    @POST("my-endpoint")
-    Call<Void> postProcedure(@Body Procedure procedure);
-}
+    interface MyApi {
+        @POST("my-endpoint")
+        Call<Void> postProcedure(@Body Procedure procedure);
+    } */
 }
