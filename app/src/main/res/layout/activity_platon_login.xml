@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".PlatonLoginActivity">
+    tools:context=".PlatonLoginActivity"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/textView"

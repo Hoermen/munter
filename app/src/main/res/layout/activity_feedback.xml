@@ -1,15 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedbackActivity">
+    android:rowCount="3"
+    android:columnCount="2"
+    tools:context=".FeedbackActivity"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:id="@+id/Rueckblick"
+        android:orientation="vertical"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_margin="1dp"
+        android:layout_rowWeight="1"
+        android:padding="5dp"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="1"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Rückblick" />
+
+        <EditText
+            android:id="@+id/editTextFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="Feedback hinzufügen" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Auswertung"
+        android:orientation="vertical"
+        android:layout_column="0"
+        android:layout_rowWeight="1"
+        android:layout_row="1"
+        android:layout_margin="1dp"
+        android:padding="5dp"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="1"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/textAuswertung"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Auswertung Zeitmanagement" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Ausblick"
+        android:orientation="vertical"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_margin="1dp"
+        android:padding="5dp"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="1"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/textNotizen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notizen" />
+
+        <EditText
+            android:id="@+id/editTextNotizen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="gesamte Notizen der Stunde" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/HA"
+        android:orientation="vertical"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_margin="1dp"
+        android:layout_rowWeight="1"
+        android:padding="5dp"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="1"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/textHA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hausaufgaben" />
+
+        <EditText
+            android:id="@+id/editTextHA"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="Hausaufgaben notieren" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/reload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Button" />
-</LinearLayout>
+        android:layout_column="0"
+        android:layout_row="2"
+        android:layout_margin="1dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_columnSpan="2"
+        android:layout_columnWeight="2"
+        android:text="Zur Stundenübersicht" />
+
+</GridLayout>

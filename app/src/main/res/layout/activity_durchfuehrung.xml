@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:rowCount="4"
     android:columnCount="4"
-    tools:context=".Durchfuehrung">
+    tools:context=".Durchfuehrung"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
 
     <TextView
@@ -90,16 +92,32 @@
         android:background="@drawable/border"
         android:text="Materialien" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/notes"
-        android:layout_row="3"
+        android:orientation="vertical"
         android:layout_column="2"
+        android:layout_row="3"
+        android:layout_rowWeight="6"
         android:layout_margin="1dp"
         android:padding="5dp"
-        android:layout_rowWeight="6"
         android:layout_columnSpan="2"
         android:layout_columnWeight="2"
-        android:background="@drawable/border"
-        android:text="Notizen" />
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/textNotizen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notizen" />
+
+        <EditText
+            android:id="@+id/editTextNotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="Notizen hier hinzufügen" />
+    </LinearLayout>
 
 </GridLayout>

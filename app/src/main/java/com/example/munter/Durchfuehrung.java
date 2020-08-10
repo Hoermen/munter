@@ -3,10 +3,13 @@ package com.example.munter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import core.DBHandler;
@@ -24,6 +27,17 @@ public class Durchfuehrung extends AppCompatActivity {
         setContentView(R.layout.activity_durchfuehrung);
 
         db = new DBHandler(getApplicationContext());
+
+        EditText notes = (EditText) findViewById(R.id.editTextNotes);
+
+        notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
 
         Intent i = getIntent();
         final String lessonID = i.getStringExtra("lessonID");
@@ -56,5 +70,9 @@ public class Durchfuehrung extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
