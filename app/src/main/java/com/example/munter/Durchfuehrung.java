@@ -2,9 +2,7 @@ package com.example.munter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -12,22 +10,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker;
-
 import core.DBHandler;
 import core.Lesson;
 import core.PlanEntry;
@@ -36,15 +26,14 @@ import core.Sequence;
 
 public class Durchfuehrung extends AppCompatActivity {
     DBHandler db;
-    Thread thread;
+    CountDownTimer mCountDownTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_durchfuehrung);
-
         db = new DBHandler(getApplicationContext());
-
         EditText notes = (EditText) findViewById(R.id.editTextNotes);
 
         notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -58,12 +47,10 @@ public class Durchfuehrung extends AppCompatActivity {
 
         Intent i = getIntent();
         final String lessonID = i.getStringExtra("lessonID");
-
         final TextView tv = (TextView) findViewById(R.id.title);
         final TextView current = (TextView) findViewById(R.id.current);
         final TextView previous = (TextView) findViewById(R.id.previous);
         final TextView next = (TextView) findViewById(R.id.next);
-
         final Lesson neu = db.getLesson(Integer.parseInt(lessonID));
         final Sequence[] sequence = db.getSequence();
         final PlanEntry[] planEntry = db.getPlanentry("1");
@@ -94,7 +81,7 @@ public class Durchfuehrung extends AppCompatActivity {
             public void onClick(View view){
 
                 final EditText input = new EditText(Durchfuehrung.this);
-                input.setInputType(InputType.TYPE_CLASS_PHONE);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 new AlertDialog.Builder(Durchfuehrung.this)
                         .setTitle("Timer starten")
                         .setMessage("Minuten wählen")
@@ -105,7 +92,12 @@ public class Durchfuehrung extends AppCompatActivity {
                         .setPositiveButton("Timer starten", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 final long zeit = Long.parseLong(input.getText().toString());
-                                new CountDownTimer(zeit*1000*60,1000){
+
+                                //cancel the old countDownTimer
+                                if(mCountDownTimer!=null){
+                                    mCountDownTimer.cancel();
+                                }
+                                mCountDownTimer = new CountDownTimer(zeit*1000*60,1000){
                                     public void onTick(long millisUntilFinished) {
                                         long minutes = (millisUntilFinished / 1000) / 60;
                                         long seconds = (millisUntilFinished / 1000) % 60;
@@ -122,16 +114,17 @@ public class Durchfuehrung extends AppCompatActivity {
                                         anim.setRepeatMode(ValueAnimator.REVERSE);
                                         anim.setRepeatCount(10);
                                         anim.start();
+                                        time.setText("Ende!");
+                                        time.setTextColor(Color.RED);
                                     }
-                                }.start();
-                            }
+                                };
+                                   mCountDownTimer.start();
+                                }
                         })
 
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton("Abbrechen", null)
                         .show();
-
-
             }
         });
     }
