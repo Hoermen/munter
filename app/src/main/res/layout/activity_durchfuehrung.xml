@@ -51,17 +51,29 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_margin="5dp"
-        android:padding="5dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_row="1"
         android:layout_column="0"
         android:layout_rowWeight="0"
         android:layout_columnWeight="4"
-        android:layout_columnSpan="4" />
+        android:layout_columnSpan="4">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/PlanEntry"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/previous"

@@ -10,13 +10,20 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.InputType;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import core.DBHandler;
 import core.Lesson;
@@ -27,7 +34,10 @@ import core.Sequence;
 public class Durchfuehrung extends AppCompatActivity {
     DBHandler db;
     CountDownTimer mCountDownTimer;
-
+    ProgressBar pb;
+    int progress = -1;
+    private Handler handler = new Handler();
+    int length;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,60 @@ public class Durchfuehrung extends AppCompatActivity {
         previous.setText(planEntry[0].getTitle());
         next.setText(resource[1].getTextContent());
 
+        length = neu.getLength();
+        pb = (ProgressBar) findViewById(R.id.progressBar);
+        pb.setMax(length*60);
+
+        // Start long running operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (progress < length*60) {
+                    progress += 1;
+                    // Update the progress bar and display the
+                    //current value in the text view
+                    handler.post(new Runnable() {
+                        public void run() {
+                            pb.setProgress(progress);
+                        }
+                    });
+                    try {
+                        // Sleep for 60 seconds.
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        for (int j = 0; j < planEntry.length; j++) {
+            final TextView value2TV = new TextView(Durchfuehrung.this);
+
+            int start = planEntry[j].getStart();
+            int length = planEntry[j].getLength();
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            value2TV.setWidth(width/neu.getLength()*length);
+
+            String lessonText = "<h3>"+planEntry[j].getTitle()+"</h3>";
+            value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            value2TV.setId(planEntry[j].getId());
+            value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            value2TV.setBackground(getDrawable(R.drawable.border));
+            value2TV.setTextColor(getColor(R.color.colorText));
+
+            int padding_in_dp = 5;
+            float scala = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scala + 0.5f);
+
+           // value2TV.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+
+            LinearLayout ll = (LinearLayout) findViewById(R.id.PlanEntry);
+            ll.addView(value2TV);
+        }
+
         //buttonStart
         Button exit = (Button) findViewById(R.id.exit);
         exit.setOnClickListener(new View.OnClickListener() {
@@ -82,16 +146,23 @@ public class Durchfuehrung extends AppCompatActivity {
 
                 final EditText input = new EditText(Durchfuehrung.this);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                final NumberPicker np = new NumberPicker(Durchfuehrung.this);
+                np.setMinValue(1);
+                np.setMaxValue(90);
+                np.setValue(5);
+
+
                 new AlertDialog.Builder(Durchfuehrung.this)
                         .setTitle("Timer starten")
                         .setMessage("Minuten wählen")
-                        .setView(input)
+                        .setView(np)
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton("Timer starten", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                final long zeit = Long.parseLong(input.getText().toString());
+                                final long zeit = np.getValue();
 
                                 //cancel the old countDownTimer
                                 if(mCountDownTimer!=null){
