@@ -7,7 +7,8 @@
     android:columnCount="4"
     tools:context=".Durchfuehrung"
     android:clickable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:id="@+id/duringLesson">
 
 
     <TextView
@@ -85,7 +86,7 @@
         android:padding="5dp"
         android:layout_rowWeight="20"
         android:background="@drawable/border"
-        android:text="vorherige Phase" />
+        android:text="letzte Stunde" />
 
     <TextView
         android:id="@+id/current"

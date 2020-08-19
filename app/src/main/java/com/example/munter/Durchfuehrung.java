@@ -7,6 +7,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,18 +15,23 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import core.DBHandler;
+import core.Gesten;
 import core.Lesson;
 import core.PlanEntry;
 import core.Resource;
@@ -38,6 +44,11 @@ public class Durchfuehrung extends AppCompatActivity {
     int progress = -1;
     private Handler handler = new Handler();
     int length;
+    int id = 0;
+    String lessonID;
+    long[] time;
+    long[] startTime;
+    long[] endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,25 +67,118 @@ public class Durchfuehrung extends AppCompatActivity {
         });
 
         Intent i = getIntent();
-        final String lessonID = i.getStringExtra("lessonID");
-        final TextView tv = (TextView) findViewById(R.id.title);
+        lessonID = i.getStringExtra("lessonID");
+        lessonID = "1";
+        final TextView title = (TextView) findViewById(R.id.title);
         final TextView current = (TextView) findViewById(R.id.current);
         final TextView previous = (TextView) findViewById(R.id.previous);
         final TextView next = (TextView) findViewById(R.id.next);
-        final Lesson neu = db.getLesson(Integer.parseInt(lessonID));
-        final Sequence[] sequence = db.getSequence();
-        final PlanEntry[] planEntry = db.getPlanentry("1");
+        final Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
+        final PlanEntry[] planEntry = db.getPlanentry(lessonID);
         final Resource[] resource = db.getResource();
 
-        String html = "<h2>"+planEntry[0].getTitle()+"</h2><p>"+planEntry[0].getComments()+"</p";
-        current.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        GridLayout gridLayout = findViewById(R.id.duringLesson);
 
-        tv.setText(neu.getTitle());
-        current.setText(sequence[0].getComments());
-        previous.setText(planEntry[0].getTitle());
-        next.setText(resource[1].getTextContent());
+        gridLayout.setOnTouchListener(new Gesten(this) {
+            public boolean onSwipeTop() {
+                //es wurde nach oben gewischt, hier den Code einfügen
+                return false;
+            }
+            public boolean onSwipeRight() {
+                PlanEntry[] planEntry = db.getPlanentry(lessonID);
+                for (int i = 0; i < planEntry.length; i++) {
+                    if (startTime[i] != 0) {
+                        endTime[i] = System.currentTimeMillis();
+                        time[i] = (time[i] + (endTime[i] - startTime[i]));
+                        endTime[i] = 0;
+                        startTime[i] = 0;
+                        id = i;
+                    }
+                }
+                startTime[id-1] = System.currentTimeMillis();
 
-        length = neu.getLength();
+                changeColor(lessonID, id-1);
+                TextView value2TV = findViewById(id);
+                value2TV.setBackgroundColor(Color.GREEN);
+                value2TV.setClickable(false);
+                String html = "<h2>"+planEntry[id-1].getTitle()+"</h2><p>"+planEntry[id-1].getComments()+"</p";
+                current.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                current.setText(""+time[id-1]/1000);
+                if (id - 2 >= 0) {
+                    previous.setText(planEntry[id - 1].getTitle());
+                } else if (Integer.parseInt(lessonID)-1 >= 1) {
+                    String letzteStunde = db.getLesson(Integer.parseInt(lessonID)-1).getTitle();
+                    previous.setText(letzteStunde);
+                } else previous.setText("letzte Stunde nicht verfügbar");
+                if (id <= planEntry.length-1) {
+                    next.setText(planEntry[id].getTitle());
+                } else next.setText("letzte Phase erreicht");
+                return false;
+            }
+            public boolean onSwipeLeft() {
+                PlanEntry[] planEntry = db.getPlanentry(lessonID);
+                for (int i = 0; i < planEntry.length; i++) {
+                    if (startTime[i] != 0) {
+                        endTime[i] = System.currentTimeMillis();
+                        time[i] = (time[i] + (endTime[i] - startTime[i]));
+                        endTime[i] = 0;
+                        startTime[i] = 0;
+                        id = i;
+                    }
+                }
+                startTime[id+1] = System.currentTimeMillis();
+
+                changeColor(lessonID, id+1);
+                TextView value2TV = findViewById(id+2);
+                value2TV.setBackgroundColor(Color.GREEN);
+                value2TV.setClickable(false);
+                String html = "<h2>"+planEntry[id+1].getTitle()+"</h2><p>"+planEntry[id+1].getComments()+"</p";
+                current.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                current.setText(""+time[id+1]/1000);
+                if (id +1 >= 0) {
+                    previous.setText(planEntry[id].getTitle());
+                } else if (Integer.parseInt(lessonID)-1 >= 1) {
+                    String letzteStunde = db.getLesson(Integer.parseInt(lessonID)-1).getTitle();
+                    previous.setText(letzteStunde);
+                } else previous.setText("letzte Stunde nicht verfügbar");
+                if (id + 2 <= planEntry.length-1) {
+                    next.setText(planEntry[id + 2].getTitle());
+                } else next.setText("letzte Phase erreicht");
+
+                return false;
+            }
+            public boolean onSwipeBottom() {
+                //es wurde nach unten gewischt, hier den Code einfügen
+                return false;
+            }
+            public boolean nichts(){
+                //es wurde keine wischrichtung erkannt, hier den Code einfügen
+                return false;
+            }
+        });
+
+
+
+        startTime = new long[planEntry.length];
+        endTime = new long[planEntry.length];
+        time = new long[planEntry.length];
+        for (int j = 0; j < planEntry.length; j++) {
+            endTime[j] = 0;
+            startTime[j] = 0;
+        }
+        startTime[0] = System.currentTimeMillis();
+
+        title.setText(lesson.getTitle());
+        if (Integer.parseInt(lessonID)-1 >= 1) {
+        String letzteStunde = db.getLesson(Integer.parseInt(lessonID)-1).getTitle();
+            previous.setText(letzteStunde);
+        }
+
+        current.setText(planEntry[0].getTitle());
+        next.setText(planEntry[1].getTitle());
+
+
+        length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setMax(length*60);
 
@@ -103,13 +207,13 @@ public class Durchfuehrung extends AppCompatActivity {
         for (int j = 0; j < planEntry.length; j++) {
             final TextView value2TV = new TextView(Durchfuehrung.this);
 
-            int start = planEntry[j].getStart();
+            final int start = planEntry[j].getStart();
             int length = planEntry[j].getLength();
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
             display.getSize(size);
             int width = size.x;
-            value2TV.setWidth(width/neu.getLength()*length);
+            value2TV.setWidth(width/lesson.getLength()*length);
 
             String lessonText = "<h3>"+planEntry[j].getTitle()+"</h3>";
             value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -117,6 +221,41 @@ public class Durchfuehrung extends AppCompatActivity {
             value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             value2TV.setBackground(getDrawable(R.drawable.border));
             value2TV.setTextColor(getColor(R.color.colorText));
+            value2TV.setGravity(Gravity.CENTER);
+
+            final int finalJ = j;
+            id = j;
+            value2TV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for (int i = 0; i < planEntry.length; i++) {
+                        if (startTime[i] != 0) {
+                            endTime[i] = System.currentTimeMillis();
+                            time[i] = (time[i] + (endTime[i] - startTime[i]));
+                            endTime[i] = 0;
+                            startTime[i] = 0;
+                        }
+                    }
+
+                    startTime[finalJ] = System.currentTimeMillis();
+
+                    changeColor(lessonID, value2TV.getId());
+                    value2TV.setBackgroundColor(Color.GREEN);
+                    value2TV.setClickable(false);
+                    String html = "<h2>"+planEntry[finalJ].getTitle()+"</h2><p>"+planEntry[finalJ].getComments()+"</p";
+                    current.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    current.setText(""+time[finalJ]/1000);
+                    if (finalJ - 1 >= 0) {
+                        previous.setText(planEntry[finalJ - 1].getTitle());
+                    } else if (Integer.parseInt(lessonID)-1 >= 1) {
+                            String letzteStunde = db.getLesson(Integer.parseInt(lessonID)-1).getTitle();
+                            previous.setText(letzteStunde);
+                        } else previous.setText("letzte Stunde nicht verfügbar");
+                    if (finalJ + 1 <= planEntry.length-1) {
+                        next.setText(planEntry[finalJ + 1].getTitle());
+                    } else next.setText("letzte Phase erreicht");
+                }
+            });
 
             int padding_in_dp = 5;
             float scala = getResources().getDisplayMetrics().density;
@@ -128,13 +267,30 @@ public class Durchfuehrung extends AppCompatActivity {
             ll.addView(value2TV);
         }
 
+        TextView entry = findViewById(planEntry[0].getId());
+        entry.setBackgroundColor(Color.GREEN);
+        entry.setClickable(false);
+
         //buttonStart
         Button exit = (Button) findViewById(R.id.exit);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+
+                for (int i = 0; i < planEntry.length; i++) {
+                    if (startTime[i] != 0) {
+                        endTime[i] = System.currentTimeMillis();
+                        time[i] = (time[i] + (endTime[i] - startTime[i]));
+                        endTime[i] = 0;
+                        startTime[i] = 0;
+                    }
+                }
                 Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
                 i.putExtra("lessonID", lessonID);
+
+                for (int k = 0; k < planEntry.length; k++) {
+                    i.putExtra(Integer.toString(k), ""+time[k]/1000);
+                }
                 startActivity(i);
             }
         });
@@ -199,6 +355,18 @@ public class Durchfuehrung extends AppCompatActivity {
             }
         });
     }
+
+    private void changeColor(String lessonID, int id) {
+        PlanEntry[] pe = db.getPlanentry(lessonID);
+        TextView[] tv = new TextView[pe.length];
+        for (int j = 0; j < pe.length; j++) {
+            tv[j] = findViewById(pe[j].getId());
+            tv[j].setBackground(getDrawable(R.drawable.border));
+            tv[j].setClickable(true);
+        }
+
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
