@@ -8,10 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import core.CustomField;
-import core.CustomFieldDefinition;
 import core.DBHandler;
 import core.Lesson;
 import core.PlanEntry;
@@ -27,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView munter = findViewById(R.id.munter);
+        String munterText = "<h1>munter</h1>";
+        munter.setText(HtmlCompat.fromHtml(munterText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        ImageView icon = findViewById(R.id.icon);
+        icon.setImageResource(R.mipmap.munter);
+
+        TextView munter2 = findViewById(R.id.munter2);
+        String munter2Text = "<h3>- DIE Unterstützung für guten Unterricht -</h3>";
+        munter2.setText(HtmlCompat.fromHtml(munter2Text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
 
         //buttonLogin
         Button ButtonSkip = (Button) findViewById(R.id.buttonSkip);
@@ -50,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DBHandler(getApplicationContext());
         SQLiteDatabase sql = db.getWritableDatabase();
-        db.onUpgrade(sql, 1,2);
+        db.onUpgrade(sql, 2,3);
        createModel();
     }
 
@@ -88,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
         Lesson lesson2 = new Lesson();
         lesson2.setTitle("Test");
-        lesson2.setId(5);
+        lesson2.setId(2);
         lesson2.setComments("test ist wichtig");
         lesson2.setGoal("neues Lernen");
         lesson2.setHomeworks("Übungsaufgaben");
         lesson2.setOrder(1);
         lesson2.setLength(90);
-        lesson2.setSequenceid(1);
+        lesson2.setSequenceid(8);
 
         PlanEntry planEntry1 = new PlanEntry();
         planEntry1.setColor("blue");
@@ -136,6 +146,32 @@ public class MainActivity extends AppCompatActivity {
         resource2.setTitle("test");
         resource2.setType(ResourceType.BLACKBOARD);
 
+        PlanEntry planEntry8 = new PlanEntry();
+        planEntry8.setColor("blue");
+        planEntry8.setComments("1. Kommentar");
+        planEntry8.setGoal("Einführung");
+        planEntry8.setId(3);
+        planEntry8.setLength(10);
+        planEntry8.setLessonId(2);
+        planEntry8.setSocialForm("Gruppenarbeit");
+        planEntry8.setStart(0);
+        planEntry8.setTitle("neu");
+        planEntry8.setTrack(1);
+        planEntry8.setSteps("Schritt 1");
+
+        PlanEntry planEntry9 = new PlanEntry();
+        planEntry9.setColor("blue");
+        planEntry9.setComments("4Kommentar");
+        planEntry9.setGoal("Einführung");
+        planEntry9.setId(4);
+        planEntry9.setLength(10);
+        planEntry9.setLessonId(2);
+        planEntry9.setSocialForm("Gruppenarbeit");
+        planEntry9.setStart(0);
+        planEntry9.setTitle("schluss");
+        planEntry9.setTrack(1);
+        planEntry9.setSteps("Schritt 1");
+
         DBHandler db = new DBHandler(getApplicationContext());
         db.createLesson(lesson1);
         db.createLesson(lesson2);
@@ -143,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
         db.createSequence(sequence2);
         db.createPlanentry(planEntry1);
         db.createPlanentry(planEntry2);
+        db.createPlanentry(planEntry8);
+        db.createPlanentry(planEntry9);
         db.createResource(resource1);
         db.createResource(resource2);
 

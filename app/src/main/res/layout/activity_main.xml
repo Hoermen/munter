@@ -9,6 +9,22 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/munter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="munter" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/munter2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="munter" />
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

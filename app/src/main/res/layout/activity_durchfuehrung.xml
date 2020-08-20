@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rowCount="4"
-    android:columnCount="4"
     tools:context=".Durchfuehrung"
     android:clickable="true"
     android:focusableInTouchMode="true"
-    android:id="@+id/duringLesson">
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_columnSpan="3"
-        android:layout_columnWeight="3"
-        android:layout_row="0"
-        android:layout_margin="1dp"
-        android:padding="1dp"
-        android:gravity="center"
-        android:layout_rowWeight="1"
-        android:background="@drawable/border"
-        android:text="Titel" />
+    android:id="@+id/duringLesson"
+    android:orientation="vertical"
+    android:weightSum="18">
 
     <LinearLayout
-        android:layout_columnSpan="1"
-        android:layout_columnWeight="1"
-        android:layout_row="0"
-        android:layout_column="3"
-        android:layout_rowWeight="0">
-
-        <Button
-            android:id="@+id/timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Timer" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <TextView
-            android:id="@+id/Chronometer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"/>
+            android:id="@+id/titleStunde"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="Titel" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
-            android:id="@+id/exit"
-            android:padding="1dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:text="Beenden"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Timer" />
+
+            <TextView
+                android:id="@+id/Chronometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="00:00" />
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:padding="1dp"
+                android:text="Stunde beenden" />
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
         android:orientation="vertical"
-        android:layout_row="1"
-        android:layout_column="0"
-        android:layout_rowWeight="0"
-        android:layout_columnWeight="4"
-        android:layout_columnSpan="4">
+        android:layout_height="0dp">
         <LinearLayout
             android:orientation="horizontal"
             android:id="@+id/PlanEntry"
@@ -76,80 +80,88 @@
             />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/previous"
-        android:layout_columnSpan="1"
-        android:layout_columnWeight="1"
-        android:layout_row="2"
-        android:layout_column="0"
-        android:layout_margin="1dp"
-        android:padding="5dp"
-        android:layout_rowWeight="20"
-        android:background="@drawable/border"
-        android:text="letzte Stunde" />
-
-    <TextView
-        android:id="@+id/current"
-        android:layout_row="2"
-        android:layout_column="1"
-        android:layout_columnSpan="2"
-        android:layout_columnWeight="2"
-        android:layout_margin="1dp"
-        android:padding="5dp"
-        android:layout_rowWeight="20"
-        android:background="@drawable/border"
-        android:text="aktuelle Phase" />
-
-    <TextView
-        android:id="@+id/next"
-        android:layout_row="2"
-        android:layout_column="3"
-        android:layout_columnSpan="1"
-        android:layout_columnWeight="1"
-        android:layout_margin="1dp"
-        android:padding="5dp"
-        android:layout_rowWeight="20"
-        android:background="@drawable/border"
-        android:text="nächste Phase" />
-
-    <TextView
-        android:id="@+id/materials"
-        android:layout_row="3"
-        android:layout_column="0"
-        android:layout_margin="1dp"
-        android:padding="5dp"
-        android:layout_columnSpan="2"
-        android:layout_columnWeight="2"
-        android:layout_rowWeight="6"
-        android:background="@drawable/border"
-        android:text="Materialien" />
-
     <LinearLayout
-        android:id="@+id/notes"
-        android:orientation="vertical"
-        android:layout_column="2"
-        android:layout_row="3"
-        android:layout_rowWeight="6"
-        android:layout_margin="1dp"
-        android:padding="5dp"
-        android:layout_columnSpan="2"
-        android:layout_columnWeight="2"
-        android:background="@drawable/border">
+        android:gravity="center"
+        android:weightSum="6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textNotizen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Notizen" />
-
-        <EditText
-            android:id="@+id/editTextNotes"
-            android:layout_width="match_parent"
+            android:id="@+id/previous"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:hint="Notizen hier hinzufügen" />
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:text="letzte Stunde" />
+
+        <TextView
+            android:id="@+id/current"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:text="aktuelle Phase" />
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:text="nächste Phase" />
     </LinearLayout>
 
-</GridLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/materials"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="2"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:text="Materialien" />
+
+        <LinearLayout
+            android:id="@+id/notes"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/textNotizen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notizen" />
+
+            <EditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Notizen hier hinzufügen"
+                android:inputType="textMultiLine" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

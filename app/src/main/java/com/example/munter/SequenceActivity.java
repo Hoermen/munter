@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -14,6 +15,30 @@ import core.Lesson;
 import core.Sequence;
 
 public class SequenceActivity extends AppCompatActivity {
+    boolean momentanesFenster;
+
+    @Override
+    public void onBackPressed() {
+
+        if(momentanesFenster == true){
+            //Der Nutzer befindet sich gerade im Unterfenster, da momentanesFenster = 1.
+
+            //Nun öffnen wir wieder das Layout des Hauptfensters.
+            Intent i = new Intent(SequenceActivity.this, SequenceActivity.class);
+            startActivity(i);
+            finish();
+
+
+            //anschließend ändern wir die Variable momentanesFenster wieder auf 0, da dies das Hauptfenster beschreibt.
+            momentanesFenster = false;
+
+            //Mit diesem Befehl verhindern wir die weitere Ausführung der Funktion und damit überspringen wir alle weiteren Befehle.
+            return;
+        }
+
+        // Standardaktion (App schließen)
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +51,18 @@ public class SequenceActivity extends AppCompatActivity {
         final Sequence[] sequence = db.getSequence();
 
         final TextView sequenceuebersicht = (TextView) findViewById(R.id.Sequenceübersicht);
-        String html = "<h2>Sequenz und Stundenübersicht</h2>";
+        String html = "<h2>Übersicht der geladenen Sequenzen</h2>";
         sequenceuebersicht.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        ImageButton sync = findViewById(R.id.sync);
+        sync.setBackgroundResource(R.mipmap.sync);
+        sync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SequenceActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
 
         for (int i = 0; i < sequence.length; i++) {
             final TextView valueTV = new TextView(this);
@@ -59,13 +94,19 @@ public class SequenceActivity extends AppCompatActivity {
             valueTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    momentanesFenster = true;
                     final Lesson[] lesson = db.getLessons(valueTV.getId());
                     Context context = getApplicationContext();
                     linearLayout.removeAllViewsInLayout();
+                        for (int i = 0; i < sequence.length; i++) {
+                            if (sequence[i].getId() == valueTV.getId()) {
+                                String html = "<h2>Stunden zur Sequenz: " + sequence[i].getTitle() + "</h2>";
+                                sequenceuebersicht.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            }
+                        }
 
                     for (int i = 0; i < lesson.length; i++) {
                         final TextView value2TV = new TextView(context);
-
                         String lessonText = "<h3>"+lesson[i].getTitle()+"</h3><p>" + lesson[i].getLength()+"</p><p>"+
                                 lesson[i].getGoal()+"</p><p>"+lesson[i].getHomeworks()+"</p><p>"+lesson[i].getComments()+"</p>"+
                                 "<p>a kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p>";

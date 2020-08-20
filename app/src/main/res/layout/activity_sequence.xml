@@ -15,12 +15,26 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
-    <TextView
-            android:id="@+id/Sequenceübersicht"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Sequenz und Stundenübersicht" />
+
+            <LinearLayout
+                android:id="@+id/high"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/Sequenceübersicht"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_weight="1"
+                    android:text="Sequenz und Stundenübersicht" />
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/sync"
+                    android:scaleType="fitXY"
+                    android:layout_height="40dp"
+                    android:layout_width="40dp"
+                    android:layout_margin="5dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/list"
                 android:layout_width="match_parent"

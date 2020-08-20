@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,14 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import core.DBHandler;
+import core.DrawView;
 import core.Lesson;
 import core.PlanEntry;
 
 public class LessonActivity extends AppCompatActivity {
+    DrawView drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_lesson);
         Intent i = getIntent();
         final String lessonID = i.getStringExtra("lessonID");
@@ -47,6 +52,14 @@ public class LessonActivity extends AppCompatActivity {
         });
 
         checkliste.setText(lesson.getComments());
+        checkliste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView = new DrawView(LessonActivity.this);
+                setContentView(drawView);
+                drawView.requestFocus();
+            }
+        });
 
         //buttonStart
         Button ButtonStart = (Button) findViewById(R.id.ButtonStart);

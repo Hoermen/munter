@@ -26,6 +26,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import core.DBHandler;
 import core.DrawView;
@@ -68,8 +69,6 @@ public class Durchfuehrung extends AppCompatActivity {
         String comments = i.getStringExtra("comments");
         notes.setText(comments);
         lessonID = i.getStringExtra("lessonID");
-        lessonID = "1";
-        final TextView title = (TextView) findViewById(R.id.title);
         final TextView current = (TextView) findViewById(R.id.current);
         final TextView previous = (TextView) findViewById(R.id.previous);
         final TextView next = (TextView) findViewById(R.id.next);
@@ -77,7 +76,11 @@ public class Durchfuehrung extends AppCompatActivity {
         final PlanEntry[] planEntry = db.getPlanentry(lessonID);
         final Resource[] resource = db.getResource();
 
-        GridLayout gridLayout = findViewById(R.id.duringLesson);
+        TextView titleStunde = findViewById(R.id.titleStunde);
+        String titleText = "<h1>"+lesson.getTitle()+"</h1>";
+        titleStunde.setText(HtmlCompat.fromHtml(titleText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        LinearLayout gridLayout = findViewById(R.id.duringLesson);
 
         gridLayout.setOnTouchListener(new Gesten(this) {
             public boolean onSwipeTop() {
@@ -168,7 +171,6 @@ public class Durchfuehrung extends AppCompatActivity {
         }
         startTime[0] = System.currentTimeMillis();
 
-        title.setText(lesson.getTitle());
         if (Integer.parseInt(lessonID)-1 >= 1) {
         String letzteStunde = db.getLesson(Integer.parseInt(lessonID)-1).getTitle();
             previous.setText(letzteStunde);
@@ -277,23 +279,39 @@ public class Durchfuehrung extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                for (int i = 0; i < planEntry.length; i++) {
-                    if (startTime[i] != 0) {
-                        endTime[i] = System.currentTimeMillis();
-                        time[i] = (time[i] + (endTime[i] - startTime[i]));
-                        endTime[i] = 0;
-                        startTime[i] = 0;
-                    }
-                }
-                Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
-                i.putExtra("lessonID", lessonID);
+                new AlertDialog.Builder(Durchfuehrung.this)
+                        .setTitle("Stunde beenden")
+                        .setMessage("Wollem Sie die Stunde wirklich beenden?")
 
-                for (int k = 0; k < planEntry.length; k++) {
-                    i.putExtra(Integer.toString(k), ""+time[k]/1000);
-                }
-                String comments = notes.getText().toString();
-                i.putExtra("comments", comments);
-                startActivity(i);
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("ja", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < planEntry.length; i++) {
+                                    if (startTime[i] != 0) {
+                                        endTime[i] = System.currentTimeMillis();
+                                        time[i] = (time[i] + (endTime[i] - startTime[i]));
+                                        endTime[i] = 0;
+                                        startTime[i] = 0;
+                                    }
+                                }
+                                Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
+                                i.putExtra("lessonID", lessonID);
+
+                                for (int k = 0; k < planEntry.length; k++) {
+                                    i.putExtra(Integer.toString(k), ""+time[k]/1000);
+                                }
+                                String comments = notes.getText().toString();
+                                i.putExtra("comments", comments);
+                                startActivity(i);
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton("nein", null)
+                        .show();
+
+
             }
         });
         final TextView time = (TextView) findViewById(R.id.Chronometer);
