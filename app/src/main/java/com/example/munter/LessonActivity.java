@@ -35,7 +35,7 @@ public class LessonActivity extends AppCompatActivity {
         String html = "<h2>"+lesson.getTitle()+"</h2>";
         lessonText.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        EditText checkliste = (EditText) findViewById(R.id.Checkliste);
+        final EditText checkliste = (EditText) findViewById(R.id.Checkliste);
 
         checkliste.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -46,6 +46,8 @@ public class LessonActivity extends AppCompatActivity {
             }
         });
 
+        checkliste.setText(lesson.getComments());
+
         //buttonStart
         Button ButtonStart = (Button) findViewById(R.id.ButtonStart);
         ButtonStart.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +55,8 @@ public class LessonActivity extends AppCompatActivity {
             public void onClick(View view){
                 Intent i = new Intent(LessonActivity.this, Durchfuehrung.class);
                 i.putExtra("lessonID", lessonID);
+                String comments = checkliste.getText().toString();
+                i.putExtra("comments", comments);
                 startActivity(i);
             }
         });

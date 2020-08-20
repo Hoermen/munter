@@ -23,6 +23,7 @@ public class FeedbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feedback);
         Intent i = getIntent();
         String lessonID = i.getStringExtra("lessonID");
+        String comments = i.getStringExtra("comments");
         DBHandler db = new DBHandler(this);
         PlanEntry[] planEntry = db.getPlanentry(lessonID);
         String[] time = new String[planEntry.length];
@@ -40,6 +41,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 }
             }
         });
+        notes.setText(comments);
 
         EditText HA = (EditText) findViewById(R.id.editTextHA);
 

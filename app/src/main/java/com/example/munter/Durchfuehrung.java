@@ -7,7 +7,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +14,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
@@ -23,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -31,13 +28,14 @@ import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import core.DBHandler;
+import core.DrawView;
 import core.Gesten;
 import core.Lesson;
 import core.PlanEntry;
 import core.Resource;
-import core.Sequence;
 
 public class Durchfuehrung extends AppCompatActivity {
+    DrawView drawView;
     DBHandler db;
     CountDownTimer mCountDownTimer;
     ProgressBar pb;
@@ -55,7 +53,7 @@ public class Durchfuehrung extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_durchfuehrung);
         db = new DBHandler(getApplicationContext());
-        EditText notes = (EditText) findViewById(R.id.editTextNotes);
+        final EditText notes = (EditText) findViewById(R.id.editTextNotes);
 
         notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -67,6 +65,8 @@ public class Durchfuehrung extends AppCompatActivity {
         });
 
         Intent i = getIntent();
+        String comments = i.getStringExtra("comments");
+        notes.setText(comments);
         lessonID = i.getStringExtra("lessonID");
         lessonID = "1";
         final TextView title = (TextView) findViewById(R.id.title);
@@ -291,6 +291,8 @@ public class Durchfuehrung extends AppCompatActivity {
                 for (int k = 0; k < planEntry.length; k++) {
                     i.putExtra(Integer.toString(k), ""+time[k]/1000);
                 }
+                String comments = notes.getText().toString();
+                i.putExtra("comments", comments);
                 startActivity(i);
             }
         });
