@@ -17,10 +17,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Table Create Statements
     // Todo table create statement
-    private static final String CREATE_TABLE_LESSON = "CREATE TABLE lesson (lessonid INTEGER PRIMARY KEY, sequenceid INTEGER, _order INTEGER, title TEXT, length INTEGER, goal TEXT, homeworks TEXT, comments TEXT, markunfinished TEXT)";
+    private static final String CREATE_TABLE_LESSON = "CREATE TABLE lesson (lessonid INTEGER PRIMARY KEY, sequenceid INTEGER, _order INTEGER, title TEXT, length INTEGER, goal TEXT, homeworks TEXT, comments TEXT, markunfinished TEXT, feedback TEXT, beschreibung Text)";
 
     // Tag table create statement
-    private static final String CREATE_TABLE_SEQUENCE = "CREATE TABLE sequence (sequenceid INTEGER PRIMARY KEY, userid INTEGER, title TEXT, subject TEXT, grade INTEGER, preknowledge TEXT, goal TEXT, standard INTEGER, comments TEXT, markunfinished INTEGER)";
+    private static final String CREATE_TABLE_SEQUENCE = "CREATE TABLE sequence (sequenceid INTEGER PRIMARY KEY, userid INTEGER, title TEXT, subject TEXT, grade INTEGER, preknowledge TEXT, goal TEXT, standard INTEGER, comments TEXT, markunfinished INTEGER, beschreibung Text)";
 
     // todo_tag table create statement
     private static final String CREATE_TABLE_PLANENTRY = "CREATE TABLE planentry (planentryid INTEGER PRIMARY KEY, lessonid INTEGER, track INTEGER, start INTEGER, length INTEGER, title TEXT, steps TEXT, goal TEXT, socialform TEXT, parentplanentry INTEGER, comments TEXT, markunfinished INTEGER, color TEXT)";
@@ -29,7 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CUSTOMFIELD = "CREATE TABLE customfield (customfieldid INTEGER PRIMARY KEY, name TEXT, binarycontent BLOB, sequenceid INTEGER, lessonid INTEGER, planentryid INTEGER)";
 
     // todo_tag table create statement
-    private static final String CREATE_TABLE_RESOURCE = "CREATE TABLE resource (resourceid INTEGER PRIMARY KEY, title TEXT,content BLOB, filename TEXT, type TEXT, thumbnail BLOB)";
+    private static final String CREATE_TABLE_RESOURCE = "CREATE TABLE resource (resourceid INTEGER PRIMARY KEY, title TEXT,content BLOB, filename TEXT, type TEXT, thumbnail BLOB, lessonid INTEGER, planentryid INTEGER)";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -77,6 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("goal", lesson.getGoal());
         values.put("homeworks", lesson.getHomeworks());
         values.put("comments", lesson.getComments());
+        values.put("beschreibung",lesson.getBeschreibung());
 
         // insert row
         long key_id = db.insert("lesson", null, values);
@@ -88,7 +89,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, "sequenceid like ?",new String[]{sequence+"%"}, null, null, null);
+        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments","feedback","beschreibung"}, "sequenceid like ?",new String[]{sequence+"%"}, null, null, null);
         Lesson lesson[] = new Lesson[cursor.getCount()];
 
         for (int i = 0; i < cursor.getCount(); i++) {
@@ -102,6 +103,8 @@ public class DBHandler extends SQLiteOpenHelper {
             String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
             String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
             String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+            String feedback = cursor.getString(cursor.getColumnIndexOrThrow("feedback"));
+            String beschreibung = cursor.getString(cursor.getColumnIndexOrThrow("beschreibung"));
 
             lesson[i] = new Lesson();
             lesson[i].setTitle(title);
@@ -112,6 +115,8 @@ public class DBHandler extends SQLiteOpenHelper {
             lesson[i].setHomeworks(homeworks);
             lesson[i].setGoal(goal);
             lesson[i].setComments(comments);
+            lesson[i].setFeedback(feedback);
+            lesson[i].setBeschreibung(beschreibung);
         }
 
         return lesson;
@@ -122,20 +127,27 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments"}, "lessonid like ?",new String[]{lessonid+"%"}, null, null, null);
+        Cursor cursor = db.query("lesson", new String[]{"lessonid", "title","sequenceid","_order","length","goal","homeworks","comments","feedback","beschreibung"}, "lessonid like ?",new String[]{lessonid+"%"}, null, null, null);
         Lesson lesson;
+        lesson = new Lesson();
+        int id;
+        int sequenceid;
+        int _order;
+        int length;
+        String goal,homeworks,comments,feedback,beschreibung,title;
 
-        cursor.moveToFirst();
-            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
-            int sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
-            int _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
-            int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
-            String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
-            String homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
-            String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
-
-            lesson = new Lesson();
+        if (cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            id = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+            sequenceid = cursor.getInt(cursor.getColumnIndexOrThrow("sequenceid"));
+            _order = cursor.getInt(cursor.getColumnIndexOrThrow("_order"));
+            length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
+            goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
+            homeworks = cursor.getString(cursor.getColumnIndexOrThrow("homeworks"));
+            comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
+            feedback = cursor.getString(cursor.getColumnIndexOrThrow("feedback"));
+            beschreibung = cursor.getString(cursor.getColumnIndexOrThrow("beschreibung"));
             lesson.setTitle(title);
             lesson.setId(id);
             lesson.setSequenceid(sequenceid);
@@ -144,8 +156,30 @@ public class DBHandler extends SQLiteOpenHelper {
             lesson.setHomeworks(homeworks);
             lesson.setGoal(goal);
             lesson.setComments(comments);
-
+            lesson.setFeedback(feedback);
+            lesson.setBeschreibung(beschreibung);
+        }
         return lesson;
+    }
+
+    public long updateLesson(Lesson lesson, int lessonID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("lessonid", lesson.getId());
+        values.put("title", lesson.getTitle());
+        values.put("sequenceid", lesson.getSequenceid());
+        values.put("_order", lesson.getOrder());
+        values.put("length", lesson.getLength());
+        values.put("goal", lesson.getGoal());
+        values.put("homeworks", lesson.getHomeworks());
+        values.put("comments", lesson.getComments());
+        values.put("feedback", lesson.getFeedback());
+        values.put("beschreibung", lesson.getBeschreibung());
+
+        // update row
+        long key_id = db.update("lesson",values, "lessonid="+lessonID,null);
+        return key_id;
     }
 
     public long createSequence(Sequence sequence) {
@@ -159,7 +193,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("goal",sequence.getGoal());
         values.put("grade",sequence.getGrade());
         values.put("preknowledge",sequence.getPreknowledge());
-
+        values.put("beschreibung",sequence.getBeschreibung());
 
 
         // insert row
@@ -170,7 +204,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public Sequence[] getSequence() {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        Cursor cursor = db.query("sequence", new String[]{"sequenceid", "title", "subject", "grade","comments","goal","preknowledge"}, null, null, null, null, null);
+        Cursor cursor = db.query("sequence", new String[]{"sequenceid", "title", "subject", "grade","comments","goal","preknowledge","beschreibung"}, null, null, null, null, null);
 
         Sequence[] sequence = new Sequence[cursor.getCount()];
         for (int i = 0; i < cursor.getCount(); i++) {
@@ -183,6 +217,7 @@ public class DBHandler extends SQLiteOpenHelper {
             String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
             String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
             String preknowledge = cursor.getString(cursor.getColumnIndexOrThrow("preknowledge"));
+            String beschreibung = cursor.getString(cursor.getColumnIndexOrThrow("beschreibung"));
 
             sequence[i] = new Sequence();
             sequence[i].setTitle(title);
@@ -192,6 +227,7 @@ public class DBHandler extends SQLiteOpenHelper {
             sequence[i].setGoal(goal);
             sequence[i].setComments(comments);
             sequence[i].setPreknowledge(preknowledge);
+            sequence[i].setBeschreibung(beschreibung);
 
         }
 
@@ -301,18 +337,19 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("content", resource.getTextContent());
         values.put("title", resource.getTitle());
         values.put("type", resource.getType().toString());
+        values.put("lessonid", resource.getLessonid());
+        values.put("planentryid", resource.getPlanentryid());
 
         // insert row
         long key_id = db.insert("resource", null, values);
         return key_id;
     }
 
-    public Resource[] getResource() {
+    public Resource[] getResource(int lesson) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
-
-        Cursor cursor = db.query("resource", new String[]{"resourceid", "filename","content","title","type"}, null, null, null, null, null);
+        Cursor cursor = db.query("resource", new String[]{"resourceid", "filename","content","title","type","lessonid","planentryid"}, "lessonid like ?",new String[]{lesson+"%"}, null, null, null);
 
         int length = cursor.getCount();
         Resource resources[] = new Resource[length];
@@ -321,6 +358,8 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToNext();
             String filename = cursor.getString(cursor.getColumnIndexOrThrow("filename"));
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("resourceid"));
+            int lessonid = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
+            int planentryid = cursor.getInt(cursor.getColumnIndexOrThrow("planentryid"));
             String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
             String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
             String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
@@ -331,6 +370,8 @@ public class DBHandler extends SQLiteOpenHelper {
             //resources.setType(ResourceType.valueOf(type));
             resources[i].setTextContent(content);
             resources[i].setFilename(filename);
+            resources[i].setLessonid(lessonid);
+            resources[i].setPlanentryid(planentryid);
 
         }
 

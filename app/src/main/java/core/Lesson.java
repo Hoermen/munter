@@ -18,6 +18,26 @@ public class Lesson implements Serializable {
 	private ArrayList<CustomField> customFields = new ArrayList<>();
 	private boolean isMine = false;
 
+	public String getBeschreibung() {
+		return beschreibung;
+	}
+
+	public void setBeschreibung(String beschreibung) {
+		this.beschreibung = beschreibung;
+	}
+
+	private String beschreibung;
+
+	public String getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
+
+	private String feedback;
+
 	public String getGoal() {
 		return goal;
 	}

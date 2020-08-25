@@ -11,6 +11,24 @@ public class Resource implements Serializable {
 	private String anticipatedSolutionFilename = null;
 	private ResourceType type;
 	private boolean isMine = false;
+	private int lessonid;
+	private int planentryid;
+
+	public int getLessonid() {
+		return lessonid;
+	}
+
+	public void setLessonid(int lessonid) {
+		this.lessonid = lessonid;
+	}
+
+	public int getPlanentryid() {
+		return planentryid;
+	}
+
+	public void setPlanentryid(int planentryid) {
+		this.planentryid = planentryid;
+	}
 
 	public String getTextContent() {
 		return textContent;

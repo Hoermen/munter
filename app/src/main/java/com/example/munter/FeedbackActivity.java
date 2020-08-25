@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import core.DBHandler;
+import core.Lesson;
 import core.PlanEntry;
 
 public class FeedbackActivity extends AppCompatActivity {
@@ -22,16 +23,16 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         Intent i = getIntent();
-        String lessonID = i.getStringExtra("lessonID");
+        final String lessonID = i.getStringExtra("lessonID");
         String comments = i.getStringExtra("comments");
-        DBHandler db = new DBHandler(this);
+        final DBHandler db = new DBHandler(this);
         PlanEntry[] planEntry = db.getPlanentry(lessonID);
         String[] time = new String[planEntry.length];
         for (int k = 0; k < planEntry.length; k++) {
             time[k] = i.getStringExtra(Integer.toString(k));
         }
 
-        EditText notes = (EditText) findViewById(R.id.editTextNotizen);
+        final EditText notes = (EditText) findViewById(R.id.editTextNotizen);
 
         notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -43,7 +44,7 @@ public class FeedbackActivity extends AppCompatActivity {
         });
         notes.setText(comments);
 
-        EditText HA = (EditText) findViewById(R.id.editTextHA);
+        final EditText HA = (EditText) findViewById(R.id.editTextHA);
 
         HA.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -54,7 +55,7 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
 
-        EditText feedback = (EditText) findViewById(R.id.editTextFeedback);
+        final EditText feedback = (EditText) findViewById(R.id.editTextFeedback);
 
         feedback.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -73,9 +74,9 @@ public class FeedbackActivity extends AppCompatActivity {
             int seconds = Integer.parseInt(time[k]) % 60;
             String timeString = String.format("%02d:%02d", minutes, seconds);
             if (minutes < 1.2*planEntry[k].getLength() &&  minutes > 0.8*planEntry[k].getLength()) {
-                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"green\">tatsächlich benötige Zeit: "+timeString+"min | Zeitvorgabe gut eingehalten</font></h5>";
+                Auswertung = Auswertung+"<p>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"green\">tatsächlich benötige Zeit: "+timeString+"min | Zeitvorgabe gut eingehalten</font></p>";
             } else {
-                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"red\">tatsächlich benötige Zeit: "+timeString+"min | größere Abweichung zur Planung</font></h5>";
+                Auswertung = Auswertung+"<p>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"red\">tatsächlich benötige Zeit: "+timeString+"min | größere Abweichung zur Planung</font></p>";
             }
 
 
@@ -88,6 +89,21 @@ public class FeedbackActivity extends AppCompatActivity {
         reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+
+                Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
+                Lesson lesson1 = db.getLesson(Integer.parseInt(lessonID)+1);
+
+                String HaText = HA.getText().toString();
+                String notesText = notes.getText().toString();
+                String feedbackText = feedback.getText().toString();
+
+                lesson.setComments(notesText);
+                lesson1.setHomeworks(HaText);
+                lesson.setFeedback(feedbackText);
+
+                db.updateLesson(lesson, Integer.parseInt(lessonID));
+                db.updateLesson(lesson1, Integer.parseInt(lessonID)+1);
+
                 Intent myIntent = new Intent(FeedbackActivity.this, SequenceActivity.class);
                 FeedbackActivity.this.startActivity(myIntent);
             }

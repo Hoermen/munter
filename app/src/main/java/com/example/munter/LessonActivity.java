@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import core.DBHandler;
 import core.DrawView;
 import core.Lesson;
 import core.PlanEntry;
+import core.Resource;
 
 public class LessonActivity extends AppCompatActivity {
     DrawView drawView;
@@ -34,11 +36,27 @@ public class LessonActivity extends AppCompatActivity {
 
         DBHandler db = new DBHandler(getApplicationContext());
         Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
-        PlanEntry[] planEntry = db.getPlanentry(lessonID);
+        Resource[] resource = db.getResource(Integer.parseInt(lessonID));
+        String mat = "<h4>Materialien:</h4>";
+        for (int j = 0; j < resource.length; j++) {
+            mat=mat+"<p><font color=\"black\"><a href=\"https://google.de\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
+        }
 
         final TextView lessonText = (TextView) findViewById(R.id.LessonInfo);
-        String html = "<h2>"+lesson.getTitle()+"</h2>";
+        String html = "<h2><u>"+lesson.getTitle()+"</u></h2><p>Beschreibung: "+lesson.getBeschreibung()+"</p>";
         lessonText.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        final TextView HAText = (TextView) findViewById(R.id.HAInfo);
+        String html2 = "<h4>Hausaufgaben:</h4><p>"+lesson.getHomeworks()+"</p>";
+        HAText.setText(HtmlCompat.fromHtml(html2, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        final TextView materialien = findViewById(R.id.LessonMaterialien);
+        materialien.setText(HtmlCompat.fromHtml(mat, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        materialien.setMovementMethod(LinkMovementMethod.getInstance());
+
+        final TextView notesText = findViewById(R.id.textNotizen);
+        String html3 = "<h4>Notizen:</h4>";
+        notesText.setText(HtmlCompat.fromHtml(html3, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         final EditText checkliste = (EditText) findViewById(R.id.Checkliste);
 

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHandler(getApplicationContext());
         SQLiteDatabase sql = db.getWritableDatabase();
         db.onUpgrade(sql, 2,3);
-       createModel();
+      createModel();
     }
 
     @Override
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         lesson1.setOrder(1);
         lesson1.setLength(90);
         lesson1.setSequenceid(1);
+        lesson1.setBeschreibung("Beschreibung hier einfügen");
 
         Lesson lesson2 = new Lesson();
         lesson2.setTitle("Test");
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         planEntry2.setComments("2. Kommentar");
         planEntry2.setGoal("Aufgaben");
         planEntry2.setId(2);
-        planEntry2.setLength(15);
+        planEntry2.setLength(80);
         planEntry2.setLessonId(1);
         planEntry2.setSocialForm("Einzelarbeit");
         planEntry2.setStart(10);
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         resource1.setTextContent("text als file to string");
         resource1.setTitle("Beispiel");
         resource1.setType(ResourceType.BLACKBOARD);
+        resource1.setLessonid(1);
+        resource1.setPlanentryid(1);
 
         Resource resource2 = new Resource();
         resource2.setId(2);

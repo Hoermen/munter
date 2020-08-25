@@ -20,6 +20,16 @@ public class Sequence implements Serializable {
 	private boolean isShared = false;
 	private String sharedBy;
 
+	public String getBeschreibung() {
+		return beschreibung;
+	}
+
+	public void setBeschreibung(String beschreibung) {
+		this.beschreibung = beschreibung;
+	}
+
+	private String beschreibung;
+
 	public String getGoal() {
 		return goal;
 	}
