@@ -25,21 +25,18 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import core.DBHandler;
-import core.DrawView;
 import core.Gesten;
 import core.Lesson;
 import core.PlanEntry;
 import core.Resource;
 
 public class Durchfuehrung extends AppCompatActivity {
-    DrawView drawView;
+
     DBHandler db;
     CountDownTimer mCountDownTimer;
     ProgressBar pb;
@@ -294,6 +291,7 @@ public class Durchfuehrung extends AppCompatActivity {
         }
 
         TextView entry = (TextView) findViewById(planEntry[0].getId());
+        id = planEntry[0].getId();
         entry.setBackgroundColor(Color.GREEN);
         entry.setClickable(false);
 

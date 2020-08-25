@@ -2,29 +2,23 @@ package com.example.munter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.github.gcacace.signaturepad.views.SignaturePad;
 import core.DBHandler;
-import core.DrawView;
 import core.Lesson;
-import core.PlanEntry;
 import core.Resource;
 
 public class LessonActivity extends AppCompatActivity {
-    DrawView drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +35,25 @@ public class LessonActivity extends AppCompatActivity {
         for (int j = 0; j < resource.length; j++) {
             mat=mat+"<p><font color=\"black\"><a href=\"https://google.de\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
         }
+
+        final SignaturePad mSignaturePad = (SignaturePad) findViewById(R.id.signature_pad);
+        mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
+
+            @Override
+            public void onStartSigning() {
+                //Event triggered when the pad is touched
+            }
+
+            @Override
+            public void onSigned() {
+                //Event triggered when the pad is signed
+            }
+
+            @Override
+            public void onClear() {
+                //Event triggered when the pad is cleared
+            }
+        });
 
         final TextView lessonText = (TextView) findViewById(R.id.LessonInfo);
         String html = "<h2><u>"+lesson.getTitle()+"</u></h2><p>Beschreibung: "+lesson.getBeschreibung()+"</p>";
@@ -69,21 +82,37 @@ public class LessonActivity extends AppCompatActivity {
             }
         });
 
+        final RelativeLayout signaturePad = findViewById(R.id.signature_pad_container);
+        final LinearLayout ausblick = findViewById(R.id.Ausblick);
         checkliste.setText(lesson.getComments());
-        checkliste.setOnClickListener(new View.OnClickListener() {
+
+
+        checkliste.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                drawView = new DrawView(LessonActivity.this);
-                setContentView(drawView);
-                drawView.requestFocus();
+            public boolean onLongClick(View view) {
+                ausblick.setVisibility(View.GONE);
+                signaturePad.setVisibility(View.VISIBLE);
+                return false;
             }
         });
+
+        signaturePad.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                signaturePad.setVisibility(View.GONE);
+                ausblick.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+
 
         //buttonStart
         Button ButtonStart = (Button) findViewById(R.id.ButtonStart);
         ButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                finish();
                 Intent i = new Intent(LessonActivity.this, Durchfuehrung.class);
                 i.putExtra("lessonID", lessonID);
                 String comments = checkliste.getText().toString();

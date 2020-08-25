@@ -186,6 +186,5 @@ public class MainActivity extends AppCompatActivity {
         db.createPlanentry(planEntry9);
         db.createResource(resource1);
         db.createResource(resource2);
-
     }
 }
