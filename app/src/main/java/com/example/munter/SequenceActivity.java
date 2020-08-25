@@ -67,7 +67,7 @@ public class SequenceActivity extends AppCompatActivity {
         for (int i = 0; i < sequence.length; i++) {
             final TextView valueTV = new TextView(this);
 
-            String text = "<h2>"+sequence[i].getTitle()+"</h2><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n" +
+            String text = "<h2>Titel: "+sequence[i].getTitle()+"</h2><p>Unterrichtsfach: "+sequence[i].getSubject()+"</p><p>Klassenstufe: "+sequence[i].getGrade()+"</p><p>Ziele: "+sequence[i].getGoal()+"</p><p>Beschreibung: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n" +
                     "\n" +
                     "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   \n" +
                     "\n" +
@@ -77,7 +77,7 @@ public class SequenceActivity extends AppCompatActivity {
                     "\n" +
                     "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.   \n" +
                     "\n" +
-                    "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p><p>"+sequence[i].getGoal()+"</p><p>"+sequence[i].getSubject()+"</p><p>"+sequence[i].getGrade()+"</p>";
+                    "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p>";
             valueTV.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
             valueTV.setId(sequence[i].getId());
             valueTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
@@ -100,21 +100,21 @@ public class SequenceActivity extends AppCompatActivity {
                     linearLayout.removeAllViewsInLayout();
                         for (int i = 0; i < sequence.length; i++) {
                             if (sequence[i].getId() == valueTV.getId()) {
-                                String html = "<h2>Stunden zur Sequenz: " + sequence[i].getTitle() + "</h2>";
+                                String html = "<h2>Stunden zur Sequenz: " + sequence[i].getTitle() + " ("+sequence[i].getSubject()+", Klasse "+sequence[i].getGrade()+")</h2>";
                                 sequenceuebersicht.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             }
                         }
 
                     for (int i = 0; i < lesson.length; i++) {
                         final TextView value2TV = new TextView(context);
-                        String lessonText = "<h3>"+lesson[i].getTitle()+"</h3><p>" + lesson[i].getLength()+"</p><p>"+
-                                lesson[i].getGoal()+"</p><p>"+lesson[i].getHomeworks()+"</p><p>"+lesson[i].getComments()+"</p>"+
-                                "<p>a kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p>";
+                        String lessonText = "<h3>Titel: "+lesson[i].getTitle()+"</h3><p>Länge: " + lesson[i].getLength()+"</p><p>Ziele: "+
+                                lesson[i].getGoal()+"</p><p>Hausaufgaben: "+lesson[i].getHomeworks()+"</p><p>Kommentare: "+lesson[i].getComments()+"</p>";
                         value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         value2TV.setId(lesson[i].getId());
                         value2TV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                         value2TV.setBackground(getDrawable(R.drawable.border));
                         value2TV.setTextColor(getColor(R.color.colorText));
+                        value2TV.setTextSize(16);
 
                         int padding_in_dp = 5;
                         final float scale = getResources().getDisplayMetrics().density;

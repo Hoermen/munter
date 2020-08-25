@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -77,7 +79,7 @@ public class Durchfuehrung extends AppCompatActivity {
         final Resource[] resource = db.getResource();
 
         TextView titleStunde = findViewById(R.id.titleStunde);
-        String titleText = "<h1>"+lesson.getTitle()+"</h1>";
+        String titleText = "<h1><u>"+lesson.getTitle()+"</u></h1>";
         titleStunde.setText(HtmlCompat.fromHtml(titleText, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         LinearLayout gridLayout = findViewById(R.id.duringLesson);
@@ -336,7 +338,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton("Timer starten", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Timer starten (bei Ablauf akustisch)", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 final long zeit = np.getValue();
 
@@ -344,6 +346,7 @@ public class Durchfuehrung extends AppCompatActivity {
                                 if(mCountDownTimer!=null){
                                     mCountDownTimer.cancel();
                                 }
+                                time.setTextColor(Color.BLACK);
                                 mCountDownTimer = new CountDownTimer(zeit*1000*60,1000){
                                     public void onTick(long millisUntilFinished) {
                                         long minutes = (millisUntilFinished / 1000) / 60;
@@ -354,7 +357,40 @@ public class Durchfuehrung extends AppCompatActivity {
                                     }
 
                                     public void onFinish() {
-                                        ObjectAnimator anim = ObjectAnimator.ofInt(time, "backgroundColor", Color.WHITE, Color.RED,
+                                        final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,100);
+                                        tg.startTone(ToneGenerator.TONE_CDMA_ABBR_REORDER);
+                                        time.setText("Ende!");
+                                        time.setTextColor(Color.RED);
+                                    }
+                                };
+                                   mCountDownTimer.start();
+                                }
+                        })
+
+                        .setNegativeButton("Timer starten (bei Ablauf visuell)", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                final long zeit = np.getValue();
+
+                                //cancel the old countDownTimer
+                                if(mCountDownTimer!=null){
+                                    mCountDownTimer.cancel();
+                                }
+                                time.setTextColor(Color.BLACK);
+                                mCountDownTimer = new CountDownTimer(zeit*1000*60,1000){
+                                    public void onTick(long millisUntilFinished) {
+                                        long minutes = (millisUntilFinished / 1000) / 60;
+                                        long seconds = (millisUntilFinished / 1000) % 60;
+
+                                        String timeString = String.format("%02d:%02d", minutes, seconds);
+                                        time.setText(timeString);
+                                    }
+
+                                    public void onFinish() {
+                                        ObjectAnimator anim2 = ObjectAnimator.ofInt(time, "backgroundColor", Color.WHITE, Color.RED,
+                                                Color.WHITE);
+
+                                        LinearLayout ll = findViewById(R.id.duringLesson);
+                                        ObjectAnimator anim = ObjectAnimator.ofInt(ll, "backgroundColor", Color.WHITE, Color.RED,
                                                 Color.WHITE);
                                         anim.setDuration(1500);
                                         anim.setEvaluator(new ArgbEvaluator());
@@ -365,12 +401,12 @@ public class Durchfuehrung extends AppCompatActivity {
                                         time.setTextColor(Color.RED);
                                     }
                                 };
-                                   mCountDownTimer.start();
-                                }
+                                mCountDownTimer.start();
+                            }
                         })
 
                         // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton("Abbrechen", null)
+                        .setNeutralButton("Abbrechen", null)
                         .show();
             }
         });
