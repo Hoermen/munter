@@ -73,9 +73,9 @@ public class FeedbackActivity extends AppCompatActivity {
             int seconds = Integer.parseInt(time[k]) % 60;
             String timeString = String.format("%02d:%02d", minutes, seconds);
             if (minutes < 1.2*planEntry[k].getLength() &&  minutes > 0.8*planEntry[k].getLength()) {
-                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ "min | <font color=\"green\">tatsächlich benötige Zeit: "+timeString+"min | Zeitvorgabe gut eingehalten</font></h5>";
+                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"green\">tatsächlich benötige Zeit: "+timeString+"min | Zeitvorgabe gut eingehalten</font></h5>";
             } else {
-                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ "min | <font color=\"red\">tatsächlich benötige Zeit: "+timeString+"min | größere Abweichung zur Planung</font></h5>";
+                Auswertung = Auswertung+"<h5>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"red\">tatsächlich benötige Zeit: "+timeString+"min | größere Abweichung zur Planung</font></h5>";
             }
 
 
