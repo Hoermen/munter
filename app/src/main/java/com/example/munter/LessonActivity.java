@@ -1,14 +1,23 @@
 package com.example.munter;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.text.HtmlCompat;
+
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,18 +25,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.pdfview.PDFView;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Method;
-
 import core.DBHandler;
 import core.Lesson;
 import core.Resource;
 
 public class LessonActivity extends AppCompatActivity {
+    SpannableStringBuilder spanTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +54,28 @@ public class LessonActivity extends AppCompatActivity {
 
         DBHandler db = new DBHandler(getApplicationContext());
         Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
-        Resource[] resource = db.getResource(Integer.parseInt(lessonID));
+        final Resource[] resource = db.getResource(Integer.parseInt(lessonID));
 
-        String FILENAME = "Unbenannt.PNG";
-        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File myFile = new File(folder, FILENAME);
-
-
-        String mat = "<h4>Materialien:</h4>";
+        spanTxt = new SpannableStringBuilder("Materialien: \n\n");
         for (int j = 0; j < resource.length; j++) {
-            mat=mat+"<p><font color=\"black\"><a href=\""+resource[j].getTextContent()+"\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
+            spanTxt.append(resource[j].getFilename()+"\n");
+            final int finalJ = j;
+            spanTxt.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+
+                    if (resource[finalJ].getType().contains("image/*")) {
+                        Intent i = new Intent(LessonActivity.this, materialActivity.class);
+                        i.putExtra("material", resource[finalJ].getTextContent());
+                        startActivity(i);
+                    }
+                    if (resource[finalJ].getType().contains("application/pdf")) {
+                        Intent i = new Intent(LessonActivity.this, pdfActivity.class);
+                        i.putExtra("material", resource[finalJ].getTextContent());
+                        startActivity(i);
+                    }
+                }
+            }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
         }
 
         final TextView lessonText = (TextView) findViewById(R.id.LessonInfo);
@@ -69,8 +87,8 @@ public class LessonActivity extends AppCompatActivity {
         HAText.setText(HtmlCompat.fromHtml(html2, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         final TextView materialien = findViewById(R.id.LessonMaterialien);
-        materialien.setText(HtmlCompat.fromHtml(mat, HtmlCompat.FROM_HTML_MODE_LEGACY));
         materialien.setMovementMethod(LinkMovementMethod.getInstance());
+        materialien.setText(spanTxt, TextView.BufferType.SPANNABLE);
 
         final TextView notesText = findViewById(R.id.textNotizen);
         String html3 = "<h4>Notizen (lange Tippen zum Zeichnen):</h4>";

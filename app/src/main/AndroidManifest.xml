@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/munter_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".drawActivity"></activity>
+        <activity android:name=".pdfActivity"></activity>
+        <activity android:name=".materialActivity" />
+        <activity android:name=".drawActivity" />
         <activity
             android:name=".FeedbackActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />

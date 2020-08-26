@@ -76,6 +76,7 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
         TextView tv2 = findViewById(R.id.textNotizen);
+        tv2.setText("Notizen (lange Tippen zum Zeichnen):");
         tv2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

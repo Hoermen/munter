@@ -9,7 +9,7 @@ public class Resource implements Serializable {
 	private String textContent;
 	private String filename;
 	private String anticipatedSolutionFilename = null;
-	private ResourceType type;
+	private String type;
 	private boolean isMine = false;
 	private int lessonid;
 	private int planentryid;
@@ -40,7 +40,7 @@ public class Resource implements Serializable {
 
 	public Resource() {}
 
-	public Resource(int id, String title, ResourceType type) {
+	public Resource(int id, String title, String type) {
 		this.id = id;
 		this.title = title;
 		this.type = type;
@@ -79,14 +79,14 @@ public class Resource implements Serializable {
 	/**
 	 * @return the type
 	 */
-	public ResourceType getType() {
+	public String getType() {
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(ResourceType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

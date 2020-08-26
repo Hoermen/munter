@@ -17,7 +17,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -36,7 +38,6 @@ import core.PlanEntry;
 import core.Resource;
 
 public class Durchfuehrung extends AppCompatActivity {
-
     DBHandler db;
     CountDownTimer mCountDownTimer;
     ProgressBar pb;
@@ -49,6 +50,7 @@ public class Durchfuehrung extends AppCompatActivity {
     long[] startTime;
     long[] endTime;
     LinearLayout ll;
+    SpannableStringBuilder spanTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +86,32 @@ public class Durchfuehrung extends AppCompatActivity {
 
         LinearLayout gridLayout = findViewById(R.id.duringLesson);
 
-        Resource[] resource = db.getResource(Integer.parseInt(lessonID));
-        String mat = "<h4>Materialien:</h4>";
-        for (int j = 0; j < resource.length; j++) {
-            if (resource[j].getPlanentryid() == id) {
-                mat=mat+"<p><font color=\"black\"><a href=\""+resource[j].getTextContent()+"\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
-            } else {
-                mat=mat+"<p><font color=\"grey\"><a href=\""+resource[j].getTextContent()+"\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
-            }
+        final Resource[] resource = db.getResource(Integer.parseInt(lessonID));
 
+        spanTxt = new SpannableStringBuilder("Materialien: \n\n");
+        for (int j = 0; j < resource.length; j++) {
+            spanTxt.append(resource[j].getFilename()+"\n");
+            final int finalJ = j;
+            spanTxt.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+
+                    if (resource[finalJ].getType().contains("image/*")) {
+                        Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                        i.putExtra("material", resource[finalJ].getTextContent());
+                        startActivity(i);
+                    }
+                    if (resource[finalJ].getType().contains("application/pdf")) {
+                        Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                        i.putExtra("material", resource[finalJ].getTextContent());
+                        startActivity(i);
+                    }
+                }
+            }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
         }
+
         TextView materials = findViewById(R.id.materials);
-        materials.setText(HtmlCompat.fromHtml(mat, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
         materials.setMovementMethod(LinkMovementMethod.getInstance());
 
         gridLayout.setOnTouchListener(new Gesten(this) {
@@ -279,7 +295,6 @@ public class Durchfuehrung extends AppCompatActivity {
                         } else next.setText("letzte Phase erreicht");
                     }
                 });
-
                 ll.addView(value2TV);
             }
         }
@@ -292,6 +307,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
         EditText lila = findViewById(R.id.editTextNotes);
         TextView tv = findViewById(R.id.textNotizen);
+        tv.setText("Notizen (lange Tippen zum Zeichnen):");
         lila.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -365,12 +381,13 @@ public class Durchfuehrung extends AppCompatActivity {
                 np.setMinValue(1);
                 np.setMaxValue(90);
                 np.setValue(5);
-
+                np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
                 new AlertDialog.Builder(Durchfuehrung.this)
                         .setTitle("Timer starten")
                         .setMessage("Minuten wählen")
                         .setView(np)
+
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
@@ -422,16 +439,13 @@ public class Durchfuehrung extends AppCompatActivity {
                                     }
 
                                     public void onFinish() {
-                                        ObjectAnimator anim2 = ObjectAnimator.ofInt(time, "backgroundColor", Color.WHITE, Color.RED,
-                                                Color.WHITE);
-
-                                        LinearLayout ll = findViewById(R.id.duringLesson);
+                                       LinearLayout ll = findViewById(R.id.duringLesson);
                                         ObjectAnimator anim = ObjectAnimator.ofInt(ll, "backgroundColor", Color.WHITE, Color.RED,
                                                 Color.WHITE);
                                         anim.setDuration(1500);
                                         anim.setEvaluator(new ArgbEvaluator());
                                         anim.setRepeatMode(ValueAnimator.REVERSE);
-                                        anim.setRepeatCount(10);
+                                        anim.setRepeatCount(5);
                                         anim.start();
                                         time.setText("Ende!");
                                         time.setTextColor(Color.RED);
@@ -456,7 +470,6 @@ public class Durchfuehrung extends AppCompatActivity {
             tv[j].setBackground(getDrawable(R.drawable.border));
             tv[j].setClickable(true);
         }
-
     }
 
     public void hideKeyboard(View view) {

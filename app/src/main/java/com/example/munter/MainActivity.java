@@ -1,10 +1,16 @@
 package com.example.munter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.text.HtmlCompat;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,12 +24,14 @@ import core.Sequence;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "";
     DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        isStoragePermissionGranted();
 
         TextView munter = findViewById(R.id.munter);
         String munterText = "<h1>munter</h1>";
@@ -134,10 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
         Resource resource1 = new Resource();
         resource1.setId(1);
-        resource1.setFilename("Unbekannt.PNG");
-        resource1.setTextContent("file:/storage/emulated/0/Download/Unbekannt.PNG");
+        resource1.setFilename("Unbenannt.PNG");
+        resource1.setTextContent("file:/storage/emulated/0/Download/Unbenannt.PNG");
+        //resource1.setTextContent("file:/sdcard/Download/Unbenannt.PNG");
         resource1.setTitle("Bild");
-        resource1.setType(ResourceType.BLACKBOARD);
+        resource1.setType("image/*");
         resource1.setLessonid(1);
         resource1.setPlanentryid(1);
 
@@ -145,8 +154,9 @@ public class MainActivity extends AppCompatActivity {
         resource2.setId(2);
         resource2.setFilename("test.pdf");
         resource2.setTextContent("file:/storage/emulated/0/Download/test.pdf");
+        //resource2.setTextContent("file:/sdcard/Download/test.pdf");
         resource2.setTitle("Plan");
-        resource2.setType(ResourceType.BLACKBOARD);
+        resource2.setType("application/pdf");
         resource2.setLessonid(1);
         resource2.setPlanentryid(1);
 
@@ -187,5 +197,23 @@ public class MainActivity extends AppCompatActivity {
         db.createPlanentry(planEntry9);
         db.createResource(resource1);
         db.createResource(resource2);
+    }
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
+        }
     }
 }

@@ -336,7 +336,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("filename", resource.getFilename());
         values.put("content", resource.getTextContent());
         values.put("title", resource.getTitle());
-        values.put("type", resource.getType().toString());
+        values.put("type", resource.getType());
         values.put("lessonid", resource.getLessonid());
         values.put("planentryid", resource.getPlanentryid());
 
@@ -367,14 +367,12 @@ public class DBHandler extends SQLiteOpenHelper {
             resources[i] = new Resource();
             resources[i].setTitle(title);
             resources[i].setId(id);
-            //resources.setType(ResourceType.valueOf(type));
+            resources[i].setType(type);
             resources[i].setTextContent(content);
             resources[i].setFilename(filename);
             resources[i].setLessonid(lessonid);
             resources[i].setPlanentryid(planentryid);
-
         }
-
         return resources;
     }
 }

@@ -40,7 +40,8 @@
             android:layout_height="match_parent"
             android:padding="5dp"
             android:background="@drawable/border"
-            android:text="Materialien" />
+            android:text="Materialien"
+            android:textColorLink="@color/colorText"/>
         <LinearLayout
             android:id="@+id/Ausblick"
             android:layout_width="0dp"
