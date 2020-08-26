@@ -2,6 +2,7 @@ package com.example.munter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ public class drawActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
+        Intent i = getIntent();
+        final String lessonID = i.getStringExtra("lessonID");
 
         final SignaturePad mSignaturePad = (SignaturePad) findViewById(R.id.signature_pad);
         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
@@ -49,7 +52,7 @@ public class drawActivity extends AppCompatActivity {
         final SignaturePad signaturePad = findViewById(R.id.signature_pad);
 
         try {
-            FileInputStream fIn = openFileInput ("draw.bmp") ;
+            FileInputStream fIn = openFileInput ("draw.bmp"+lessonID) ;
             bitmap = BitmapFactory.decodeStream(fIn);
             fIn.close ( ) ;
         } catch ( IOException ioe ) {
@@ -66,7 +69,7 @@ public class drawActivity extends AppCompatActivity {
             public void onClick(View view) {
                 bitmap = signaturePad.getSignatureBitmap();
                try {
-                   File f = new File(drawActivity.this.getFilesDir(), "draw.bmp");
+                   File f = new File(drawActivity.this.getFilesDir(), "draw.bmp"+lessonID);
                    f.createNewFile();
 
                     //Convert bitmap to byte array

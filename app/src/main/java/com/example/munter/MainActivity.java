@@ -134,19 +134,21 @@ public class MainActivity extends AppCompatActivity {
 
         Resource resource1 = new Resource();
         resource1.setId(1);
-        resource1.setFilename("text.txt");
-        resource1.setTextContent("text als file to string");
-        resource1.setTitle("Beispiel");
+        resource1.setFilename("Unbekannt.PNG");
+        resource1.setTextContent("file:/storage/emulated/0/Download/Unbekannt.PNG");
+        resource1.setTitle("Bild");
         resource1.setType(ResourceType.BLACKBOARD);
         resource1.setLessonid(1);
         resource1.setPlanentryid(1);
 
         Resource resource2 = new Resource();
         resource2.setId(2);
-        resource2.setFilename("guck.txt");
-        resource2.setTextContent("film");
-        resource2.setTitle("test");
+        resource2.setFilename("test.pdf");
+        resource2.setTextContent("file:/storage/emulated/0/Download/test.pdf");
+        resource2.setTitle("Plan");
         resource2.setType(ResourceType.BLACKBOARD);
+        resource2.setLessonid(1);
+        resource2.setPlanentryid(1);
 
         PlanEntry planEntry8 = new PlanEntry();
         planEntry8.setColor("blue");

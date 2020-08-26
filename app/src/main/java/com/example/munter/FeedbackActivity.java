@@ -70,6 +70,7 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
+                i.putExtra("lessonID", lessonID);
                 startActivity(i);
                 return false;
             }
@@ -79,6 +80,7 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
+                i.putExtra("lessonID", lessonID);
                 startActivity(i);
                 return false;
             }

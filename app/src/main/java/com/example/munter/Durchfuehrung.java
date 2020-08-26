@@ -88,17 +88,15 @@ public class Durchfuehrung extends AppCompatActivity {
         String mat = "<h4>Materialien:</h4>";
         for (int j = 0; j < resource.length; j++) {
             if (resource[j].getPlanentryid() == id) {
-                mat=mat+"<p><font color=\"black\"><a href=\"https://google.de\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
+                mat=mat+"<p><font color=\"black\"><a href=\""+resource[j].getTextContent()+"\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
             } else {
-                mat=mat+"<p><font color=\"grey\"><a href=\"https://google.de\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
+                mat=mat+"<p><font color=\"grey\"><a href=\""+resource[j].getTextContent()+"\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
             }
 
         }
         TextView materials = findViewById(R.id.materials);
         materials.setText(HtmlCompat.fromHtml(mat, HtmlCompat.FROM_HTML_MODE_LEGACY));
         materials.setMovementMethod(LinkMovementMethod.getInstance());
-
-
 
         gridLayout.setOnTouchListener(new Gesten(this) {
             public boolean onSwipeTop() {
@@ -178,8 +176,6 @@ public class Durchfuehrung extends AppCompatActivity {
             }
         });
 
-
-
         startTime = new long[planEntry.length];
         endTime = new long[planEntry.length];
         time = new long[planEntry.length];
@@ -197,7 +193,6 @@ public class Durchfuehrung extends AppCompatActivity {
         current.setText(planEntry[0].getTitle());
         next.setText(planEntry[1].getTitle());
 
-
         length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setMax(length*60);
@@ -209,18 +204,18 @@ public class Durchfuehrung extends AppCompatActivity {
                     progress += 1;
                     // Update the progress bar and display the
                     //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            pb.setProgress(progress);
-                        }
-                    });
                     long minutes = progress / 60;
                     long seconds = progress % 60;
 
-                    String timeString = String.format("%02d:%02d", minutes, seconds);
-
-                    String text = "<h4>vergangene Zeit: "+timeString+"</h4>";
-                   timeStunde.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    final String timeString = String.format("%02d:%02d", minutes, seconds);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pb.setProgress(progress);
+                            String text = "<h4>vergangene Zeit: "+timeString+"</h4>";
+                            timeStunde.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                        }
+                    });
                     try {
                         // Sleep for 60 seconds.
                         Thread.sleep(1000);
@@ -230,7 +225,6 @@ public class Durchfuehrung extends AppCompatActivity {
                 }
             }
         }).start();
-
 
         for (int j = 0; j < planEntry.length; j++) {
             if (planEntry[j].getTrack() == 1) {
@@ -302,6 +296,7 @@ public class Durchfuehrung extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
+                i.putExtra("lessonID", lessonID);
                 startActivity(i);
                 return false;
             }
@@ -310,6 +305,7 @@ public class Durchfuehrung extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
+                i.putExtra("lessonID", lessonID);
                 startActivity(i);
                 return false;
             }

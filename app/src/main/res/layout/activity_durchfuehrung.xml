@@ -8,12 +8,12 @@
     android:focusableInTouchMode="true"
     android:id="@+id/duringLesson"
     android:orientation="vertical"
-    android:weightSum="18">
+    android:weightSum="19">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -72,12 +72,14 @@
         android:layout_width="match_parent"
         android:layout_weight="2"
         android:orientation="vertical"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:weightSum="2">
         <LinearLayout
             android:orientation="horizontal"
             android:id="@+id/PlanEntry"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1">
 
         </LinearLayout>
         <ProgressBar
@@ -86,7 +88,8 @@
             android:layout_margin="5dp"
             android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             />
     </LinearLayout>
 

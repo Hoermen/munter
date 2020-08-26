@@ -66,7 +66,7 @@ public class SequenceActivity extends AppCompatActivity {
 
         for (int i = 0; i < sequence.length; i++) {
             final TextView valueTV = new TextView(this);
-            String text = "<h2>Titel: "+sequence[i].getTitle()+"</h2><p>Unterrichtsfach: "+sequence[i].getSubject()+"</p><p>Klassenstufe: "+sequence[i].getGrade()+"</p><p>Ziele: "+sequence[i].getGoal()+"</p><p>Kommentare: "+sequence[i].getComments()+"</p>";
+            String text = "<h2>Titel: "+sequence[i].getTitle()+"</h2><p>Unterrichtsfach: "+sequence[i].getSubject()+"</p><p>Klassenstufe: "+sequence[i].getGrade()+"</p><p>Ziele: "+sequence[i].getGoal()+"</p><p>Beschreibung: "+sequence[i].getBeschreibung()+"</p><p>Kommentare: "+sequence[i].getComments()+"</p>";
             valueTV.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
             valueTV.setId(sequence[i].getId());
             valueTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
@@ -97,7 +97,7 @@ public class SequenceActivity extends AppCompatActivity {
                     for (int i = 0; i < lesson.length; i++) {
                         final TextView value2TV = new TextView(context);
                         String lessonText = "<h3>Titel: "+lesson[i].getTitle()+"</h3><p>Länge: " + lesson[i].getLength()+"</p><p>Ziele: "+
-                                lesson[i].getGoal()+"</p><p>Hausaufgaben: "+lesson[i].getHomeworks()+"</p><p>Kommentare: "+lesson[i].getComments()+"</p>";
+                                lesson[i].getGoal()+"</p><p>Beschreibung: "+sequence[i].getBeschreibung()+"</p><p>Hausaufgaben: "+lesson[i].getHomeworks()+"</p><p>Kommentare: "+lesson[i].getComments()+"</p>";
                         value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         value2TV.setId(lesson[i].getId());
                         value2TV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
