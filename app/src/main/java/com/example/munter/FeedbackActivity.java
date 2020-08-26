@@ -66,6 +66,24 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
 
+        notes.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+        TextView tv2 = findViewById(R.id.textNotizen);
+        tv2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+
         TextView tv = findViewById(R.id.textAuswertung);
 
         String Auswertung = "<h3>Auswertung</h3>";

@@ -2,7 +2,6 @@ package com.example.munter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
-
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;

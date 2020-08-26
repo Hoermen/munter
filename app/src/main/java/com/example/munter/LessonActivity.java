@@ -11,9 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.github.gcacace.signaturepad.views.SignaturePad;
 import core.DBHandler;
 import core.Lesson;
 import core.Resource;
@@ -36,25 +34,6 @@ public class LessonActivity extends AppCompatActivity {
             mat=mat+"<p><font color=\"black\"><a href=\"https://google.de\">"+resource[j].getTitle()+" ("+resource[j].getFilename()+")</a></font></p>";
         }
 
-        final SignaturePad mSignaturePad = (SignaturePad) findViewById(R.id.signature_pad);
-        mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
-
-            @Override
-            public void onStartSigning() {
-                //Event triggered when the pad is touched
-            }
-
-            @Override
-            public void onSigned() {
-                //Event triggered when the pad is signed
-            }
-
-            @Override
-            public void onClear() {
-                //Event triggered when the pad is cleared
-            }
-        });
-
         final TextView lessonText = (TextView) findViewById(R.id.LessonInfo);
         String html = "<h2><u>"+lesson.getTitle()+"</u></h2><p>Beschreibung: "+lesson.getBeschreibung()+"</p>";
         lessonText.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -68,7 +47,7 @@ public class LessonActivity extends AppCompatActivity {
         materialien.setMovementMethod(LinkMovementMethod.getInstance());
 
         final TextView notesText = findViewById(R.id.textNotizen);
-        String html3 = "<h4>Notizen:</h4>";
+        String html3 = "<h4>Notizen (lange Tippen zum Zeichnen):</h4>";
         notesText.setText(HtmlCompat.fromHtml(html3, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         final EditText checkliste = (EditText) findViewById(R.id.Checkliste);
@@ -82,28 +61,27 @@ public class LessonActivity extends AppCompatActivity {
             }
         });
 
-        final RelativeLayout signaturePad = findViewById(R.id.signature_pad_container);
         final LinearLayout ausblick = findViewById(R.id.Ausblick);
         checkliste.setText(lesson.getComments());
 
 
+        ausblick.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(LessonActivity.this, drawActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
         checkliste.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ausblick.setVisibility(View.GONE);
-                signaturePad.setVisibility(View.VISIBLE);
+                Intent i = new Intent(LessonActivity.this, drawActivity.class);
+                startActivity(i);
                 return false;
             }
         });
 
-        signaturePad.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                signaturePad.setVisibility(View.GONE);
-                ausblick.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
 
 
 
@@ -112,7 +90,6 @@ public class LessonActivity extends AppCompatActivity {
         ButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                finish();
                 Intent i = new Intent(LessonActivity.this, Durchfuehrung.class);
                 i.putExtra("lessonID", lessonID);
                 String comments = checkliste.getText().toString();

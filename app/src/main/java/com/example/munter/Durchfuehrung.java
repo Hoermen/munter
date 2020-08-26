@@ -295,6 +295,26 @@ public class Durchfuehrung extends AppCompatActivity {
         entry.setBackgroundColor(Color.GREEN);
         entry.setClickable(false);
 
+
+        EditText lila = findViewById(R.id.editTextNotes);
+        TextView tv = findViewById(R.id.textNotizen);
+        lila.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+
         //buttonStart
         Button exit = (Button) findViewById(R.id.exit);
         exit.setOnClickListener(new View.OnClickListener() {

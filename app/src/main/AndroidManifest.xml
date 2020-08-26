@@ -12,16 +12,22 @@
         android:roundIcon="@mipmap/munter_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FeedbackActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".LessonActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".Durchfuehrung"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".SequenceActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".PlatonLoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".drawActivity"></activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".LessonActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".Durchfuehrung"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".SequenceActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".PlatonLoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
