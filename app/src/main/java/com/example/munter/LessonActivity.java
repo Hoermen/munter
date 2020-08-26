@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,17 +20,24 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import com.pdfview.PDFView;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+
 import core.DBHandler;
 import core.Lesson;
+import core.PlanEntry;
 import core.Resource;
 
 public class LessonActivity extends AppCompatActivity {
@@ -55,6 +63,7 @@ public class LessonActivity extends AppCompatActivity {
         DBHandler db = new DBHandler(getApplicationContext());
         Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
         final Resource[] resource = db.getResource(Integer.parseInt(lessonID));
+        final PlanEntry[] planEntries = db.getPlanentry(lessonID);
 
         spanTxt = new SpannableStringBuilder("Materialien: \n\n");
         for (int j = 0; j < resource.length; j++) {
@@ -128,7 +137,51 @@ public class LessonActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout tableLayout = findViewById(R.id.Zeitplan);
+        int k = 0;
+        int index=0;
+        // Initialize maximum element
+        int max = planEntries[0].getTrack();
 
+        // Traverse array elements from second and
+        // compare every element with current max
+        for (index = 1; index < planEntries.length; index++) {
+            if (planEntries[index].getTrack() > max)
+                max = planEntries[index].getTrack();
+        }
+        tableLayout.setWeightSum(max);
+        TextView tv = findViewById(R.id.textView3);
+        //tv.setText(""+max);
+
+        for (index = 0; index < max; index++) {
+            LinearLayout linearLayout = new LinearLayout(LessonActivity.this);
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            linearLayout.setId(100+index);
+            tableLayout.addView(linearLayout);
+            for (int j = 0; j < planEntries.length; j++) {
+                if (planEntries[j].getTrack() == index+1) {
+                    final TextView value2TV = new TextView(LessonActivity.this);
+                    int length = planEntries[j].getLength();
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
+                    value2TV.setWidth(width / lesson.getLength() * length);
+
+
+                    String lessonText2 = "<h3>" + planEntries[j].getTitle() + "</h3><p>Länge: " + planEntries[j].getLength()+"</p><p>Ziele: "+planEntries[j].getGoal()+"</p><p>Sozialform: "+planEntries[j].getSocialForm()+"</p><p>Kommentaredfhgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg: "+planEntries[j].getComments()+"</p>";
+                    value2TV.setText(HtmlCompat.fromHtml(lessonText2, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    value2TV.setId(k);
+                    value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    value2TV.setBackground(getDrawable(R.drawable.border));
+                    value2TV.setTextColor(getColor(R.color.colorText));
+                    value2TV.setGravity(Gravity.CENTER);
+                    tableLayout.addView(value2TV);
+                    k=k+1;
+                }
+            }
+        }
 
 
         //buttonStart
