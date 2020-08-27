@@ -27,13 +27,17 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import com.pdfview.PDFView;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Random;
 
 import core.DBHandler;
 import core.Lesson;
@@ -149,39 +153,24 @@ public class LessonActivity extends AppCompatActivity {
             if (planEntries[index].getTrack() > max)
                 max = planEntries[index].getTrack();
         }
-        tableLayout.setWeightSum(max);
+
         TextView tv = findViewById(R.id.textView3);
-        //tv.setText(""+max);
+        Random random = new Random();
 
-        for (index = 0; index < max; index++) {
-            LinearLayout linearLayout = new LinearLayout(LessonActivity.this);
-            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.setId(100+index);
-            tableLayout.addView(linearLayout);
-            for (int j = 0; j < planEntries.length; j++) {
-                if (planEntries[j].getTrack() == index+1) {
-                    final TextView value2TV = new TextView(LessonActivity.this);
-                    int length = planEntries[j].getLength();
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-                    value2TV.setWidth(width / lesson.getLength() * length);
-
-
-                    String lessonText2 = "<h3>" + planEntries[j].getTitle() + "</h3><p>Länge: " + planEntries[j].getLength()+"</p><p>Ziele: "+planEntries[j].getGoal()+"</p><p>Sozialform: "+planEntries[j].getSocialForm()+"</p><p>Kommentaredfhgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg: "+planEntries[j].getComments()+"</p>";
-                    value2TV.setText(HtmlCompat.fromHtml(lessonText2, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                    value2TV.setId(k);
-                    value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    value2TV.setBackground(getDrawable(R.drawable.border));
-                    value2TV.setTextColor(getColor(R.color.colorText));
-                    value2TV.setGravity(Gravity.CENTER);
-                    tableLayout.addView(value2TV);
-                    k=k+1;
-                }
+        TableLayout table = new TableLayout(LessonActivity.this);
+        for (int l=0; l < planEntries.length; l++) {
+            TableRow row = new TableRow(LessonActivity.this);
+            for (int j=0; j < max; j++) {
+                int value = random.nextInt(100) + 1;
+                TextView tv2 = new TextView(LessonActivity.this);
+                tv2.setText(planEntries[]);
+                tv2.setBackground(getDrawable(R.drawable.border));
+                row.addView(tv2);
             }
+            table.addView(row);
         }
+        tableLayout.addView(table);
+
 
 
         //buttonStart

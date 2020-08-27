@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         planEntry2.setSocialForm("Einzelarbeit");
         planEntry2.setStart(10);
         planEntry2.setTitle("Danach");
-        planEntry2.setTrack(1);
+        planEntry2.setTrack(2);
         planEntry2.setSteps("Schritt 2");
 
         Resource resource1 = new Resource();
