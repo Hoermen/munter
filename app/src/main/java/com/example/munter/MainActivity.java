@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         PlanEntry planEntry1 = new PlanEntry();
         planEntry1.setColor("blue");
-        planEntry1.setComments("1. Kommentar");
+        planEntry1.setComments("1. Kommentafdsggffffffgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggr");
         planEntry1.setGoal("Einführung");
         planEntry1.setId(1);
         planEntry1.setLength(10);
@@ -124,8 +124,10 @@ public class MainActivity extends AppCompatActivity {
         planEntry1.setSocialForm("Gruppenarbeit");
         planEntry1.setStart(0);
         planEntry1.setTitle("Anfang");
-        planEntry1.setTrack(1);
+        planEntry1.setTrack(0);
+        planEntry1.setReihe(0);
         planEntry1.setSteps("Schritt 1");
+        planEntry1.setGroupid(0);
 
         PlanEntry planEntry2 = new PlanEntry();
         planEntry2.setColor("blue");
@@ -137,8 +139,40 @@ public class MainActivity extends AppCompatActivity {
         planEntry2.setSocialForm("Einzelarbeit");
         planEntry2.setStart(10);
         planEntry2.setTitle("Danach");
-        planEntry2.setTrack(2);
+        planEntry2.setTrack(0);
+        planEntry2.setReihe(3);
         planEntry2.setSteps("Schritt 2");
+        planEntry2.setGroupid(0);
+
+        PlanEntry planEntry5 = new PlanEntry();
+        planEntry5.setColor("blue");
+        planEntry5.setComments("1. Kommentar");
+        planEntry5.setGoal("Einführung");
+        planEntry5.setId(6);
+        planEntry5.setLength(10);
+        planEntry5.setLessonId(1);
+        planEntry5.setSocialForm("Gruppenarbeit");
+        planEntry5.setStart(0);
+        planEntry5.setTitle("zweite");
+        planEntry5.setTrack(0);
+        planEntry5.setReihe(2);
+        planEntry5.setSteps("Schritt 1");
+        planEntry5.setGroupid(0);
+
+        PlanEntry planEntry6 = new PlanEntry();
+        planEntry6.setColor("blue");
+        planEntry6.setComments("2. Kommentar");
+        planEntry6.setGoal("Aufgaben");
+        planEntry6.setId(5);
+        planEntry6.setLength(80);
+        planEntry6.setLessonId(1);
+        planEntry6.setSocialForm("Einzelarbeit");
+        planEntry6.setStart(10);
+        planEntry6.setTitle("erste");
+        planEntry6.setTrack(0);
+        planEntry6.setReihe(1);
+        planEntry6.setSteps("Schritt 2");
+        planEntry6.setGroupid(0);
 
         Resource resource1 = new Resource();
         resource1.setId(1);
@@ -197,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
         db.createPlanentry(planEntry9);
         db.createResource(resource1);
         db.createResource(resource2);
+        db.createPlanentry(planEntry5);
+        db.createPlanentry(planEntry6);
     }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -10,6 +10,8 @@ public class PlanEntry implements Serializable {
 	private int track;
 	private int length;
 	private int start;
+	private int reihe;
+	private int groupid;
 	private String title;
 	private String goal = "";
 	private String socialForm = "";
@@ -19,6 +21,23 @@ public class PlanEntry implements Serializable {
 	private String comments = "";
 	private boolean markUnfinished = false;
 	private ArrayList<CustomField> customFields = new ArrayList<>();
+
+	public int getGroupid() {
+		return groupid;
+	}
+
+	public void setGroupid(int groupid) {
+		this.groupid = groupid;
+	}
+
+	public int getReihe() {
+		return reihe;
+	}
+
+	public void setReihe(int reihe) {
+		this.reihe = reihe;
+	}
+
 
 	public PlanEntry() {}
 
