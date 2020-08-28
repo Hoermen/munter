@@ -139,7 +139,6 @@ public class Durchfuehrung extends AppCompatActivity {
                             planEntry[id + 1].getGoal() + "</p><p>Sozialform: " + planEntry[id + 1].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id + 1].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id + 1].getReserve() + "</p><p>Kommentare: " + planEntry[id + 1].getComments() + "</p>";
 
                     current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                    current.setText("" + time[id+1] / 1000);
                     if (id >= 0) {
                         String previousText = "<h5>" + planEntry[id].getTitle() + "</h2><p>" + planEntry[id].getStart() + "min - " + (planEntry[id].getLength() + planEntry[id].getStart()) + "min (" + planEntry[id].getLength() + "min)</p><p>Ziele: " +
                                 planEntry[id].getGoal() + "</p><p>Sozialform: " + planEntry[id].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id].getReserve() + "</p><p>Kommentare: " + planEntry[id].getComments() + "</p>";
@@ -181,7 +180,6 @@ public class Durchfuehrung extends AppCompatActivity {
                             planEntry[id - 1].getGoal() + "</p><p>Sozialform: " + planEntry[id - 1].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id - 1].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id - 1].getReserve() + "</p><p>Kommentare: " + planEntry[id - 1].getComments() + "</p>";
 
                     current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                    current.setText("" + time[id-1] / 1000);
                     if (id - 2 >= 0) {
                         String previousText = "<h5>" + planEntry[id - 2].getTitle() + "</h2><p>" + planEntry[id - 2].getStart() + "min - " + (planEntry[id - 2].getLength() + planEntry[id - 2].getStart()) + "min (" + planEntry[id - 2].getLength() + "min)</p><p>Ziele: " +
                                 planEntry[id - 2].getGoal() + "</p><p>Sozialform: " + planEntry[id - 2].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id - 2].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id - 2].getReserve() + "</p><p>Kommentare: " + planEntry[id - 2].getComments() + "</p>";
@@ -316,7 +314,6 @@ public class Durchfuehrung extends AppCompatActivity {
                                 planEntry[finalJ].getGoal()+"</p><p>Sozialform: "+planEntry[finalJ].getSocialForm()+"</p><p>Beschreibung: "+planEntry[finalJ].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[finalJ].getReserve()+"</p><p>Kommentare: "+planEntry[finalJ].getComments()+"</p>";
 
                         current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                        current.setText("" + time[finalJ] / 1000);
                         if (finalJ - 1 >= 0) {
                             String previousText = "<h5>" + planEntry[finalJ-1].getTitle() + "</h2><p>"+planEntry[finalJ-1].getStart()+"min - "+(planEntry[finalJ-1].getLength()+planEntry[finalJ-1].getStart())+"min ("+planEntry[finalJ-1].getLength()+"min)</p><p>Ziele: "+
                                     planEntry[finalJ-1].getGoal()+"</p><p>Sozialform: "+planEntry[finalJ-1].getSocialForm()+"</p><p>Beschreibung: "+planEntry[finalJ-1].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[finalJ-1].getReserve()+"</p><p>Kommentare: "+planEntry[finalJ-1].getComments()+"</p>";
