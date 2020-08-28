@@ -116,63 +116,49 @@ public class MainActivity extends AppCompatActivity {
 
         PlanEntry planEntry1 = new PlanEntry();
         planEntry1.setColor("blue");
-        planEntry1.setComments("1. Kommentafdsggffffffgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggr");
+        planEntry1.setComments("1. Kommentafdsggffffffgggggggggggggggggdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggr");
         planEntry1.setGoal("Einführung");
         planEntry1.setId(1);
         planEntry1.setLength(10);
         planEntry1.setLessonId(1);
         planEntry1.setSocialForm("Gruppenarbeit");
         planEntry1.setStart(0);
-        planEntry1.setTitle("Anfang");
-        planEntry1.setTrack(0);
-        planEntry1.setReihe(0);
-        planEntry1.setSteps("Schritt 1");
-        planEntry1.setGroupid(0);
+        planEntry1.setTitle("Erste");
+        planEntry1.setReserve("Aufgaben für schnelle");
+        planEntry1.setBeschreibung("so sollte der Unterricht laufen");
 
         PlanEntry planEntry2 = new PlanEntry();
         planEntry2.setColor("blue");
         planEntry2.setComments("2. Kommentar");
         planEntry2.setGoal("Aufgaben");
         planEntry2.setId(2);
-        planEntry2.setLength(80);
+        planEntry2.setLength(20);
         planEntry2.setLessonId(1);
         planEntry2.setSocialForm("Einzelarbeit");
         planEntry2.setStart(10);
-        planEntry2.setTitle("Danach");
-        planEntry2.setTrack(0);
-        planEntry2.setReihe(3);
-        planEntry2.setSteps("Schritt 2");
-        planEntry2.setGroupid(0);
+        planEntry2.setTitle("zweite");
 
         PlanEntry planEntry5 = new PlanEntry();
         planEntry5.setColor("blue");
         planEntry5.setComments("1. Kommentar");
         planEntry5.setGoal("Einführung");
-        planEntry5.setId(6);
-        planEntry5.setLength(10);
+        planEntry5.setId(5);
+        planEntry5.setLength(30);
         planEntry5.setLessonId(1);
         planEntry5.setSocialForm("Gruppenarbeit");
-        planEntry5.setStart(0);
-        planEntry5.setTitle("zweite");
-        planEntry5.setTrack(0);
-        planEntry5.setReihe(2);
-        planEntry5.setSteps("Schritt 1");
-        planEntry5.setGroupid(0);
+        planEntry5.setStart(30);
+        planEntry5.setTitle("dritte");
 
         PlanEntry planEntry6 = new PlanEntry();
         planEntry6.setColor("blue");
         planEntry6.setComments("2. Kommentar");
         planEntry6.setGoal("Aufgaben");
-        planEntry6.setId(5);
-        planEntry6.setLength(80);
+        planEntry6.setId(6);
+        planEntry6.setLength(30);
         planEntry6.setLessonId(1);
         planEntry6.setSocialForm("Einzelarbeit");
-        planEntry6.setStart(10);
-        planEntry6.setTitle("erste");
-        planEntry6.setTrack(0);
-        planEntry6.setReihe(1);
-        planEntry6.setSteps("Schritt 2");
-        planEntry6.setGroupid(0);
+        planEntry6.setStart(60);
+        planEntry6.setTitle("vierte");
 
         Resource resource1 = new Resource();
         resource1.setId(1);
@@ -204,8 +190,6 @@ public class MainActivity extends AppCompatActivity {
         planEntry8.setSocialForm("Gruppenarbeit");
         planEntry8.setStart(0);
         planEntry8.setTitle("neu");
-        planEntry8.setTrack(1);
-        planEntry8.setSteps("Schritt 1");
 
         PlanEntry planEntry9 = new PlanEntry();
         planEntry9.setColor("blue");
@@ -215,10 +199,8 @@ public class MainActivity extends AppCompatActivity {
         planEntry9.setLength(10);
         planEntry9.setLessonId(2);
         planEntry9.setSocialForm("Gruppenarbeit");
-        planEntry9.setStart(0);
+        planEntry9.setStart(10);
         planEntry9.setTitle("schluss");
-        planEntry9.setTrack(1);
-        planEntry9.setSteps("Schritt 1");
 
         DBHandler db = new DBHandler(getApplicationContext());
         db.createLesson(lesson1);

@@ -142,62 +142,31 @@ public class LessonActivity extends AppCompatActivity {
         });
 
         LinearLayout tableLayout = findViewById(R.id.Zeitplan);
-        int k = 0;
-        int index=0;
-        // Initialize maximum element
-        int max = 0;
-
-        // Traverse array elements from second and
-        // compare every element with current max
-        for (index = 0; index < planEntries.length; index++) {
-            if (planEntries[index].getGroupid() == 0) {
-                if (planEntries[index].getTrack() > max)
-                    max = planEntries[index].getTrack();
-            }
-            if (planEntries[index].getTrack() == 1) {
-                k=k+1;
-            }
-        }
 
         TextView tv = findViewById(R.id.textView3);
-        Random random = new Random();
+        String html4 = "<h3>Zeitplan</h3>";
+        tv.setText(HtmlCompat.fromHtml(html4, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        TableLayout table = new TableLayout(LessonActivity.this);
-        for (int l=0; l < k+1; l++) {
-            TableRow row = new TableRow(LessonActivity.this);
-            for (int j=0; j < max+1; j++) {
-                for (int x=0; x < planEntries.length; x++) {
-                    if (planEntries[x].getGroupid() == 0) {
-                        if (planEntries[x].getReihe() == l){
-                            if (planEntries[x].getTrack() == j) {
-                                TextView tv2 = new TextView(LessonActivity.this);
-                                String plan = "<h3>Titel: " + planEntries[x].getTitle() + "</h3><p>Länge: "+planEntries[x].getLength()+"</p><p>Ziele: "+
-                                        planEntries[x].getGoal()+"</p><p>Sozialform: "+planEntries[x].getSocialForm()+"</p><p>Kommentare: "+planEntries[x].getComments()+"</p>";
-                                tv2.setText(HtmlCompat.fromHtml(plan, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                                tv2.setBackground(getDrawable(R.drawable.border));
-                                Display display = getWindowManager().getDefaultDisplay();
-                                Point size = new Point();
-                                display.getSize(size);
-                                int width = size.x;
-                                int height = size.y;
-                                tv2.setWidth(width / (max+1));
-                                tv2.setHeight(height / 3);
-                                int padding_in_dp = 5;
-                                final float scale = getResources().getDisplayMetrics().density;
-                                int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+        for (int x=0; x < planEntries.length; x++){
+            TextView tv2 = new TextView(this);
 
-                                tv2.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
-                                row.addView(tv2);
-                            }
-                        }
-                    }
-                }
-            }
-            table.addView(row);
+            String plan = "<h4>Titel: " + planEntries[x].getTitle() + "</h4><p>"+planEntries[x].getStart()+"min - "+(planEntries[x].getLength()+planEntries[x].getStart())+"min ("+planEntries[x].getLength()+"min)</p><p>Ziele: "+
+                    planEntries[x].getGoal()+"</p><p>Sozialform: "+planEntries[x].getSocialForm()+"</p><p>Beschreibung: "+planEntries[x].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntries[x].getReserve()+"</p><p>Kommentare: "+planEntries[x].getComments()+"</p>";
+            tv2.setText(HtmlCompat.fromHtml(plan, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            tv2.setBackground(getDrawable(R.drawable.border));
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+            tv2.setWidth(width);
+            tv2.setMinHeight(height / 3);
+            int padding_in_dp = 5;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            tv2.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
+            tableLayout.addView(tv2);
         }
-        tableLayout.addView(table);
-
-
 
         //buttonStart
         Button ButtonStart = (Button) findViewById(R.id.ButtonStart);

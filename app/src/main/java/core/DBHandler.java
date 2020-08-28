@@ -23,7 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SEQUENCE = "CREATE TABLE sequence (sequenceid INTEGER PRIMARY KEY, userid INTEGER, title TEXT, subject TEXT, grade INTEGER, preknowledge TEXT, goal TEXT, standard INTEGER, comments TEXT, markunfinished INTEGER, beschreibung Text)";
 
     // todo_tag table create statement
-    private static final String CREATE_TABLE_PLANENTRY = "CREATE TABLE planentry (planentryid INTEGER PRIMARY KEY, lessonid INTEGER, track INTEGER, start INTEGER, length INTEGER, title TEXT, steps TEXT, goal TEXT, socialform TEXT, parentplanentry INTEGER, comments TEXT, markunfinished INTEGER, color TEXT, reihe INTEGER, groupid INTEGER)";
+    private static final String CREATE_TABLE_PLANENTRY = "CREATE TABLE planentry (planentryid INTEGER PRIMARY KEY, lessonid INTEGER, start INTEGER, length INTEGER, title TEXT, goal TEXT, socialform TEXT, comments TEXT, markunfinished INTEGER, color TEXT, reserve TEXT, beschreibung TEXT)";
 
     // todo_tag table create statement
     private static final String CREATE_TABLE_CUSTOMFIELD = "CREATE TABLE customfield (customfieldid INTEGER PRIMARY KEY, name TEXT, binarycontent BLOB, sequenceid INTEGER, lessonid INTEGER, planentryid INTEGER)";
@@ -247,10 +247,9 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put("lessonid", planEntry.getLessonId());
         values.put("socialform", planEntry.getSocialForm());
         values.put("start", planEntry.getStart());
-        values.put("steps", planEntry.getSteps());
-        values.put("track", planEntry.getTrack());
-        values.put("reihe",planEntry.getReihe());
-        values.put("groupid",planEntry.getGroupid());
+        values.put("reserve", planEntry.getReserve());
+        values.put("beschreibung", planEntry.getBeschreibung());
+
 
 
         // insert row
@@ -263,7 +262,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","steps","track","reihe","groupid"}, "lessonid like ?",new String[]{lesson+"%"},  null, null, null);
+        Cursor cursor = db.query("planentry", new String[]{"planentryid", "title","color","comments","goal","length","lessonid","socialform","start","reserve","beschreibung"}, "lessonid like ?",new String[]{lesson+"%"},  null, null, null);
         PlanEntry planEntry[] = new PlanEntry[cursor.getCount()];
 
         for (int i = 0; i < cursor.getCount(); i++) {
@@ -273,21 +272,17 @@ public class DBHandler extends SQLiteOpenHelper {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("planentryid"));
             int length = cursor.getInt(cursor.getColumnIndexOrThrow("length"));
             int start = cursor.getInt(cursor.getColumnIndexOrThrow("start"));
-            int track = cursor.getInt(cursor.getColumnIndexOrThrow("track"));
             int lessonid = cursor.getInt(cursor.getColumnIndexOrThrow("lessonid"));
             String color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
             String comments = cursor.getString(cursor.getColumnIndexOrThrow("comments"));
             String goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"));
             String socialform = cursor.getString(cursor.getColumnIndexOrThrow("socialform"));
-            String steps = cursor.getString(cursor.getColumnIndexOrThrow("steps"));
-            int reihe = cursor.getInt(cursor.getColumnIndexOrThrow("reihe"));
-            int groupid = cursor.getInt(cursor.getColumnIndexOrThrow("groupid"));
+            String reserve = cursor.getString(cursor.getColumnIndexOrThrow("reserve"));
+            String beschreibung = cursor.getString(cursor.getColumnIndexOrThrow("beschreibung"));
 
             planEntry[i] = new PlanEntry();
             planEntry[i].setTitle(title);
             planEntry[i].setId(id);
-            planEntry[i].setSteps(steps);
-            planEntry[i].setTrack(track);
             planEntry[i].setStart(start);
             planEntry[i].setSocialForm(socialform);
             planEntry[i].setLessonId(lessonid);
@@ -295,8 +290,8 @@ public class DBHandler extends SQLiteOpenHelper {
             planEntry[i].setColor(color);
             planEntry[i].setComments(comments);
             planEntry[i].setLength(length);
-            planEntry[i].setReihe(reihe);
-            planEntry[i].setGroupid(groupid);
+            planEntry[i].setReserve(reserve);
+            planEntry[i].setBeschreibung(beschreibung);
         }
 
         return planEntry;

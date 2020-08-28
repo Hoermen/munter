@@ -243,7 +243,6 @@ public class Durchfuehrung extends AppCompatActivity {
         }).start();
 
         for (int j = 0; j < planEntry.length; j++) {
-            if (planEntry[j].getTrack() == 1) {
 
                 final TextView value2TV = new TextView(Durchfuehrung.this);
 
@@ -253,7 +252,7 @@ public class Durchfuehrung extends AppCompatActivity {
                 Point size = new Point();
                 display.getSize(size);
                 int width = size.x;
-                value2TV.setWidth(width / lesson.getLength() * length);
+                value2TV.setWidth((width / lesson.getLength() * length)+50);
 
                 String lessonText = "<h3>" + planEntry[j].getTitle() + "</h3>";
                 value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -296,7 +295,7 @@ public class Durchfuehrung extends AppCompatActivity {
                     }
                 });
                 ll.addView(value2TV);
-            }
+
         }
 
         TextView entry = (TextView) findViewById(planEntry[0].getId());

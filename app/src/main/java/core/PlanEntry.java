@@ -7,37 +7,34 @@ import java.util.ArrayList;
 public class PlanEntry implements Serializable {
 	private int id;
 	private int lessonId;
-	private int track;
 	private int length;
 	private int start;
-	private int reihe;
-	private int groupid;
 	private String title;
 	private String goal = "";
 	private String socialForm = "";
-	private String steps = "";
 	private String color = "";
 	private int parentPlanEntryId;
 	private String comments = "";
 	private boolean markUnfinished = false;
 	private ArrayList<CustomField> customFields = new ArrayList<>();
+	private String reserve = "";
+	private String beschreibung;
 
-	public int getGroupid() {
-		return groupid;
+	public String getBeschreibung() {
+		return beschreibung;
 	}
 
-	public void setGroupid(int groupid) {
-		this.groupid = groupid;
+	public void setBeschreibung(String beschreibung) {
+		this.beschreibung = beschreibung;
 	}
 
-	public int getReihe() {
-		return reihe;
+	public String getReserve() {
+		return reserve;
 	}
 
-	public void setReihe(int reihe) {
-		this.reihe = reihe;
+	public void setReserve(String reserve) {
+		this.reserve = reserve;
 	}
-
 
 	public PlanEntry() {}
 
@@ -48,7 +45,6 @@ public class PlanEntry implements Serializable {
 	public PlanEntry(int planEntryId, int lessonId, int track, int start, int length, String title) {
 		this.id = planEntryId;
 		this.lessonId = lessonId;
-		this.track = track;
 		this.start = start;
 		this.length = length;
 		this.title = title;
@@ -80,20 +76,6 @@ public class PlanEntry implements Serializable {
 	 */
 	public void setLessonId(int lessonId) {
 		this.lessonId = lessonId;
-	}
-
-	/**
-	 * @return the track
-	 */
-	public int getTrack() {
-		return track;
-	}
-
-	/**
-	 * @param track the track to set
-	 */
-	public void setTrack(int track) {
-		this.track = track;
 	}
 
 	/**
@@ -166,19 +148,6 @@ public class PlanEntry implements Serializable {
 		this.socialForm = socialForm;
 	}
 
-	/**
-	 * @return the steps
-	 */
-	public String getSteps() {
-		return steps;
-	}
-
-	/**
-	 * @param steps the steps to set
-	 */
-	public void setSteps(String steps) {
-		this.steps = steps;
-	}
 
 	/**
 	 * @return the parentPlanEntryId
@@ -229,7 +198,6 @@ public class PlanEntry implements Serializable {
 		clone.title = title;
 		clone.goal = goal;
 		clone.socialForm = socialForm;
-		clone.steps = steps;
 		clone.comments = comments;
 		clone.markUnfinished = markUnfinished;
 		clone.customFields.addAll(customFields);
