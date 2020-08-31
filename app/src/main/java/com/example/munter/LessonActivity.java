@@ -46,6 +46,11 @@ import core.Resource;
 
 public class LessonActivity extends AppCompatActivity {
     SpannableStringBuilder spanTxt;
+    DBHandler db;
+    Lesson lesson;
+    String lessonID = "";
+    String comments = "";
+    EditText checkliste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class LessonActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_lesson);
         Intent i = getIntent();
-        final String lessonID = i.getStringExtra("lessonID");
+        lessonID  = i.getStringExtra("lessonID");
 
         if(Build.VERSION.SDK_INT>=24){
             try{
@@ -64,12 +69,13 @@ public class LessonActivity extends AppCompatActivity {
             }
         }
 
-        DBHandler db = new DBHandler(getApplicationContext());
-        Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
+        db = new DBHandler(getApplicationContext());
+        lesson = db.getLesson(Integer.parseInt(lessonID));
         final Resource[] resource = db.getResource(Integer.parseInt(lessonID));
         final PlanEntry[] planEntries = db.getPlanentry(lessonID);
 
-        spanTxt = new SpannableStringBuilder("Materialien: \n\n");
+        spanTxt = new SpannableStringBuilder("Materialien: \n");
+        spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
         for (int j = 0; j < resource.length; j++) {
             spanTxt.append(resource[j].getFilename()+"\n");
             final int finalJ = j;
@@ -104,10 +110,10 @@ public class LessonActivity extends AppCompatActivity {
         materialien.setText(spanTxt, TextView.BufferType.SPANNABLE);
 
         final TextView notesText = findViewById(R.id.textNotizen);
-        String html3 = "<h4>Notizen (lange Tippen zum Zeichnen):</h4>";
+        String html3 = "<b>Notizen:<b>";
         notesText.setText(HtmlCompat.fromHtml(html3, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        final EditText checkliste = (EditText) findViewById(R.id.Checkliste);
+        checkliste = (EditText) findViewById(R.id.Checkliste);
 
         checkliste.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -121,30 +127,21 @@ public class LessonActivity extends AppCompatActivity {
         final LinearLayout ausblick = findViewById(R.id.Ausblick);
         checkliste.setText(lesson.getComments());
 
-
-        ausblick.setOnLongClickListener(new View.OnLongClickListener() {
+        Button draw = findViewById(R.id.buttonDraw);
+        draw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 Intent i = new Intent(LessonActivity.this, drawActivity.class);
                 i.putExtra("lessonID", lessonID);
                 startActivity(i);
-                return false;
-            }
-        });
-        checkliste.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent i = new Intent(LessonActivity.this, drawActivity.class);
-                i.putExtra("lessonID", lessonID);
-                startActivity(i);
-                return false;
             }
         });
 
         LinearLayout tableLayout = findViewById(R.id.Zeitplan);
 
         TextView tv = findViewById(R.id.textView3);
-        String html4 = "<h3>Zeitplan</h3>";
+        String html4 = "<b>Zeitplan</b>";
+        tv.setTextSize(20);
         tv.setText(HtmlCompat.fromHtml(html4, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         for (int x=0; x < planEntries.length; x++){
@@ -175,8 +172,25 @@ public class LessonActivity extends AppCompatActivity {
             public void onClick(View view){
                 Intent i = new Intent(LessonActivity.this, Durchfuehrung.class);
                 i.putExtra("lessonID", lessonID);
-                String comments = checkliste.getText().toString();
-                i.putExtra("comments", comments);
+                comments = checkliste.getText().toString();
+                lesson.setComments(comments);
+                db.updateLesson(lesson, lesson.getId());
+                finish();
+                startActivity(i);
+            }
+        });
+
+
+
+        Button ButtonFeedback = (Button) findViewById(R.id.buttonFeedback);
+        ButtonFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(LessonActivity.this, FeedbackActivity.class);
+                i.putExtra("lessonID", lessonID);
+                comments = checkliste.getText().toString();
+                lesson.setComments(comments);
+                db.updateLesson(lesson, lesson.getId());
                 startActivity(i);
             }
         });
@@ -184,5 +198,14 @@ public class LessonActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        db = new DBHandler(getApplicationContext());
+        lesson = db.getLesson(Integer.parseInt(lessonID));
+        lesson.setComments(checkliste.getText().toString());
+        db.updateLesson(lesson, lesson.getId());
+        super.onBackPressed();
     }
 }

@@ -14,25 +14,32 @@
         android:id="@+id/signature_pad_container"
 >
 
-        <TextView
-            android:id="@+id/signature_pad_description"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorText"
-            android:textSize="18dp"
-            android:text="hier zeichnen (Doppelklick für reset)" />
+
 
 
     <com.github.gcacace.signaturepad.views.SignaturePad
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/signature_pad"
-            app:clearOnDoubleClick="true"
             />
+
+    <TextView
+        android:id="@+id/signature_pad_description"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorText"
+        android:textSize="18dp"
+        android:text="hier zeichnen:" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/drawBack"
         android:text="speichern und zurück"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reset"
+        android:text="reset"
+        android:layout_alignParentRight="true"/>
     </RelativeLayout>

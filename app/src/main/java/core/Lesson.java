@@ -17,6 +17,9 @@ public class Lesson implements Serializable {
 	private boolean markUnfinishedPlanEntries = false;
 	private ArrayList<CustomField> customFields = new ArrayList<>();
 	private boolean isMine = false;
+	private String beschreibung = "";
+	private String feedback = "";
+
 
 	public String getBeschreibung() {
 		return beschreibung;
@@ -26,8 +29,6 @@ public class Lesson implements Serializable {
 		this.beschreibung = beschreibung;
 	}
 
-	private String beschreibung;
-
 	public String getFeedback() {
 		return feedback;
 	}
@@ -36,7 +37,6 @@ public class Lesson implements Serializable {
 		this.feedback = feedback;
 	}
 
-	private String feedback;
 
 	public String getGoal() {
 		return goal;

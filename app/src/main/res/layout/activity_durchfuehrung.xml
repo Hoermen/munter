@@ -13,19 +13,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_gravity="center"
+        android:weightSum="6">
 
         <TextView
             android:id="@+id/titleStunde"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:gravity="center"
             android:padding="1dp"
             android:text="Titel" />
+
 
         <TextView
             android:id="@+id/timeStunde"
@@ -37,40 +39,50 @@
             android:padding="1dp"
             android:text="vergangene Zeit" />
 
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ZoomOut"
+                android:scaleType="fitXY"
+                android:layout_height="match_parent"
+                android:layout_width="40dp" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ZoomIn"
+                android:scaleType="fitXY"
+                android:layout_height="match_parent"
+                android:layout_width="40dp" />
             <Button
                 android:id="@+id/timer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:text="Timer" />
 
             <TextView
                 android:id="@+id/Chronometer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="00:00" />
 
-            <Button
-                android:id="@+id/exit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:padding="1dp"
-                android:text="Stunde beenden" />
+
         </LinearLayout>
+        <Button
+            android:id="@+id/exit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="Stunde beenden"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="vertical"
         android:layout_height="0dp"
         android:weightSum="3">
@@ -100,36 +112,50 @@
         android:layout_height="0dp"
         android:layout_weight="11"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/previous"
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@drawable/border"
-            android:padding="5dp"
-            android:text="letzte Stunde" />
+            android:background="@drawable/border">
 
-        <TextView
-            android:id="@+id/current"
+            <TextView
+                android:id="@+id/previous"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:padding="5dp"
+                android:text="letzte Stunde" />
+        </ScrollView>
+
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:background="@drawable/border"
             android:layout_weight="3"
-            android:padding="5dp"
-            android:text="aktuelle Phase" />
+            android:background="@drawable/border">
 
-        <TextView
-            android:id="@+id/next"
-            android:layout_weight="2"
+            <TextView
+                android:id="@+id/current"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:padding="5dp"
+                android:text="aktuelle Phase" />
+        </ScrollView>
+
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:background="@drawable/border"
-            android:padding="5dp"
-            android:text="nächste Phase" />
+            android:layout_weight="2"
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:padding="5dp"
+                android:text="nächste Phase" />
+
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -139,17 +165,23 @@
         android:layout_height="0dp"
         android:layout_weight="4">
 
-        <TextView
-            android:id="@+id/materials"
+        <ScrollView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:layout_columnWeight="2"
-            android:layout_margin="1dp"
-            android:background="@drawable/border"
-            android:padding="5dp"
-            android:text="Materialien"
-            android:textColorLink="@color/colorText"/>
+            android:layout_weight="1"
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/materials"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:padding="5dp"
+                android:text="Materialien"
+                android:textColorLink="@color/colorText"
+                android:lineSpacingExtra="10dp"/>
+
+        </ScrollView>
+
 
         <LinearLayout
             android:id="@+id/notes"

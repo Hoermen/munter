@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         sequence2.setId(1);
 
         Lesson lesson1 = new Lesson();
-        lesson1.setTitle("Bilder");
+        lesson1.setTitle("erste super neue Stunde");
         lesson1.setId(1);
         lesson1.setComments("aufpassen");
         lesson1.setGoal("vertiefen");
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         lesson1.setLength(90);
         lesson1.setSequenceid(1);
         lesson1.setBeschreibung("Beschreibung hier einfügen");
+        lesson1.setFeedback("1. Phase ändern");
 
         Lesson lesson2 = new Lesson();
         lesson2.setTitle("Test");
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         lesson2.setOrder(1);
         lesson2.setLength(90);
         lesson2.setSequenceid(8);
+        lesson2.setFeedback("alles super");
 
         PlanEntry planEntry1 = new PlanEntry();
         planEntry1.setColor("blue");
@@ -123,9 +125,10 @@ public class MainActivity extends AppCompatActivity {
         planEntry1.setLessonId(1);
         planEntry1.setSocialForm("Gruppenarbeit");
         planEntry1.setStart(0);
-        planEntry1.setTitle("Erste");
+        planEntry1.setTitle("Erste richtig wichtige Phase");
         planEntry1.setReserve("Aufgaben für schnelle");
         planEntry1.setBeschreibung("so sollte der Unterricht laufen");
+        planEntry1.setReallength(660);
 
         PlanEntry planEntry2 = new PlanEntry();
         planEntry2.setColor("blue");
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         planEntry2.setSocialForm("Einzelarbeit");
         planEntry2.setStart(10);
         planEntry2.setTitle("zweite");
+        planEntry2.setReallength(1500);
 
         PlanEntry planEntry5 = new PlanEntry();
         planEntry5.setColor("blue");
@@ -148,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         planEntry5.setSocialForm("Gruppenarbeit");
         planEntry5.setStart(30);
         planEntry5.setTitle("dritte");
+        planEntry5.setReallength(2000);
 
         PlanEntry planEntry6 = new PlanEntry();
         planEntry6.setColor("blue");
@@ -159,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         planEntry6.setSocialForm("Einzelarbeit");
         planEntry6.setStart(60);
         planEntry6.setTitle("vierte");
+        planEntry6.setReallength(2000);
 
         Resource resource1 = new Resource();
         resource1.setId(1);
@@ -178,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         resource2.setTitle("Plan");
         resource2.setType("application/pdf");
         resource2.setLessonid(1);
-        resource2.setPlanentryid(1);
+        resource2.setPlanentryid(0);
 
         PlanEntry planEntry8 = new PlanEntry();
         planEntry8.setColor("blue");

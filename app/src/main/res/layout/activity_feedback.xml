@@ -134,6 +134,6 @@
         android:layout_margin="1dp"
         android:padding="5dp"
         android:gravity="center"
-        android:text="Zur Stundenübersicht" />
+        android:text="Speichern und zur Stundenübersicht" />
 
 </LinearLayout>

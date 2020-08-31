@@ -17,22 +17,25 @@ import core.Lesson;
 import core.PlanEntry;
 
 public class FeedbackActivity extends AppCompatActivity {
+    Lesson lesson;
+    DBHandler db;
+    String lessonID = "";
+    EditText feedback;
+    EditText HA;
+    EditText notes;
+    PlanEntry[] planEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         Intent i = getIntent();
-        final String lessonID = i.getStringExtra("lessonID");
-        String comments = i.getStringExtra("comments");
-        final DBHandler db = new DBHandler(this);
-        PlanEntry[] planEntry = db.getPlanentry(lessonID);
-        String[] time = new String[planEntry.length];
-        for (int k = 0; k < planEntry.length; k++) {
-            time[k] = i.getStringExtra(Integer.toString(k));
-        }
+        lessonID = i.getStringExtra("lessonID");
+        db = new DBHandler(this);
+        lesson = db.getLesson(Integer.parseInt(lessonID));
+        planEntry = db.getPlanentry(lessonID);
 
-        final EditText notes = (EditText) findViewById(R.id.editTextNotizen);
+        notes = (EditText) findViewById(R.id.editTextNotizen);
 
         notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -42,9 +45,9 @@ public class FeedbackActivity extends AppCompatActivity {
                 }
             }
         });
-        notes.setText(comments);
+        notes.setText(lesson.getComments());
 
-        final EditText HA = (EditText) findViewById(R.id.editTextHA);
+        HA = (EditText) findViewById(R.id.editTextHA);
 
         HA.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -55,7 +58,11 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
 
-        final EditText feedback = (EditText) findViewById(R.id.editTextFeedback);
+
+        Lesson lesson1 = db.getLesson(Integer.parseInt(lessonID+1));
+        HA.setText(lesson1.getHomeworks());
+
+        feedback = (EditText) findViewById(R.id.editTextFeedback);
 
         feedback.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -65,6 +72,8 @@ public class FeedbackActivity extends AppCompatActivity {
                 }
             }
         });
+
+        feedback.setText(lesson.getFeedback());
 
         notes.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -91,8 +100,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         String Auswertung = "<h3>Auswertung</h3>";
         for (int k = 0; k < planEntry.length; k++){
-            int minutes = Integer.parseInt(time[k]) / 60;
-            int seconds = Integer.parseInt(time[k]) % 60;
+            int minutes = planEntry[k].getReallength() / 60;
+            int seconds = planEntry[k].getReallength() % 60;
             String timeString = String.format("%02d:%02d", minutes, seconds);
             if (minutes < 1.2*planEntry[k].getLength() &&  minutes > 0.8*planEntry[k].getLength()) {
                 Auswertung = Auswertung+"<p>Titel: "+planEntry[k].getTitle()+" | definierte Länge: "+planEntry[k].getLength()+ ":00 min | <br/><font color=\"green\">tatsächlich benötige Zeit: "+timeString+"min | Zeitvorgabe gut eingehalten</font></p>";
@@ -133,5 +142,19 @@ public class FeedbackActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    @Override
+    public void onBackPressed() {
+        db = new DBHandler(getApplicationContext());
+        lesson = db.getLesson(Integer.parseInt(lessonID));
+        lesson.setComments(notes.getText().toString());
+        lesson.setFeedback(feedback.getText().toString());
+        Lesson lesson1 = db.getLesson(Integer.parseInt(lessonID+1));
+        lesson1.setHomeworks(HA.getText().toString());
+        db.updateLesson(lesson, lesson.getId());
+        db.updateLesson(lesson1, lesson1.getId());
+        Intent i = new Intent(FeedbackActivity.this, SequenceActivity.class);
+        finish();
+        FeedbackActivity.this.startActivity(i);
     }
 }

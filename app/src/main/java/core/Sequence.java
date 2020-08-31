@@ -19,6 +19,7 @@ public class Sequence implements Serializable {
 	private boolean isMine = false;
 	private boolean isShared = false;
 	private String sharedBy;
+	private String beschreibung = "";
 
 	public String getBeschreibung() {
 		return beschreibung;
@@ -27,8 +28,6 @@ public class Sequence implements Serializable {
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
-
-	private String beschreibung;
 
 	public String getGoal() {
 		return goal;

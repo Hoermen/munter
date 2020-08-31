@@ -1,13 +1,17 @@
 package com.example.munter;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.github.gcacace.signaturepad.views.SignaturePad;
 
 import java.io.BufferedReader;
@@ -45,8 +49,7 @@ public class drawActivity extends AppCompatActivity {
 
             @Override
             public void onClear() {
-                //Event triggered when the pad is cleared
-            }
+                }
         });
 
         final SignaturePad signaturePad = findViewById(R.id.signature_pad);
@@ -62,6 +65,26 @@ public class drawActivity extends AppCompatActivity {
             signaturePad.setSignatureBitmap(bitmap);
         }
 
+        final Button reset = findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(drawActivity.this)
+                        .setTitle("Notizen wirklich löschen")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("ja", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                signaturePad.clear();
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton("nein", null)
+                        .show();
+            }
+        });
 
         final Button b = findViewById(R.id.drawBack);
         b.setOnClickListener(new View.OnClickListener() {

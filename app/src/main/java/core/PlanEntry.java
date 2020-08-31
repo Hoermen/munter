@@ -18,7 +18,16 @@ public class PlanEntry implements Serializable {
 	private boolean markUnfinished = false;
 	private ArrayList<CustomField> customFields = new ArrayList<>();
 	private String reserve = "";
-	private String beschreibung;
+	private String beschreibung = "";
+	private int reallength;
+
+	public int getReallength() {
+		return reallength;
+	}
+
+	public void setReallength(int reallength) {
+		this.reallength = reallength;
+	}
 
 	public String getBeschreibung() {
 		return beschreibung;

@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -50,6 +53,9 @@ public class Durchfuehrung extends AppCompatActivity {
     long[] endTime;
     LinearLayout ll;
     SpannableStringBuilder spanTxt;
+    int textsize = 18;
+    Lesson lesson;
+    EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,7 @@ public class Durchfuehrung extends AppCompatActivity {
         setContentView(R.layout.activity_durchfuehrung);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         db = new DBHandler(getApplicationContext());
-        final EditText notes = (EditText) findViewById(R.id.editTextNotes);
+        notes = (EditText) findViewById(R.id.editTextNotes);
 
         notes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -69,16 +75,17 @@ public class Durchfuehrung extends AppCompatActivity {
         });
 
         Intent i = getIntent();
-        String comments = i.getStringExtra("comments");
-        notes.setText(comments);
+
         lessonID = i.getStringExtra("lessonID");
         final TextView current = (TextView) findViewById(R.id.current);
         final TextView previous = (TextView) findViewById(R.id.previous);
         final TextView next = (TextView) findViewById(R.id.next);
-        final Lesson lesson = db.getLesson(Integer.parseInt(lessonID));
+       lesson = db.getLesson(Integer.parseInt(lessonID));
         final PlanEntry[] planEntry = db.getPlanentry(lessonID);
        ll = (LinearLayout) findViewById(R.id.PlanEntry);
        final TextView timeStunde = findViewById(R.id.timeStunde);
+
+        notes.setText(lesson.getComments());
 
         final TextView titleStunde = findViewById(R.id.titleStunde);
         final String titleText = "<h1><u>"+lesson.getTitle()+"</u></h1>";
@@ -88,26 +95,58 @@ public class Durchfuehrung extends AppCompatActivity {
 
         final Resource[] resource = db.getResource(Integer.parseInt(lessonID));
 
-        spanTxt = new SpannableStringBuilder("Materialien: \n\n");
+        spanTxt = new SpannableStringBuilder();
+        String Materialien = "Materialien: \n";
+        spanTxt.append(Materialien);
+        spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
         for (int j = 0; j < resource.length; j++) {
-            spanTxt.append(resource[j].getFilename()+"\n");
-            final int finalJ = j;
-            spanTxt.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
+            if (resource[j].getPlanentryid() == id){
+                spanTxt.append(resource[j].getFilename()+"\n");
+                final int finalJ = j;
+                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spanTxt.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        if (resource[finalJ].getType().contains("image/*")) {
+                            Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                            i.putExtra("material", resource[finalJ].getTextContent());
+                            startActivity(i);
+                        }
+                        if (resource[finalJ].getType().contains("application/pdf")) {
+                            Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                            i.putExtra("material", resource[finalJ].getTextContent());
+                            startActivity(i);
 
-                    if (resource[finalJ].getType().contains("image/*")) {
-                        Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
-                        i.putExtra("material", resource[finalJ].getTextContent());
-                        startActivity(i);
+                        }
+
+
                     }
-                    if (resource[finalJ].getType().contains("application/pdf")) {
-                        Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
-                        i.putExtra("material", resource[finalJ].getTextContent());
-                        startActivity(i);
+                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+            } else {
+                spanTxt.append(resource[j].getFilename()+"\n");
+                final int finalJ = j;
+                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spanTxt.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        if (resource[finalJ].getType().contains("image/*")) {
+                            Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                            i.putExtra("material", resource[finalJ].getTextContent());
+                            startActivity(i);
+                        }
+                        if (resource[finalJ].getType().contains("application/pdf")) {
+                            Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                            i.putExtra("material", resource[finalJ].getTextContent());
+                            startActivity(i);
+
+                        }
+
+
                     }
-                }
-            }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+            }
+
+
         }
 
         TextView materials = findViewById(R.id.materials);
@@ -157,6 +196,62 @@ public class Durchfuehrung extends AppCompatActivity {
                     } else next.setText("letzte Phase erreicht");
                     id = id + 1;
                 }
+                spanTxt.clear();
+                spanTxt.append("Materialien: \n");
+                spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (int j = 0; j < resource.length; j++) {
+                    if (resource[j].getPlanentryid() == id){
+                        spanTxt.append(resource[j].getFilename()+"\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                    } else {
+                        spanTxt.append(resource[j].getFilename()+"\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                    }
+
+
+                }
+
+                TextView materials = findViewById(R.id.materials);
+                materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
+                materials.setMovementMethod(LinkMovementMethod.getInstance());
 
                 return false;
             }
@@ -199,6 +294,62 @@ public class Durchfuehrung extends AppCompatActivity {
                     id = id - 1;
                 }
 
+                spanTxt.clear();
+                spanTxt.append("Materialien: \n");
+                spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (int j = 0; j < resource.length; j++) {
+                    if (resource[j].getPlanentryid() == id){
+                        spanTxt.append(resource[j].getFilename()+"\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                    } else {
+                        spanTxt.append(resource[j].getFilename()+"\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                    }
+
+
+                }
+
+                TextView materials = findViewById(R.id.materials);
+                materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
+                materials.setMovementMethod(LinkMovementMethod.getInstance());
                 return false;
 
             }
@@ -285,13 +436,37 @@ public class Durchfuehrung extends AppCompatActivity {
                 int width = size.x;
                 value2TV.setWidth((width / lesson.getLength() * length)+50);
 
-                String lessonText = "<h3>" + planEntry[j].getTitle() + "</h3>";
+                String lessonText = "<b>" + planEntry[j].getTitle() + "</b>";
                 value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 value2TV.setId(planEntry[j].getId());
-                value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 value2TV.setBackground(getDrawable(R.drawable.border));
                 value2TV.setTextColor(getColor(R.color.colorText));
                 value2TV.setGravity(Gravity.CENTER);
+                value2TV.setTextSize(18);
+
+            ImageButton zoomin = findViewById(R.id.ZoomIn);
+            zoomin.setBackgroundResource(R.drawable.zoomin);
+            zoomin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    current.setTextSize(textsize+1);
+                    previous.setTextSize(textsize+1);
+                    next.setTextSize(textsize+1);
+                    textsize=textsize+1;
+                }
+            });
+            ImageButton zoomout = findViewById(R.id.ZoomOut);
+            zoomout.setBackgroundResource(R.drawable.zoomout);
+            zoomout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    current.setTextSize(textsize-1);
+                    previous.setTextSize(textsize-1);
+                    next.setTextSize(textsize-1);
+                    textsize=textsize-1;
+                }
+            });
 
                 final int finalJ = j;
                 value2TV.setOnClickListener(new View.OnClickListener() {
@@ -331,6 +506,63 @@ public class Durchfuehrung extends AppCompatActivity {
                             next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         }
                         else next.setText("letzte Phase erreicht");
+
+                        spanTxt.clear();
+                        spanTxt.append("Materialien: \n");
+                        spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        for (int j = 0; j < resource.length; j++) {
+                            if (resource[j].getPlanentryid() == id){
+                                spanTxt.append(resource[j].getFilename()+"\n");
+                                final int finalJ = j;
+                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spanTxt.setSpan(new ClickableSpan() {
+                                    @Override
+                                    public void onClick(View widget) {
+                                        if (resource[finalJ].getType().contains("image/*")) {
+                                            Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                            i.putExtra("material", resource[finalJ].getTextContent());
+                                            startActivity(i);
+                                        }
+                                        if (resource[finalJ].getType().contains("application/pdf")) {
+                                            Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                            i.putExtra("material", resource[finalJ].getTextContent());
+                                            startActivity(i);
+
+                                        }
+
+
+                                    }
+                                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                            } else {
+                                spanTxt.append(resource[j].getFilename()+"\n");
+                                final int finalJ = j;
+                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spanTxt.setSpan(new ClickableSpan() {
+                                    @Override
+                                    public void onClick(View widget) {
+                                        if (resource[finalJ].getType().contains("image/*")) {
+                                            Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                            i.putExtra("material", resource[finalJ].getTextContent());
+                                            startActivity(i);
+                                        }
+                                        if (resource[finalJ].getType().contains("application/pdf")) {
+                                            Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                            i.putExtra("material", resource[finalJ].getTextContent());
+                                            startActivity(i);
+
+                                        }
+
+
+                                    }
+                                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                            }
+
+
+                        }
+
+                        TextView materials = findViewById(R.id.materials);
+                        materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
+                        materials.setMovementMethod(LinkMovementMethod.getInstance());
                     }
                 });
                 ll.addView(value2TV);
@@ -344,7 +576,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
         EditText lila = findViewById(R.id.editTextNotes);
         TextView tv = findViewById(R.id.textNotizen);
-        tv.setText("Notizen (lange Tippen zum Zeichnen):");
+        tv.setText(HtmlCompat.fromHtml("<b>Notizen: </b>", HtmlCompat.FROM_HTML_MODE_LEGACY));
         lila.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -372,7 +604,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
                 new AlertDialog.Builder(Durchfuehrung.this)
                         .setTitle("Stunde beenden")
-                        .setMessage("Wollem Sie die Stunde wirklich beenden?")
+                        .setMessage("Wollen Sie die Stunde wirklich beenden?")
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
@@ -386,15 +618,19 @@ public class Durchfuehrung extends AppCompatActivity {
                                         startTime[i] = 0;
                                     }
                                 }
-                                Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
-                                i.putExtra("lessonID", lessonID);
+
 
                                 for (int k = 0; k < planEntry.length; k++) {
-                                    i.putExtra(Integer.toString(k), ""+time[k]/1000);
+                                    int zeit = (int) time[k];
+                                    planEntry[k].setReallength(zeit/1000);
+                                    db.updatePlanentry(planEntry[k], planEntry[k].getId());
                                 }
-                                String comments = notes.getText().toString();
-                                i.putExtra("comments", comments);
-                                startActivity(i);
+                                lesson.setComments(notes.getText().toString());
+                                db.updateLesson(lesson, Integer.parseInt(lessonID));
+                                Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
+                                i.putExtra("lessonID", lessonID);
+                                finish();
+                                Durchfuehrung.this.startActivity(i);
                             }
                         })
 
@@ -512,5 +748,30 @@ public class Durchfuehrung extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        db = new DBHandler(getApplicationContext());
+        lesson = db.getLesson(Integer.parseInt(lessonID));
+        lesson.setComments(notes.getText().toString());
+        db.updateLesson(lesson, lesson.getId());
+
+        new AlertDialog.Builder(Durchfuehrung.this)
+                .setTitle("Stunde beenden")
+                .setMessage("Wollen Sie die Stunde wirklich beenden?")
+
+                .setPositiveButton("ja", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(Durchfuehrung.this, SequenceActivity.class);
+                        finish();
+                        Durchfuehrung.this.startActivity(i);
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton("nein", null)
+                .show();
+
     }
 }
