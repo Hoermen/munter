@@ -34,13 +34,13 @@
         android:id="@+id/buttonNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sequencen zum Synchronisieren auswählen" />
+        android:text="Stoffeinheiten zum Synchronisieren auswählen" />
 
     <Button
         android:id="@+id/buttonRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="bestehende Sequenzen aktualisieren" />
+        android:text="bestehende Stoffeinheiten aktualisieren" />
 
     <Button
         android:id="@+id/buttonSkip"

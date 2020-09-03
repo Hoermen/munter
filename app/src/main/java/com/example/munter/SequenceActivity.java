@@ -51,11 +51,11 @@ public class SequenceActivity extends AppCompatActivity {
         final Sequence[] sequence = db.getSequence();
 
         final TextView sequenceuebersicht = (TextView) findViewById(R.id.Sequenceübersicht);
-        String html = "<h2>Übersicht der geladenen Sequenzen</h2>";
+        String html = "<h2>Übersicht der geladenen Stoffeinheiten</h2><p>Stoffeinheit auswählen:</p>";
         sequenceuebersicht.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         ImageButton sync = findViewById(R.id.sync);
-        sync.setBackgroundResource(R.mipmap.sync);
+        sync.setBackgroundResource(R.drawable.sync);
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,13 +66,14 @@ public class SequenceActivity extends AppCompatActivity {
 
         for (int i = 0; i < sequence.length; i++) {
             final TextView valueTV = new TextView(this);
-            String text = "<h2>Titel: "+sequence[i].getTitle()+"</h2><p>Unterrichtsfach: "+sequence[i].getSubject()+"</p><p>Klassenstufe: "+sequence[i].getGrade()+"</p><p>Ziele: "+sequence[i].getGoal()+"</p><p>Beschreibung: "+sequence[i].getBeschreibung()+"</p><p>Kommentare: "+sequence[i].getComments()+"</p>";
+            String text = "<h2><u>"+sequence[i].getTitle()+"</u></h2><p><b>Unterrichtsfach:</b> "+sequence[i].getSubject()+"</p><p><b>Klassenstufe:</b> "+sequence[i].getGrade()+"</p><p><b>Ziele:</b> "+sequence[i].getGoal()+"</p><p><b>Beschreibung:</b> "+sequence[i].getBeschreibung()+"</p><p><b>Kommentare:</b> "+sequence[i].getComments()+"</p>";
             valueTV.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
             valueTV.setId(sequence[i].getId());
             valueTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
             valueTV.setBackground(getDrawable(R.drawable.border));
+            valueTV.setLineSpacing(-10,1);
 
-            int padding_in_dp = 5;
+            int padding_in_dp = 10;
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 
@@ -89,23 +90,24 @@ public class SequenceActivity extends AppCompatActivity {
                     linearLayout.removeAllViewsInLayout();
                         for (int i = 0; i < sequence.length; i++) {
                             if (sequence[i].getId() == valueTV.getId()) {
-                                String html = "<h2>Stunden zur Sequenz: " + sequence[i].getTitle() + " ("+sequence[i].getSubject()+", Klasse "+sequence[i].getGrade()+")</h2>";
+                                String html = "<h2>Stunden zur Sequenz: " + sequence[i].getTitle() + " ("+sequence[i].getSubject()+", Klasse "+sequence[i].getGrade()+")</h2><p>Unterrichtsstunde wählen: ";
                                 sequenceuebersicht.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             }
                         }
 
                     for (int i = 0; i < lesson.length; i++) {
                         final TextView value2TV = new TextView(context);
-                        String lessonText = "<h3>Titel: "+lesson[i].getTitle()+"</h3><p>Länge: " + lesson[i].getLength()+"</p><p>Ziele: "+
-                                lesson[i].getGoal()+"</p><p>Beschreibung: "+sequence[i].getBeschreibung()+"</p><p>Hausaufgaben: "+lesson[i].getHomeworks()+"</p><p>Kommentare: "+lesson[i].getComments()+"</p>";
+                        String lessonText = "<h3><u>"+lesson[i].getTitle()+"</u></h3><p><b>Länge:</b> " + lesson[i].getLength()+" Minuten</p><p><b>Ziele:</b> "+
+                                lesson[i].getGoal()+"</p><p><b>Beschreibung:</b> "+sequence[i].getBeschreibung()+"</p><p><b>Hausaufgaben:</b> "+lesson[i].getHomeworks()+"</p><p><b>Kommentare:</b> "+lesson[i].getComments()+"</p>";
                         value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         value2TV.setId(lesson[i].getId());
                         value2TV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                         value2TV.setBackground(getDrawable(R.drawable.border));
                         value2TV.setTextColor(getColor(R.color.colorText));
                         value2TV.setTextSize(16);
+                        value2TV.setLineSpacing(-10,1);
 
-                        int padding_in_dp = 5;
+                        int padding_in_dp = 10;
                         final float scale = getResources().getDisplayMetrics().density;
                         int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 

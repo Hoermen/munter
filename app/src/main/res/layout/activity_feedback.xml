@@ -55,11 +55,29 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/textNotizen"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notizen" />
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/textNotizen"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="top"
+                    android:text="Notizen" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="Zeichnen"
+                    android:layout_weight="2"
+                    android:id="@+id/buttonDraw" >
+
+                </Button>
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/editTextNotizen"
@@ -90,11 +108,17 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/textAuswertung"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Auswertung Zeitmanagement" />
+           <ScrollView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+               <TextView
+                   android:id="@+id/textAuswertung"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:text="Auswertung Zeitmanagement" />
+
+           </ScrollView>
+
         </LinearLayout>
 
         <LinearLayout

@@ -75,24 +75,13 @@ public class FeedbackActivity extends AppCompatActivity {
 
         feedback.setText(lesson.getFeedback());
 
-        notes.setOnLongClickListener(new View.OnLongClickListener() {
+        Button draw = findViewById(R.id.buttonDraw);
+        draw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
                 i.putExtra("lessonID", lessonID);
                 startActivity(i);
-                return false;
-            }
-        });
-        TextView tv2 = findViewById(R.id.textNotizen);
-        tv2.setText("Notizen (lange Tippen zum Zeichnen):");
-        tv2.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent i = new Intent(FeedbackActivity.this, drawActivity.class);
-                i.putExtra("lessonID", lessonID);
-                startActivity(i);
-                return false;
             }
         });
 

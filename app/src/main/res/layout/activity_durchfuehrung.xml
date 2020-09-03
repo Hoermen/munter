@@ -90,15 +90,13 @@
             android:orientation="horizontal"
             android:id="@+id/PlanEntry"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_weight="2">
 
         </LinearLayout>
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_margin="5dp"
-            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -111,6 +109,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <ScrollView
             android:layout_width="0dp"
@@ -163,6 +163,7 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
         android:layout_weight="4">
 
         <ScrollView
@@ -193,11 +194,29 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/textNotizen"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notizen" />
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/textNotizen"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="top"
+                    android:text="Notizen" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="Zeichnen"
+                    android:layout_weight="2"
+                    android:id="@+id/buttonDraw" >
+
+                </Button>
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/editTextNotes"

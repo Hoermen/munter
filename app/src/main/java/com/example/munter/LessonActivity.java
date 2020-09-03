@@ -147,8 +147,8 @@ public class LessonActivity extends AppCompatActivity {
         for (int x=0; x < planEntries.length; x++){
             TextView tv2 = new TextView(this);
 
-            String plan = "<h4>Titel: " + planEntries[x].getTitle() + "</h4><p>"+planEntries[x].getStart()+"min - "+(planEntries[x].getLength()+planEntries[x].getStart())+"min ("+planEntries[x].getLength()+"min)</p><p>Ziele: "+
-                    planEntries[x].getGoal()+"</p><p>Sozialform: "+planEntries[x].getSocialForm()+"</p><p>Beschreibung: "+planEntries[x].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntries[x].getReserve()+"</p><p>Kommentare: "+planEntries[x].getComments()+"</p>";
+            String plan = "<h4><u>"+planEntries[x].getTitle() + "</u></h4><p>"+planEntries[x].getStart()+". Minute - "+(planEntries[x].getLength()+planEntries[x].getStart())+". Minute (Phase gesamt: "+planEntries[x].getLength()+"min)</p><p><b>Ziele:</b> "+
+                    planEntries[x].getGoal()+"</p><p><b>Sozialform:</b> "+planEntries[x].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntries[x].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntries[x].getReserve()+"</p><p><b>Kommentare:</b> "+planEntries[x].getComments()+"</p>";
             tv2.setText(HtmlCompat.fromHtml(plan, HtmlCompat.FROM_HTML_MODE_LEGACY));
             tv2.setBackground(getDrawable(R.drawable.border));
             Display display = getWindowManager().getDefaultDisplay();
@@ -157,11 +157,12 @@ public class LessonActivity extends AppCompatActivity {
             int width = size.x;
             int height = size.y;
             tv2.setWidth(width);
-            tv2.setMinHeight(height / 3);
-            int padding_in_dp = 5;
+            tv2.setMinHeight(height / 4);
+            int padding_in_dp = 10;
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             tv2.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
+            tv2.setLineSpacing(-10,1);
             tableLayout.addView(tv2);
         }
 

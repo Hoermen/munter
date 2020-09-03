@@ -27,7 +27,8 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:layout_weight="1"
-                    android:text="Sequenz und Stundenübersicht" />
+                    android:text="Stoffeinheit wählen:"
+                    android:lineSpacingExtra="-7dp"/>
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/sync"
                     android:scaleType="fitXY"

@@ -21,6 +21,7 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -430,11 +431,12 @@ public class Durchfuehrung extends AppCompatActivity {
 
                 final int start = planEntry[j].getStart();
                 int length = planEntry[j].getLength();
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int width = size.x;
-                value2TV.setWidth((width / lesson.getLength() * length)+50);
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int height = displayMetrics.heightPixels;
+                Double width = Double.parseDouble(""+displayMetrics.widthPixels);
+                Double setWidth = (width) / lesson.getLength() * length;
+                value2TV.setWidth((int) Math.round(setWidth));
 
                 String lessonText = "<b>" + planEntry[j].getTitle() + "</b>";
                 value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -443,7 +445,7 @@ public class Durchfuehrung extends AppCompatActivity {
                 value2TV.setBackground(getDrawable(R.drawable.border));
                 value2TV.setTextColor(getColor(R.color.colorText));
                 value2TV.setGravity(Gravity.CENTER);
-                value2TV.setTextSize(18);
+                value2TV.setTextSize(15);
 
             ImageButton zoomin = findViewById(R.id.ZoomIn);
             zoomin.setBackgroundResource(R.drawable.zoomin);
@@ -574,25 +576,13 @@ public class Durchfuehrung extends AppCompatActivity {
         entry.setClickable(false);
 
 
-        EditText lila = findViewById(R.id.editTextNotes);
-        TextView tv = findViewById(R.id.textNotizen);
-        tv.setText(HtmlCompat.fromHtml("<b>Notizen: </b>", HtmlCompat.FROM_HTML_MODE_LEGACY));
-        lila.setOnLongClickListener(new View.OnLongClickListener() {
+        Button draw = findViewById(R.id.buttonDraw);
+        draw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
                 i.putExtra("lessonID", lessonID);
                 startActivity(i);
-                return false;
-            }
-        });
-        tv.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent i = new Intent(Durchfuehrung.this, drawActivity.class);
-                i.putExtra("lessonID", lessonID);
-                startActivity(i);
-                return false;
             }
         });
 
