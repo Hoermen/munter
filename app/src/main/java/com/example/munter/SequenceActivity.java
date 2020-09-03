@@ -71,7 +71,7 @@ public class SequenceActivity extends AppCompatActivity {
             valueTV.setId(sequence[i].getId());
             valueTV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
             valueTV.setBackground(getDrawable(R.drawable.border));
-            valueTV.setLineSpacing(-10,1);
+            valueTV.setLineSpacing(-5,1);
 
             int padding_in_dp = 10;
             final float scale = getResources().getDisplayMetrics().density;
@@ -105,7 +105,7 @@ public class SequenceActivity extends AppCompatActivity {
                         value2TV.setBackground(getDrawable(R.drawable.border));
                         value2TV.setTextColor(getColor(R.color.colorText));
                         value2TV.setTextSize(16);
-                        value2TV.setLineSpacing(-10,1);
+                        value2TV.setLineSpacing(-5,1);
 
                         int padding_in_dp = 10;
                         final float scale = getResources().getDisplayMetrics().density;

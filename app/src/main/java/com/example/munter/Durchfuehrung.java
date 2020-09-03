@@ -131,7 +131,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                     }
-                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
             } else {
                 spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                 final int finalJ = j;
@@ -153,7 +153,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                     }
-                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
             }
 
 
@@ -212,9 +212,9 @@ public class Durchfuehrung extends AppCompatActivity {
                 spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                 for (int j = 0; j < resource.length; j++) {
                     if (resource[j].getPlanentryid() == planid){
-                        spanTxt.append(resource[j].getFilename()+"\n");
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                         final int finalJ = j;
-                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                         spanTxt.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
@@ -232,11 +232,11 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                             }
-                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                     } else {
-                        spanTxt.append(resource[j].getFilename()+"\n");
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                         final int finalJ = j;
-                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                         spanTxt.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
@@ -254,7 +254,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                             }
-                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                     }
 
 
@@ -331,7 +331,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                             }
-                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                     } else {
                         spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                         final int finalJ = j;
@@ -353,7 +353,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                             }
-                        }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                     }
 
 
@@ -388,12 +388,12 @@ public class Durchfuehrung extends AppCompatActivity {
                 planEntry[0].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[0].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[0].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[0].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[0].getComments()+"</p>";
 
         current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-        current.setLineSpacing(-7,1);
+        current.setLineSpacing(-5,1);
         if (Integer.parseInt(lessonID) - 1 >= 1 && db.getLesson(Integer.parseInt(lessonID) - 1).getSequenceid() == lesson.getSequenceid()) {
             String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p><b>Hausaufgaben:</b> " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks()+"</p>";
             previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else previous.setText("letzte Stunde nicht verfügbar");
-        previous.setLineSpacing(-7,1);
+        previous.setLineSpacing(-5,1);
         if (1 <= planEntry.length - 1) {
             String nextText = "<h5><u>" + planEntry[1].getTitle() + "</u></h5><p>"+planEntry[1].getStart()+". Minute - "+(planEntry[1].getLength()+planEntry[1].getStart())+". Minute ("+planEntry[1].getLength()+"min)</p><p><b>Ziele:</b> "+
                     planEntry[1].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[1].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[1].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[1].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[1].getComments()+"</p>";
@@ -403,7 +403,7 @@ public class Durchfuehrung extends AppCompatActivity {
             next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
         }
         else next.setText("letzte Phase erreicht");
-        next.setLineSpacing(-7,1);
+        next.setLineSpacing(-5,1);
 
         length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
@@ -551,7 +551,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                                     }
-                                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                                }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                             } else {
                                 spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                                 final int finalJ = j;
@@ -573,7 +573,7 @@ public class Durchfuehrung extends AppCompatActivity {
 
 
                                     }
-                                }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+                                }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
                             }
 
 

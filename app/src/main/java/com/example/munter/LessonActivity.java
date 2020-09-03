@@ -94,7 +94,7 @@ public class LessonActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 }
-            }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
+            }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
         }
 
         final TextView lessonText = (TextView) findViewById(R.id.LessonInfo);
@@ -162,7 +162,7 @@ public class LessonActivity extends AppCompatActivity {
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             tv2.setPadding(padding_in_px,padding_in_px,padding_in_px,padding_in_px);
-            tv2.setLineSpacing(-10,1);
+            tv2.setLineSpacing(-5,1);
             tableLayout.addView(tv2);
         }
 
