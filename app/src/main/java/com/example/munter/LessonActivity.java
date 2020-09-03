@@ -77,7 +77,7 @@ public class LessonActivity extends AppCompatActivity {
         spanTxt = new SpannableStringBuilder("Materialien: \n");
         spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
         for (int j = 0; j < resource.length; j++) {
-            spanTxt.append(resource[j].getFilename()+"\n");
+            spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
             final int finalJ = j;
             spanTxt.setSpan(new ClickableSpan() {
                 @Override

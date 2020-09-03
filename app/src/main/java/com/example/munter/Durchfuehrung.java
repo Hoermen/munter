@@ -58,6 +58,7 @@ public class Durchfuehrung extends AppCompatActivity {
     int textsize = 18;
     Lesson lesson;
     EditText notes;
+    int planid = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,8 @@ public class Durchfuehrung extends AppCompatActivity {
        ll = (LinearLayout) findViewById(R.id.PlanEntry);
        final TextView timeStunde = findViewById(R.id.timeStunde);
 
+       planid = planEntry[0].getId();
+
         current.setTextSize(textsize+2);
         previous.setTextSize(textsize+2);
         next.setTextSize(textsize+2);
@@ -107,10 +110,10 @@ public class Durchfuehrung extends AppCompatActivity {
         spanTxt.append(Materialien);
         spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
         for (int j = 0; j < resource.length; j++) {
-            if (resource[j].getPlanentryid() == id){
-                spanTxt.append(resource[j].getFilename()+"\n");
+            if (resource[j].getPlanentryid() == planid){
+                spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                 final int finalJ = j;
-                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spanTxt.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
@@ -130,9 +133,9 @@ public class Durchfuehrung extends AppCompatActivity {
                     }
                 }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
             } else {
-                spanTxt.append(resource[j].getFilename()+"\n");
+                spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                 final int finalJ = j;
-                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spanTxt.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
@@ -187,7 +190,7 @@ public class Durchfuehrung extends AppCompatActivity {
                     current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     if (id >= 0) {
                         String previousText = "<h5><u>" + planEntry[id].getTitle() + "</u></h5><p>" + planEntry[id].getStart() + ". Minute - " + (planEntry[id].getLength() + planEntry[id].getStart()) + ". Minute (" + planEntry[id].getLength() + "min)</p><p><b>Ziele:</b> " +
-                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung: " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
+                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
                         previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else if (Integer.parseInt(lessonID) - 1 >= 1) {
                         String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
@@ -202,12 +205,13 @@ public class Durchfuehrung extends AppCompatActivity {
                         next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else next.setText("letzte Phase erreicht");
                     id = id + 1;
+                    planid = planEntry[id].getId();
                 }
                 spanTxt.clear();
                 spanTxt.append("Materialien: \n");
                 spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                 for (int j = 0; j < resource.length; j++) {
-                    if (resource[j].getPlanentryid() == id){
+                    if (resource[j].getPlanentryid() == planid){
                         spanTxt.append(resource[j].getFilename()+"\n");
                         final int finalJ = j;
                         spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -299,16 +303,17 @@ public class Durchfuehrung extends AppCompatActivity {
                         next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else next.setText("letzte Phase erreicht");
                     id = id - 1;
+                    planid = planEntry[id].getId();
                 }
 
                 spanTxt.clear();
                 spanTxt.append("Materialien: \n");
                 spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                 for (int j = 0; j < resource.length; j++) {
-                    if (resource[j].getPlanentryid() == id){
-                        spanTxt.append(resource[j].getFilename()+"\n");
+                    if (resource[j].getPlanentryid() == planid){
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                         final int finalJ = j;
-                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                         spanTxt.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
@@ -328,9 +333,9 @@ public class Durchfuehrung extends AppCompatActivity {
                             }
                         }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
                     } else {
-                        spanTxt.append(resource[j].getFilename()+"\n");
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                         final int finalJ = j;
-                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                         spanTxt.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
@@ -448,14 +453,14 @@ public class Durchfuehrung extends AppCompatActivity {
                 Double setWidth = (width) / lesson.getLength() * length;
                 value2TV.setWidth((int) Math.round(setWidth));
 
-                String lessonText = "<p>" + planEntry[j].getTitle() + "</p>";
+                String lessonText = "<b>" + planEntry[j].getTitle() + "</b>";
                 value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 value2TV.setId(planEntry[j].getId());
                 value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 value2TV.setBackground(getDrawable(R.drawable.border));
                 value2TV.setTextColor(getColor(R.color.colorText));
                 value2TV.setGravity(Gravity.CENTER);
-                value2TV.setTextSize(14);
+                value2TV.setTextSize(16);
 
             ImageButton zoomin = findViewById(R.id.ZoomIn);
             zoomin.setBackgroundResource(R.drawable.zoomin);
@@ -493,6 +498,8 @@ public class Durchfuehrung extends AppCompatActivity {
                             }
                         }
                         id = finalJ;
+                        planid = planEntry[finalJ].getId();
+
                         startTime[finalJ] = System.currentTimeMillis();
                         changeColor(lessonID, planEntry[finalJ].getId());
                         value2TV.setBackgroundColor(Color.parseColor("#54e0ff"));
@@ -523,10 +530,10 @@ public class Durchfuehrung extends AppCompatActivity {
                         spanTxt.append("Materialien: \n");
                         spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                         for (int j = 0; j < resource.length; j++) {
-                            if (resource[j].getPlanentryid() == id){
-                                spanTxt.append(resource[j].getFilename()+"\n");
+                            if (resource[j].getPlanentryid() == planid){
+                                spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                                 final int finalJ = j;
-                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 spanTxt.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
@@ -546,9 +553,9 @@ public class Durchfuehrung extends AppCompatActivity {
                                     }
                                 }, spanTxt.length() - resource[j].getFilename().length()-1, spanTxt.length(), 0);
                             } else {
-                                spanTxt.append(resource[j].getFilename()+"\n");
+                                spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
                                 final int finalJ = j;
-                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-1, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 spanTxt.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {

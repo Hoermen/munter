@@ -184,7 +184,17 @@ public class MainActivity extends AppCompatActivity {
         resource2.setTitle("Plan");
         resource2.setType("application/pdf");
         resource2.setLessonid(1);
-        resource2.setPlanentryid(0);
+        resource2.setPlanentryid(2);
+
+        Resource resource3 = new Resource();
+        resource3.setId(3);
+        resource3.setFilename("Turnelemente.pdf");
+        resource3.setTextContent("file:/storage/emulated/0/Download/Turnelemente.pdf");
+        //resource2.setTextContent("file:/sdcard/Download/test.pdf");
+        resource3.setTitle("Turnelemente");
+        resource3.setType("application/pdf");
+        resource3.setLessonid(5);
+        resource3.setPlanentryid(29);
 
         PlanEntry planEntry8 = new PlanEntry();
         planEntry8.setColor("blue");
@@ -386,7 +396,171 @@ public class MainActivity extends AppCompatActivity {
         mathe25.setBeschreibung("beenden der begonnenen Übung, kurze Erklärung geben,\n" +
                 "Erwartungshorizont klären");
 
+        Sequence sport = new Sequence();
+        sport.setGoal("Sport");
+        sport.setSubject("Sport");
+        sport.setGrade(8);
+        sport.setBeschreibung("Laut Lehrplan");
+        sport.setId(4);
+        sport.setTitle("Turnen & Leichtathletik");
+
+        Lesson sport1 = new Lesson();
+        sport1.setTitle("Schulung der konditionellen Fähigkeit Ausdauer");
+        sport1.setBeschreibung("");
+        sport1.setId(4);
+        sport1.setComments("");
+        sport1.setGoal("Verbesserung der Ausdauer");
+        sport1.setHomeworks("");
+        sport1.setOrder(1);
+        sport1.setLength(90);
+        sport1.setSequenceid(4);
+        sport1.setFeedback("");
+
+        PlanEntry sport11 = new PlanEntry();
+        sport11.setGoal("Vorbereitung auf die Sportstunde und Motivierung");
+        sport11.setId(22);
+        sport11.setLength(7);
+        sport11.setLessonId(4);
+        sport11.setSocialForm("SuS gehen zusammen mit LP zum Sportplatz\n" +
+                "geleitetes Unterrichtsgespräch: SuS sitzen auf Bank auf dem Sportplatz\n" +
+                "LP steht vor SuS");
+        sport11.setStart(0);
+        sport11.setTitle("Einstimmung");
+        sport11.setBeschreibung("1. Begrüßung\n" +
+                "2. Ausblick auf die Stundeninhalte");
+
+        PlanEntry sport12 = new PlanEntry();
+        sport12.setGoal("Erwärmung des Bewegungsapparates, Aktivierung des Herz- Kreislauf-Systems, Vorbereitung des aktiven Bewegungsapparates auf die folgende Belastung");
+        sport12.setId(23);
+        sport12.setLength(15);
+        sport12.setLessonId(4);
+        sport12.setSocialForm("1. SuS finden sich in 3 Gruppen zusammen LP gibt Laufwege (Muster) vor bei jedem neuen Muster wechselt der führende Läufer (hinterster Läufer läuft nach vorn) 2. SuS stehen in Doppelreihe LP gibt Übung vor gestartet wird auf Pfiff reihenweise");
+        sport12.setStart(7);
+        sport12.setTitle("Erwärmung");
+        sport12.setBeschreibung("1. „Lauf auf vorgegebenen Wegen“ SuS laufen in Gruppen; LP zeigt Karten auf denen Muster zu sehen sind, die die SuS in Gruppen „Nachlaufen“ 2. Lauf-ABC");
+        sport12.setComments("1. Karten mit Muster, 2. Pfeife");
+
+        PlanEntry sport13 = new PlanEntry();
+        sport13.setGoal("Schulung der konditionellen Fähigkeit Ausdauer Förderung der Sozialkompetenz insbesondere der Teamfähigkeit");
+        sport13.setId(24);
+        sport13.setLength(45);
+        sport13.setLessonId(4);
+        sport13.setSocialForm("LP teilt Klasse in 4 Mannschaften sobald der erste Spieler wieder bei der Mannschaft angekommen ist, läuft der nächste los");
+        sport13.setStart(22);
+        sport13.setTitle("Haupteil");
+        sport13.setBeschreibung("„Mensch ärgere dich nicht!“ je ein Spieler aus jedem Team würfelt, setzt die eigene Spielfigur  auf dem Spielbrett entsprechend weiter und läuft dann entsprechend viele Runden");
+        sport13.setComments("Spielbrett, 16 Spielfiguren, 1 Würfel, 8 Hütchen");
+
+        PlanEntry sport14 = new PlanEntry();
+        sport14.setGoal("Cool-Down des Herz- Kreislauf-Systems, SuS kommen zur Ruhe, Entspannung");
+        sport14.setId(25);
+        sport14.setLength(11);
+        sport14.setLessonId(4);
+        sport14.setSocialForm("1. SuS laufen sich eine Runde aus (einzeln) 2. SuS und LP stellen sich im Innenstirnkreis auf LP gibt Übungen vor");
+        sport14.setStart(67);
+        sport14.setTitle("Abschluss");
+        sport14.setBeschreibung("1. Auslaufen, 2. Dehnen");
+        sport14.setComments("");
+
+        PlanEntry sport15 = new PlanEntry();
+        sport15.setGoal("Feedback, Verabschiedung (Zeit zum Umziehen geben)");
+        sport15.setId(26);
+        sport15.setLength(12);
+        sport15.setLessonId(4);
+        sport15.setSocialForm("geleitetes Unterrichtsgespräch: SuS sitzen auf Bank auf dem Sportplatz LP steht vor SuS SuS gehen zusammen mit LP zurück zur Sporthalle");
+        sport15.setStart(78);
+        sport15.setTitle("Stundenende");
+        sport15.setBeschreibung("Kurze Auswertung/Feedback, Verabschiedung");
+        sport15.setComments("");
+
+        Lesson sport2 = new Lesson();
+        sport2.setTitle("Turnen");
+        sport2.setBeschreibung("Anfang Turnen");
+        sport2.setId(5);
+        sport2.setComments("");
+        sport2.setGoal("Weiterentwicklung der turnerischen Fähigkeiten/Fertigkeiten");
+        sport2.setHomeworks("");
+        sport2.setOrder(1);
+        sport2.setLength(90);
+        sport2.setSequenceid(4);
+        sport2.setFeedback("");
+
+        PlanEntry sport22 = new PlanEntry();
+        sport22.setGoal("Vorbereitung auf die Sportstunde und Motivierung");
+        sport22.setId(27);
+        sport22.setLength(7);
+        sport22.setLessonId(5);
+        sport22.setSocialForm("geleitetes Unterrichtsgespräch: SuS sitzen auf Bank LP steht vor SuS");
+        sport22.setStart(0);
+        sport22.setTitle("Einstimmung");
+        sport22.setBeschreibung("1. Begrüßung\n" +
+                "2. Ausblick auf die Stundeninhalte und kommenden Einheiten");
+
+        PlanEntry sport23 = new PlanEntry();
+        sport23.setGoal("Erwärmung des Bewegungsapparates, Aktivierung des Herz- Kreislauf-Systems, Vorbereitung des aktiven Bewegungsapparates auf die folgende Belastung, Stabilisationsübungen zur Kräftigung der Muskulatur für das Turnen");
+        sport23.setId(28);
+        sport23.setLength(15);
+        sport23.setLessonId(5);
+        sport23.setSocialForm("1. SuS laufen sich im Kreis ein, LP gibt Bewegungsaufgaben vor\n" +
+                "2. SuS stehen im Kreis, LP gibt Übungen vor\n" +
+                "3. SuS machen Planks zum Lied „Bring Sally ab“");
+        sport23.setStart(7);
+        sport23.setTitle("Erwärmung");
+        sport23.setBeschreibung("1. Einlaufen\n" +
+                "2. Gymnastik\n" +
+                "3. Stabilisationstraining");
+
+        PlanEntry sport24 = new PlanEntry();
+        sport24.setGoal("Weiterentwicklung der turnerischen Fähigkeiten und Fertigkeiten, Schülerinnen und Schüler können selbstständig Hilfestellungen geben");
+        sport24.setId(29);
+        sport24.setLength(53);
+        sport24.setLessonId(5);
+        sport24.setSocialForm("LP erklärt Hilfestellung am Boden und Sprung während ein S vor turnt,\n" +
+                "LP erklärt Hilfestellung am Reck und Parallelbarren während ein Schüler vor turnt,\n" +
+                "LP erklärt Hilfestellung am Balken und Stufenbarren während eine Schülerin vor turnt\n" +
+                "SuS helfen sich gegenseitig, LP geht zu einzelnen S und gibt Tipps, auf Karten an Geräten stehen Zielelemente");
+        sport24.setStart(22);
+        sport24.setTitle("Haupteil");
+        sport24.setBeschreibung("Zielelemente an den einzelnen Geräten besprechen/zeigen und Hilfestellung erklären");
+        sport24.setComments("Karten mit Zielelementen");
+
+        PlanEntry sport25 = new PlanEntry();
+        sport25.setGoal("Schulung der Kooperation, Cool-Down des Herz- Kreislauf-Systems");
+        sport25.setId(30);
+        sport25.setLength(8);
+        sport25.setLessonId(5);
+        sport25.setSocialForm("SuS bewegen sich frei in der Halle, auf Pfiff schließen sich je eine vorgegebene Anzahl an SuS zusammen (dabei gilt es verschiedene Anforderungen zu erfüllen)");
+        sport25.setStart(75);
+        sport25.setTitle("Abschluss");
+        sport25.setBeschreibung("Atomspiel");
+        sport25.setComments("Pfeife");
+
+        PlanEntry sport26 = new PlanEntry();
+        sport26.setGoal("Feedback, Verabschiedung (Zeit zum Umziehen geben)");
+        sport26.setId(31);
+        sport26.setLength(7);
+        sport26.setLessonId(5);
+        sport26.setSocialForm("geleitetes Unterrichtsgespräch: SuS sitzen auf Bank LP steht vor SuS");
+        sport26.setStart(83);
+        sport26.setTitle("Stundenende");
+        sport26.setBeschreibung("Kurze Auswertung/Feedback, Verabschiedung");
+        sport26.setComments("");
+
         DBHandler db = new DBHandler(getApplicationContext());
+        db.createSequence(sport);
+        db.createLesson(sport1);
+        db.createLesson(sport2);
+        db.createPlanentry(sport11);
+        db.createPlanentry(sport12);
+        db.createPlanentry(sport13);
+        db.createPlanentry(sport14);
+        db.createPlanentry(sport15);
+        db.createPlanentry(sport22);
+        db.createPlanentry(sport24);
+        db.createPlanentry(sport23);
+        db.createPlanentry(sport25);
+        db.createPlanentry(sport26);
+
         db.createSequence(mathe);
         db.createLesson(mathe1);
         db.createPlanentry(mathe11);
@@ -415,6 +589,7 @@ public class MainActivity extends AppCompatActivity {
         db.createPlanentry(planEntry9);
         db.createResource(resource1);
         db.createResource(resource2);
+        db.createResource(resource3);
         db.createPlanentry(planEntry5);
         db.createPlanentry(planEntry6);
     }
