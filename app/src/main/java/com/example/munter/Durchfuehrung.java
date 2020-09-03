@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -85,6 +86,11 @@ public class Durchfuehrung extends AppCompatActivity {
         final PlanEntry[] planEntry = db.getPlanentry(lessonID);
        ll = (LinearLayout) findViewById(R.id.PlanEntry);
        final TextView timeStunde = findViewById(R.id.timeStunde);
+
+        current.setTextSize(textsize+2);
+        previous.setTextSize(textsize+2);
+        next.setTextSize(textsize+2);
+        textsize=textsize+2;
 
         notes.setText(lesson.getComments());
 
@@ -172,7 +178,7 @@ public class Durchfuehrung extends AppCompatActivity {
                     startTime[id+1] = System.currentTimeMillis();
                     changeColor(lessonID, planEntry[id+1].getId());
                     TextView tv = findViewById(planEntry[id+1].getId());
-                    tv.setBackgroundColor(Color.GREEN);
+                    tv.setBackgroundColor(Color.parseColor("#54e0ff"));
                     tv.setClickable(false);
 
                     String currentText = "<h5><u>" + planEntry[id + 1].getTitle() + "</u></h5><p>" + planEntry[id + 1].getStart() + ". Minute - " + (planEntry[id + 1].getLength() + planEntry[id + 1].getStart()) + ". Minute (" + planEntry[id + 1].getLength() + "min)</p><p><b>Ziele:</b> " +
@@ -270,7 +276,7 @@ public class Durchfuehrung extends AppCompatActivity {
                     startTime[id-1] = System.currentTimeMillis();
                     changeColor(lessonID, planEntry[id-1].getId());
                     TextView tv = findViewById(planEntry[id-1].getId());
-                    tv.setBackgroundColor(Color.GREEN);
+                    tv.setBackgroundColor(Color.parseColor("#54e0ff"));
                     tv.setClickable(false);
                     String currentText = "<h5><u>" + planEntry[id - 1].getTitle() + "</u></h5><p>" + planEntry[id - 1].getStart() + ". Minute - " + (planEntry[id - 1].getLength() + planEntry[id - 1].getStart()) + ". Minute (" + planEntry[id - 1].getLength() + "min)</p><p><b>Ziele:</b> " +
                             planEntry[id - 1].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id - 1].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id - 1].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id - 1].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id - 1].getComments() + "</p>";
@@ -397,6 +403,8 @@ public class Durchfuehrung extends AppCompatActivity {
         length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setMax(length*60);
+        pb.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
+        pb.setScaleY(2f);
 
         // Start long running operation in a background thread
         new Thread(new Runnable() {
@@ -487,7 +495,7 @@ public class Durchfuehrung extends AppCompatActivity {
                         id = finalJ;
                         startTime[finalJ] = System.currentTimeMillis();
                         changeColor(lessonID, planEntry[finalJ].getId());
-                        value2TV.setBackgroundColor(Color.GREEN);
+                        value2TV.setBackgroundColor(Color.parseColor("#54e0ff"));
                         value2TV.setClickable(false);
                         String currentText = "<h5><u>" + planEntry[finalJ].getTitle() + "</u></h5><p>"+planEntry[finalJ].getStart()+". Minute - "+(planEntry[finalJ].getLength()+planEntry[finalJ].getStart())+". Minute ("+planEntry[finalJ].getLength()+"min)</p><p><b>Ziele:</b> "+
                                 planEntry[finalJ].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[finalJ].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[finalJ].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[finalJ].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[finalJ].getComments()+"</p>";
@@ -502,7 +510,7 @@ public class Durchfuehrung extends AppCompatActivity {
                             previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         } else previous.setText("letzte Stunde nicht verfügbar");
                         if (finalJ + 1 <= planEntry.length - 1) {
-                            String nextText = "<h5><u>" + planEntry[finalJ+1].getTitle() + "</u></h5><p>"+planEntry[finalJ+1].getStart()+". Minute - "+(planEntry[finalJ+1].getLength()+planEntry[finalJ+1].getStart())+". Minute ("+planEntry[finalJ+1].getLength()+"min)</p><p>Ziele: "+
+                            String nextText = "<h5><u>" + planEntry[finalJ+1].getTitle() + "</u></h5><p>"+planEntry[finalJ+1].getStart()+". Minute - "+(planEntry[finalJ+1].getLength()+planEntry[finalJ+1].getStart())+". Minute ("+planEntry[finalJ+1].getLength()+"min)</p><p><b>Ziele:</b> "+
                                     planEntry[finalJ+1].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[finalJ+1].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[finalJ+1].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[finalJ+1].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[finalJ+1].getComments()+"</p>";
                             next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null && db.getLesson(Integer.parseInt(lessonID)+1).getSequenceid() == lesson.getSequenceid()) {
@@ -574,7 +582,7 @@ public class Durchfuehrung extends AppCompatActivity {
         }
 
         TextView entry = (TextView) findViewById(planEntry[0].getId());
-        entry.setBackgroundColor(Color.GREEN);
+        entry.setBackgroundColor(Color.parseColor("#54e0ff"));
         entry.setClickable(false);
 
 

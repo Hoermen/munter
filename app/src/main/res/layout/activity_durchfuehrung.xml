@@ -8,12 +8,12 @@
     android:focusableInTouchMode="true"
     android:id="@+id/duringLesson"
     android:orientation="vertical"
-    android:weightSum="19">
+    android:weightSum="26">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:weightSum="6">
@@ -28,7 +28,19 @@
             android:padding="1dp"
             android:text="Titel" />
 
-
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ZoomOut"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="40dp" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ZoomIn"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+            android:layout_width="40dp" />
         <TextView
             android:id="@+id/timeStunde"
             android:layout_weight="1"
@@ -46,16 +58,7 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:layout_gravity="center">
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ZoomOut"
-                android:scaleType="fitXY"
-                android:layout_height="match_parent"
-                android:layout_width="40dp" />
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ZoomIn"
-                android:scaleType="fitXY"
-                android:layout_height="match_parent"
-                android:layout_width="40dp" />
+
             <Button
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
@@ -82,16 +85,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="vertical"
         android:layout_height="0dp"
-        android:weightSum="3">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:weightSum="20">
         <LinearLayout
             android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:id="@+id/PlanEntry"
             android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:layout_weight="2">
+            android:layout_weight="19">
 
         </LinearLayout>
         <ProgressBar
@@ -108,9 +115,7 @@
         android:weightSum="6"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_weight="15"
         android:orientation="horizontal">
         <ScrollView
             android:layout_width="0dp"
@@ -163,8 +168,7 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_weight="4">
+        android:layout_weight="5">
 
         <ScrollView
             android:layout_width="0dp"
@@ -189,7 +193,6 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
             android:background="@drawable/border"
             android:orientation="vertical"
             android:padding="5dp">
