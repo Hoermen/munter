@@ -175,24 +175,24 @@ public class Durchfuehrung extends AppCompatActivity {
                     tv.setBackgroundColor(Color.GREEN);
                     tv.setClickable(false);
 
-                    String currentText = "<h5>" + planEntry[id + 1].getTitle() + "</h2><p>" + planEntry[id + 1].getStart() + "min - " + (planEntry[id + 1].getLength() + planEntry[id + 1].getStart()) + "min (" + planEntry[id + 1].getLength() + "min)</p><p>Ziele: " +
-                            planEntry[id + 1].getGoal() + "</p><p>Sozialform: " + planEntry[id + 1].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id + 1].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id + 1].getReserve() + "</p><p>Kommentare: " + planEntry[id + 1].getComments() + "</p>";
+                    String currentText = "<h5><u>" + planEntry[id + 1].getTitle() + "</u></h5><p>" + planEntry[id + 1].getStart() + ". Minute - " + (planEntry[id + 1].getLength() + planEntry[id + 1].getStart()) + ". Minute (" + planEntry[id + 1].getLength() + "min)</p><p><b>Ziele:</b> " +
+                            planEntry[id + 1].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id + 1].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id + 1].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id + 1].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id + 1].getComments() + "</p>";
 
                     current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     if (id >= 0) {
-                        String previousText = "<h5>" + planEntry[id].getTitle() + "</h2><p>" + planEntry[id].getStart() + "min - " + (planEntry[id].getLength() + planEntry[id].getStart()) + "min (" + planEntry[id].getLength() + "min)</p><p>Ziele: " +
-                                planEntry[id].getGoal() + "</p><p>Sozialform: " + planEntry[id].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id].getReserve() + "</p><p>Kommentare: " + planEntry[id].getComments() + "</p>";
+                        String previousText = "<h5><u>" + planEntry[id].getTitle() + "</u></h5><p>" + planEntry[id].getStart() + ". Minute - " + (planEntry[id].getLength() + planEntry[id].getStart()) + ". Minute (" + planEntry[id].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung: " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
                         previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else if (Integer.parseInt(lessonID) - 1 >= 1) {
-                        String letzteStunde = "<h5>letzte Stunde: " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
+                        String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
                         previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else previous.setText("letzte Stunde nicht verfügbar");
                     if (id + 2 <= planEntry.length - 1) {
-                        String nextText = "<h5>" + planEntry[id + 2].getTitle() + "</h2><p>" + planEntry[id + 2].getStart() + "min - " + (planEntry[id + 2].getLength() + planEntry[id + 2].getStart()) + "min (" + planEntry[id + 2].getLength() + "min)</p><p>Ziele: " +
-                                planEntry[id + 2].getGoal() + "</p><p>Sozialform: " + planEntry[id + 2].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id + 2].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id + 2].getReserve() + "</p><p>Kommentare: " + planEntry[id + 2].getComments() + "</p>";
+                        String nextText = "<h5><u>" + planEntry[id + 2].getTitle() + "</u></h5><p>" + planEntry[id + 2].getStart() + ". Minute - " + (planEntry[id + 2].getLength() + planEntry[id + 2].getStart()) + ". Minute (" + planEntry[id + 2].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id + 2].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id + 2].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id + 2].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id + 2].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id + 2].getComments() + "</p>";
                         next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
-                        String nextStunde = "<h5>nächste Stunde: " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
+                        String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
                         next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else next.setText("letzte Phase erreicht");
                     id = id + 1;
@@ -272,24 +272,24 @@ public class Durchfuehrung extends AppCompatActivity {
                     TextView tv = findViewById(planEntry[id-1].getId());
                     tv.setBackgroundColor(Color.GREEN);
                     tv.setClickable(false);
-                    String currentText = "<h5>" + planEntry[id - 1].getTitle() + "</h2><p>" + planEntry[id - 1].getStart() + "min - " + (planEntry[id - 1].getLength() + planEntry[id - 1].getStart()) + "min (" + planEntry[id - 1].getLength() + "min)</p><p>Ziele: " +
-                            planEntry[id - 1].getGoal() + "</p><p>Sozialform: " + planEntry[id - 1].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id - 1].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id - 1].getReserve() + "</p><p>Kommentare: " + planEntry[id - 1].getComments() + "</p>";
+                    String currentText = "<h5><u>" + planEntry[id - 1].getTitle() + "</u></h5><p>" + planEntry[id - 1].getStart() + ". Minute - " + (planEntry[id - 1].getLength() + planEntry[id - 1].getStart()) + ". Minute (" + planEntry[id - 1].getLength() + "min)</p><p><b>Ziele:</b> " +
+                            planEntry[id - 1].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id - 1].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id - 1].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id - 1].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id - 1].getComments() + "</p>";
 
                     current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     if (id - 2 >= 0) {
-                        String previousText = "<h5>" + planEntry[id - 2].getTitle() + "</h2><p>" + planEntry[id - 2].getStart() + "min - " + (planEntry[id - 2].getLength() + planEntry[id - 2].getStart()) + "min (" + planEntry[id - 2].getLength() + "min)</p><p>Ziele: " +
-                                planEntry[id - 2].getGoal() + "</p><p>Sozialform: " + planEntry[id - 2].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id - 2].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id - 2].getReserve() + "</p><p>Kommentare: " + planEntry[id - 2].getComments() + "</p>";
+                        String previousText = "<h5><u>" + planEntry[id - 2].getTitle() + "</u></h2><p>" + planEntry[id - 2].getStart() + ". Minute - " + (planEntry[id - 2].getLength() + planEntry[id - 2].getStart()) + ". Minute (" + planEntry[id - 2].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id - 2].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id - 2].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id - 2].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id - 2].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id - 2].getComments() + "</p>";
                         previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else if (Integer.parseInt(lessonID) - 1 >= 1) {
-                        String letzteStunde = "<h5>letzte Stunde: " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
+                        String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p><b>Hausaufgaben:</b> " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
                         previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else previous.setText("letzte Stunde nicht verfügbar");
                     if (id <= planEntry.length - 1) {
-                        String nextText = "<h5>" + planEntry[id].getTitle() + "</h2><p>" + planEntry[id].getStart() + "min - " + (planEntry[id].getLength() + planEntry[id].getStart()) + "min (" + planEntry[id].getLength() + "min)</p><p>Ziele: " +
-                                planEntry[id].getGoal() + "</p><p>Sozialform: " + planEntry[id].getSocialForm() + "</p><p>Beschreibung: " + planEntry[id].getBeschreibung() + "</p><p>didaktische Reserve: " + planEntry[id].getReserve() + "</p><p>Kommentare: " + planEntry[id].getComments() + "</p>";
+                        String nextText = "<h5><u>" + planEntry[id].getTitle() + "</u></h2><p>" + planEntry[id].getStart() + ". Minute - " + (planEntry[id].getLength() + planEntry[id].getStart()) + ". Minute (" + planEntry[id].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
                         next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
-                        String nextStunde = "<h5>nächste Stunde: " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
+                        String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p><b>Beschreibung:</b> " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
                         next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                     } else next.setText("letzte Phase erreicht");
                     id = id - 1;
@@ -373,24 +373,26 @@ public class Durchfuehrung extends AppCompatActivity {
         }
         startTime[0] = System.currentTimeMillis();
 
-        String currentText = "<h5>" + planEntry[0].getTitle() + "</h2><p>"+planEntry[0].getStart()+"min - "+(planEntry[0].getLength()+planEntry[0].getStart())+"min ("+planEntry[0].getLength()+"min)</p><p>Ziele: "+
-                planEntry[0].getGoal()+"</p><p>Sozialform: "+planEntry[0].getSocialForm()+"</p><p>Beschreibung: "+planEntry[0].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[0].getReserve()+"</p><p>Kommentare: "+planEntry[0].getComments()+"</p>";
+        String currentText = "<h5><u>" + planEntry[0].getTitle() + "</u></h5><p>"+planEntry[0].getStart()+". Minute - "+(planEntry[0].getLength()+planEntry[0].getStart())+". Minute ("+planEntry[0].getLength()+"min)</p><p><b>Ziele:</b> "+
+                planEntry[0].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[0].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[0].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[0].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[0].getComments()+"</p>";
 
         current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-        if (Integer.parseInt(lessonID) - 1 >= 1) {
-            String letzteStunde = "<h5>letzte Stunde: " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks()+"</p>";
+        current.setLineSpacing(-7,1);
+        if (Integer.parseInt(lessonID) - 1 >= 1 && db.getLesson(Integer.parseInt(lessonID) - 1).getSequenceid() == lesson.getSequenceid()) {
+            String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p><b>Hausaufgaben:</b> " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks()+"</p>";
             previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else previous.setText("letzte Stunde nicht verfügbar");
-
+        previous.setLineSpacing(-7,1);
         if (1 <= planEntry.length - 1) {
-            String nextText = "<h5>" + planEntry[1].getTitle() + "</h2><p>"+planEntry[1].getStart()+"min - "+(planEntry[1].getLength()+planEntry[1].getStart())+"min ("+planEntry[1].getLength()+"min)</p><p>Ziele: "+
-                    planEntry[1].getGoal()+"</p><p>Sozialform: "+planEntry[1].getSocialForm()+"</p><p>Beschreibung: "+planEntry[1].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[1].getReserve()+"</p><p>Kommentare: "+planEntry[1].getComments()+"</p>";
+            String nextText = "<h5><u>" + planEntry[1].getTitle() + "</u></h5><p>"+planEntry[1].getStart()+". Minute - "+(planEntry[1].getLength()+planEntry[1].getStart())+". Minute ("+planEntry[1].getLength()+"min)</p><p><b>Ziele:</b> "+
+                    planEntry[1].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[1].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[1].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[1].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[1].getComments()+"</p>";
             next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-        } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
-            String nextStunde = "<h5>nächste Stunde: " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID+1)).getBeschreibung() + "</p>";
+        } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null && db.getLesson(Integer.parseInt(lessonID) + 1).getSequenceid() == lesson.getSequenceid()) {
+            String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h5><p><b>Beschreibung:</b> " + db.getLesson(Integer.parseInt(lessonID+1)).getBeschreibung() + "</p>";
             next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
         }
         else next.setText("letzte Phase erreicht");
+        next.setLineSpacing(-7,1);
 
         length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
@@ -438,14 +440,14 @@ public class Durchfuehrung extends AppCompatActivity {
                 Double setWidth = (width) / lesson.getLength() * length;
                 value2TV.setWidth((int) Math.round(setWidth));
 
-                String lessonText = "<b>" + planEntry[j].getTitle() + "</b>";
+                String lessonText = "<p>" + planEntry[j].getTitle() + "</p>";
                 value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 value2TV.setId(planEntry[j].getId());
                 value2TV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 value2TV.setBackground(getDrawable(R.drawable.border));
                 value2TV.setTextColor(getColor(R.color.colorText));
                 value2TV.setGravity(Gravity.CENTER);
-                value2TV.setTextSize(15);
+                value2TV.setTextSize(14);
 
             ImageButton zoomin = findViewById(R.id.ZoomIn);
             zoomin.setBackgroundResource(R.drawable.zoomin);
@@ -487,24 +489,24 @@ public class Durchfuehrung extends AppCompatActivity {
                         changeColor(lessonID, planEntry[finalJ].getId());
                         value2TV.setBackgroundColor(Color.GREEN);
                         value2TV.setClickable(false);
-                        String currentText = "<h5>" + planEntry[finalJ].getTitle() + "</h2><p>"+planEntry[finalJ].getStart()+"min - "+(planEntry[finalJ].getLength()+planEntry[finalJ].getStart())+"min ("+planEntry[finalJ].getLength()+"min)</p><p>Ziele: "+
-                                planEntry[finalJ].getGoal()+"</p><p>Sozialform: "+planEntry[finalJ].getSocialForm()+"</p><p>Beschreibung: "+planEntry[finalJ].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[finalJ].getReserve()+"</p><p>Kommentare: "+planEntry[finalJ].getComments()+"</p>";
+                        String currentText = "<h5><u>" + planEntry[finalJ].getTitle() + "</u></h5><p>"+planEntry[finalJ].getStart()+". Minute - "+(planEntry[finalJ].getLength()+planEntry[finalJ].getStart())+". Minute ("+planEntry[finalJ].getLength()+"min)</p><p><b>Ziele:</b> "+
+                                planEntry[finalJ].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[finalJ].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[finalJ].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[finalJ].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[finalJ].getComments()+"</p>";
 
                         current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         if (finalJ - 1 >= 0) {
-                            String previousText = "<h5>" + planEntry[finalJ-1].getTitle() + "</h2><p>"+planEntry[finalJ-1].getStart()+"min - "+(planEntry[finalJ-1].getLength()+planEntry[finalJ-1].getStart())+"min ("+planEntry[finalJ-1].getLength()+"min)</p><p>Ziele: "+
-                                    planEntry[finalJ-1].getGoal()+"</p><p>Sozialform: "+planEntry[finalJ-1].getSocialForm()+"</p><p>Beschreibung: "+planEntry[finalJ-1].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[finalJ-1].getReserve()+"</p><p>Kommentare: "+planEntry[finalJ-1].getComments()+"</p>";
+                            String previousText = "<h5><u>" + planEntry[finalJ-1].getTitle() + "</u></h5><p>"+planEntry[finalJ-1].getStart()+". Minute - "+(planEntry[finalJ-1].getLength()+planEntry[finalJ-1].getStart())+". Minute ("+planEntry[finalJ-1].getLength()+"min)</p><p><b>Ziele:</b> "+
+                                    planEntry[finalJ-1].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[finalJ-1].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[finalJ-1].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[finalJ-1].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[finalJ-1].getComments()+"</p>";
                             previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                        } else if (Integer.parseInt(lessonID) - 1 >= 1) {
-                            String letzteStunde = "<h5>letzte Stunde: " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks()+"</p>";
+                        } else if (Integer.parseInt(lessonID) - 1 >= 1 && db.getLesson(Integer.parseInt(lessonID) - 1).getSequenceid() == lesson.getSequenceid()) {
+                            String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p><b>Hausaufgaben:</b> " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks()+"</p>";
                             previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         } else previous.setText("letzte Stunde nicht verfügbar");
                         if (finalJ + 1 <= planEntry.length - 1) {
-                            String nextText = "<h5>" + planEntry[finalJ+1].getTitle() + "</h2><p>"+planEntry[finalJ+1].getStart()+"min - "+(planEntry[finalJ+1].getLength()+planEntry[finalJ+1].getStart())+"min ("+planEntry[finalJ+1].getLength()+"min)</p><p>Ziele: "+
-                                    planEntry[finalJ+1].getGoal()+"</p><p>Sozialform: "+planEntry[finalJ+1].getSocialForm()+"</p><p>Beschreibung: "+planEntry[finalJ+1].getBeschreibung()+"</p><p>didaktische Reserve: "+planEntry[finalJ+1].getReserve()+"</p><p>Kommentare: "+planEntry[finalJ+1].getComments()+"</p>";
+                            String nextText = "<h5><u>" + planEntry[finalJ+1].getTitle() + "</u></h5><p>"+planEntry[finalJ+1].getStart()+". Minute - "+(planEntry[finalJ+1].getLength()+planEntry[finalJ+1].getStart())+". Minute ("+planEntry[finalJ+1].getLength()+"min)</p><p>Ziele: "+
+                                    planEntry[finalJ+1].getGoal()+"</p><p><b>Sozialform:</b> "+planEntry[finalJ+1].getSocialForm()+"</p><p><b>Beschreibung:</b> "+planEntry[finalJ+1].getBeschreibung()+"</p><p><b>didaktische Reserve:</b> "+planEntry[finalJ+1].getReserve()+"</p><p><b>Kommentare:</b> "+planEntry[finalJ+1].getComments()+"</p>";
                             next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                        } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
-                            String nextStunde = "<h5>nächste Stunde: " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID+1)).getBeschreibung() + "</p>";
+                        } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null && db.getLesson(Integer.parseInt(lessonID)+1).getSequenceid() == lesson.getSequenceid()) {
+                            String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p><b>Beschreibung:</b> " + db.getLesson(Integer.parseInt(lessonID+1)).getBeschreibung() + "</p>";
                             next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         }
                         else next.setText("letzte Phase erreicht");
