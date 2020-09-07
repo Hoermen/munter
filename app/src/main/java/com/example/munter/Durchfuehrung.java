@@ -7,8 +7,10 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -90,10 +92,13 @@ public class Durchfuehrung extends AppCompatActivity {
 
        planid = planEntry[0].getId();
 
-        current.setTextSize(textsize+2);
-        previous.setTextSize(textsize+2);
-        next.setTextSize(textsize+2);
-        textsize=textsize+2;
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int defaultValue = 22;
+        textsize = sharedPref.getInt("textsize", defaultValue);
+
+        current.setTextSize(textsize);
+        previous.setTextSize(textsize);
+        next.setTextSize(textsize);
 
         notes.setText(lesson.getComments());
 
@@ -405,6 +410,206 @@ public class Durchfuehrung extends AppCompatActivity {
         else next.setText("letzte Phase erreicht");
         next.setLineSpacing(-5,1);
 
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (id < planEntry.length) {
+                    for (int i = 0; i < planEntry.length; i++) {
+                        if (startTime[i] != 0) {
+                            endTime[i] = System.currentTimeMillis();
+                            time[i] = (time[i] + (endTime[i] - startTime[i]));
+                            endTime[i] = 0;
+                            startTime[i] = 0;
+                        }
+                    }
+                    startTime[id + 1] = System.currentTimeMillis();
+                    changeColor(lessonID, planEntry[id + 1].getId());
+                    TextView tv = findViewById(planEntry[id + 1].getId());
+                    tv.setBackgroundColor(Color.parseColor("#54e0ff"));
+                    tv.setClickable(false);
+
+                    String currentText = "<h5><u>" + planEntry[id + 1].getTitle() + "</u></h5><p>" + planEntry[id + 1].getStart() + ". Minute - " + (planEntry[id + 1].getLength() + planEntry[id + 1].getStart()) + ". Minute (" + planEntry[id + 1].getLength() + "min)</p><p><b>Ziele:</b> " +
+                            planEntry[id + 1].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id + 1].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id + 1].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id + 1].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id + 1].getComments() + "</p>";
+
+                    current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    if (id >= 0) {
+                        String previousText = "<h5><u>" + planEntry[id].getTitle() + "</u></h5><p>" + planEntry[id].getStart() + ". Minute - " + (planEntry[id].getLength() + planEntry[id].getStart()) + ". Minute (" + planEntry[id].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
+                        previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else if (Integer.parseInt(lessonID) - 1 >= 1) {
+                        String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p>Hausaufgaben: " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
+                        previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else previous.setText("letzte Stunde nicht verfügbar");
+                    if (id + 2 <= planEntry.length - 1) {
+                        String nextText = "<h5><u>" + planEntry[id + 2].getTitle() + "</u></h5><p>" + planEntry[id + 2].getStart() + ". Minute - " + (planEntry[id + 2].getLength() + planEntry[id + 2].getStart()) + ". Minute (" + planEntry[id + 2].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id + 2].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id + 2].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id + 2].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id + 2].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id + 2].getComments() + "</p>";
+                        next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
+                        String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p>Beschreibung: " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
+                        next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else next.setText("letzte Phase erreicht");
+                    id = id + 1;
+                    planid = planEntry[id].getId();
+                }
+                spanTxt.clear();
+                spanTxt.append("Materialien: \n");
+                spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (int j = 0; j < resource.length; j++) {
+                    if (resource[j].getPlanentryid() == planid) {
+                        spanTxt.append(resource[j].getTitle() + " (" + resource[j].getFilename() + ")\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length() - resource[j].getFilename().length() - 2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length() - 2, spanTxt.length(), 0);
+                    } else {
+                        spanTxt.append(resource[j].getTitle() + " (" + resource[j].getFilename() + ")\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length() - resource[j].getFilename().length() - 2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length() - 2, spanTxt.length(), 0);
+                    }
+
+
+                }
+
+                TextView materials = findViewById(R.id.materials);
+                materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
+                materials.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        });
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (id > 0) {
+                    for (int i = 0; i < planEntry.length; i++) {
+                        if (startTime[i] != 0) {
+                            endTime[i] = System.currentTimeMillis();
+                            time[i] = (time[i] + (endTime[i] - startTime[i]));
+                            endTime[i] = 0;
+                            startTime[i] = 0;
+                        }
+                    }
+                    startTime[id-1] = System.currentTimeMillis();
+                    changeColor(lessonID, planEntry[id-1].getId());
+                    TextView tv = findViewById(planEntry[id-1].getId());
+                    tv.setBackgroundColor(Color.parseColor("#54e0ff"));
+                    tv.setClickable(false);
+                    String currentText = "<h5><u>" + planEntry[id - 1].getTitle() + "</u></h5><p>" + planEntry[id - 1].getStart() + ". Minute - " + (planEntry[id - 1].getLength() + planEntry[id - 1].getStart()) + ". Minute (" + planEntry[id - 1].getLength() + "min)</p><p><b>Ziele:</b> " +
+                            planEntry[id - 1].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id - 1].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id - 1].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id - 1].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id - 1].getComments() + "</p>";
+
+                    current.setText(HtmlCompat.fromHtml(currentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    if (id - 2 >= 0) {
+                        String previousText = "<h5><u>" + planEntry[id - 2].getTitle() + "</u></h2><p>" + planEntry[id - 2].getStart() + ". Minute - " + (planEntry[id - 2].getLength() + planEntry[id - 2].getStart()) + ". Minute (" + planEntry[id - 2].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id - 2].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id - 2].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id - 2].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id - 2].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id - 2].getComments() + "</p>";
+                        previous.setText(HtmlCompat.fromHtml(previousText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else if (Integer.parseInt(lessonID) - 1 >= 1) {
+                        String letzteStunde = "<h5><u>letzte Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) - 1).getTitle() + "</h2><p><b>Hausaufgaben:</b> " + db.getLesson(Integer.parseInt(lessonID)).getHomeworks() + "</p>";
+                        previous.setText(HtmlCompat.fromHtml(letzteStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else previous.setText("letzte Stunde nicht verfügbar");
+                    if (id <= planEntry.length - 1) {
+                        String nextText = "<h5><u>" + planEntry[id].getTitle() + "</u></h2><p>" + planEntry[id].getStart() + ". Minute - " + (planEntry[id].getLength() + planEntry[id].getStart()) + ". Minute (" + planEntry[id].getLength() + "min)</p><p><b>Ziele:</b> " +
+                                planEntry[id].getGoal() + "</p><p><b>Sozialform:</b> " + planEntry[id].getSocialForm() + "</p><p><b>Beschreibung:</b> " + planEntry[id].getBeschreibung() + "</p><p><b>didaktische Reserve:</b> " + planEntry[id].getReserve() + "</p><p><b>Kommentare:</b> " + planEntry[id].getComments() + "</p>";
+                        next.setText(HtmlCompat.fromHtml(nextText, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else if (db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() != null) {
+                        String nextStunde = "<h5><u>nächste Stunde:</u> " + db.getLesson(Integer.parseInt(lessonID) + 1).getTitle() + "</h2><p><b>Beschreibung:</b> " + db.getLesson(Integer.parseInt(lessonID + 1)).getBeschreibung() + "</p>";
+                        next.setText(HtmlCompat.fromHtml(nextStunde, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    } else next.setText("letzte Phase erreicht");
+                    id = id - 1;
+                    planid = planEntry[id].getId();
+                }
+
+                spanTxt.clear();
+                spanTxt.append("Materialien: \n");
+                spanTxt.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 12, spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (int j = 0; j < resource.length; j++) {
+                    if (resource[j].getPlanentryid() == planid){
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
+                    } else {
+                        spanTxt.append(resource[j].getTitle() + " ("+ resource[j].getFilename()+")\n");
+                        final int finalJ = j;
+                        spanTxt.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), spanTxt.length()-resource[j].getFilename().length()-2, spanTxt.length(), spanTxt.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spanTxt.setSpan(new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                if (resource[finalJ].getType().contains("image/*")) {
+                                    Intent i = new Intent(Durchfuehrung.this, materialActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+                                }
+                                if (resource[finalJ].getType().contains("application/pdf")) {
+                                    Intent i = new Intent(Durchfuehrung.this, pdfActivity.class);
+                                    i.putExtra("material", resource[finalJ].getTextContent());
+                                    startActivity(i);
+
+                                }
+
+
+                            }
+                        }, spanTxt.length() - resource[j].getFilename().length()-2, spanTxt.length(), 0);
+                    }
+
+
+                }
+
+                TextView materials = findViewById(R.id.materials);
+                materials.setText(spanTxt, TextView.BufferType.SPANNABLE);
+                materials.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        });
+
         length = lesson.getLength();
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setMax(length*60);
@@ -636,6 +841,11 @@ public class Durchfuehrung extends AppCompatActivity {
                                 db.updateLesson(lesson, Integer.parseInt(lessonID));
                                 Intent i = new Intent(Durchfuehrung.this, FeedbackActivity.class);
                                 i.putExtra("lessonID", lessonID);
+                                SharedPreferences sharedPref = Durchfuehrung.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putInt("textsize", textsize);
+                                editor.commit();
+
                                 finish();
                                 Durchfuehrung.this.startActivity(i);
                             }
