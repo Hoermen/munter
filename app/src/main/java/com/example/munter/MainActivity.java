@@ -77,7 +77,390 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
     public void createModel() {
-        Sequence sequence1 = new Sequence();
+
+        DBHandler db = new DBHandler(getApplicationContext());
+
+        /** Sequence vektoren = new Sequence();
+        vektoren.setTitle("Vektoren");
+        vektoren.setId(1);
+        vektoren.setBeschreibung("");
+        vektoren.setGrade(10);
+        vektoren.setSubject("Mathematik");
+
+        Lesson lesson1 = new Lesson();
+        lesson1.setTitle("Anwendungen des Vektorprodukts");
+        lesson1.setBeschreibung("");
+        lesson1.setGoal("Die SuS kennen verschiedene Aufgabentypen, in denen das Vektorprodukt zur Lösung genutzt werden kann.");
+        lesson1.setId(1);
+        lesson1.setSequenceid(1);
+        lesson1.setLength(90);
+
+        PlanEntry plan1 = new PlanEntry();
+        plan1.setLength(15);
+        plan1.setStart(0);
+        plan1.setLessonId(1);
+        plan1.setId(1);
+        plan1.setTitle("Wiederholungen");
+        plan1.setBeschreibung("<p>Buch Seite 89, Übung 20<br/>Lösungsheft nutzen<br/>Idee des Beweises: Wir formen das, was wir nicht kennen, zu dem um, was wir kennen.</p><p>Rechengesetze<br/>jede Gruppe stellt kurz ihren Beweis vor</p>");
+        plan1.setSocialForm("Tafel im Gespräch<br/>Vortrag vom Platz aus");
+
+        PlanEntry plan2 = new PlanEntry();
+        plan2.setStart(15);
+        plan2.setLength(15);
+        plan2.setId(2);
+        plan2.setLessonId(1);
+        plan2.setTitle("Erarbeitung 1");
+        plan2.setBeschreibung("<p>Normalenvektor auf einer Ebene --> gestern</p><p>Flächeninhalt eines Parallelogramms</p><p>Zusammenhang zwischen dem Flächeninhalt eines Parallelogramms und dem Vektorprodukt der Vektoren, die das Parallelogramm aufspannen</p>" +
+
+                "<p>Auftrag: Berechnet für die 3 Beispiele jeweils den Flächeninhalt des Parallelogramms und den Betrag des zugehörigen Vektorprodukts.<br/>Welchen Zusammenhang könnt ihr erkennen?<br/>Beispiele in den Materialien</p>"+
+
+                "<p>--> der Flächeninhalt ist gleich dem Betrag<br/>"+
+                "|a ⃗ |⋅|b ⃗ |⋅sinγ=|a ⃗×b ⃗|</p>"+
+
+                "<p>Arbeitsblatt austeilen</p>" +
+                "<p>Spezialfall: Flächeninhalt eines Dreiecks<br/>"+
+                "Wie könnte der Zusammenhang zwischen dem Flächeninhalt eines Dreiecks und dem Vektorprodukt lauten?<br/>--> Flächeninhalt ist gleich der Hälfte des Betrags</p>");
+
+        PlanEntry plan3 = new PlanEntry();
+        plan3.setStart(30);
+        plan3.setLength(10);
+        plan3.setId(3);
+        plan3.setLessonId(1);
+        plan3.setTitle("Übung 1");
+        plan3.setSocialForm("EA auf AB und Rechnung im Hefter");
+        plan3.setBeschreibung("<p>die ersten beiden Berechnungen des Arbeitsblattes durchführen</p><p>Lösung auf dem Arbeitsblatt</p>");
+
+        PlanEntry plan4 = new PlanEntry();
+        plan4.setStart(40);
+        plan4.setLength(20);
+        plan4.setId(4);
+        plan4.setLessonId(1);
+        plan4.setTitle("Erarbeitung 2");
+        plan4.setSocialForm("EA auf AB und Rechnung im Hefter");
+        plan4.setBeschreibung("<p>Volumen eines Spats<br/>Analog zum Flächeninhalt gibt es eine Formel zum Volumen eines Prismas (Spat/Parallelpeptid)</p><p>die restlichen 3 Zeilen des Arbeitsblattes mit Hilfe des Buches und des Tafelwerks erarbeiten (inklusive der Berechnungen)</p>"+
+                "<p>Hinweis: Was ist der Zusammenhang zwischen den Körpern?</p>");
+
+        PlanEntry plan5 = new PlanEntry();
+        plan5.setStart(60);
+        plan5.setLength(30);
+        plan5.setId(5);
+        plan5.setLessonId(1);
+        plan5.setTitle("Übung 2");
+        plan5.setSocialForm("");
+        plan5.setBeschreibung("<p>Aufgabenpool<br/>- Buch Seite 96, Übung 5<br/>- Buch Seite 97, Übung 7, 11, 12, 14, 15 (ohne Zeichnung) </p><p>Paul, Bjarne, Henning und Florian bekommen Aufgabe, die Herleitung des Spatprodukts aus dem Buch nachzuvollziehen</p>");
+
+        Resource resource1 = new Resource();
+        resource1.setId(1);
+        resource1.setFilename("Stunde23092020.pdf");
+        //resource1.setTextContent("file:/storage/emulated/0/Download/Turnelemente.pdf");
+        resource1.setTextContent("file:/sdcard/Download/Stunde23092020.pdf");
+        resource1.setTitle("Stundenplanung");
+        resource1.setType("application/pdf");
+        resource1.setLessonid(1);
+        resource1.setPlanentryid(1);
+
+        Resource resource2 = new Resource();
+        resource2.setId(2);
+        resource2.setFilename("Beispiele.pdf");
+        //resource1.setTextContent("file:/storage/emulated/0/Download/Turnelemente.pdf");
+        resource2.setTextContent("file:/sdcard/Download/Beispiele.pdf");
+        resource2.setTitle("Beispiele");
+        resource2.setType("application/pdf");
+        resource2.setLessonid(1);
+        resource2.setPlanentryid(2);
+
+        db.createPlanentry(plan1);
+        db.createLesson(lesson1);
+        db.createSequence(vektoren);
+        db.createPlanentry(plan2);
+        db.createPlanentry(plan3);
+        db.createPlanentry(plan4);
+        db.createPlanentry(plan5);
+        db.createResource(resource1);
+        db.createResource(resource2); **/
+
+        Sequence vektoren = new Sequence();
+        vektoren.setTitle("Klara");
+        vektoren.setId(1);
+        vektoren.setBeschreibung("");
+        vektoren.setGrade(5);
+        vektoren.setSubject("Mathematik");
+        db.createSequence(vektoren);
+
+        Lesson lesson1 = new Lesson();
+        lesson1.setTitle("Wiederholung der schriftlichen Division");
+        lesson1.setGoal("- SuS wiederholen schriftliche Division<br/>- SuS dividieren schriftlich mit zweistelligem Divisor.<br/>" +
+                "- SuS können schriftliche Division in Sachaufgaben anwenden.<br/>" +
+                "-SuS berechnen den Überschlag für Divisionsaufgaben.");
+        lesson1.setId(1);
+        lesson1.setSequenceid(1);
+        lesson1.setLength(99);
+        db.createLesson(lesson1);
+
+        Lesson lesson2 = new Lesson();
+        lesson2.setTitle("Einführung Potenz");
+        lesson2.setGoal("- SuS kennen die Fachbegriffe, die beim Potenzieren gebraucht werden.<br/>" +
+                "- SuS können Produkt gleicher Zahlen in eine Potenz umschreiben.<br/>" +
+                "- SuS wandeln eine Potenz in ein Produkt um.<br/>" +
+                "- SuS wissen, dass Quadratzahlen Potenzen mit dem Exponenten 10 sind.");
+        lesson2.setId(2);
+        lesson2.setSequenceid(1);
+        lesson2.setLength(100);
+        db.createLesson(lesson2);
+
+        PlanEntry plan1 = new PlanEntry();
+        plan1.setLength(15);
+        plan1.setStart(0);
+        plan1.setLessonId(1);
+        plan1.setId(1);
+        plan1.setTitle("TÜ");
+        plan1.setSocialForm("Einzelarbeit");
+        plan1.setComments("Einsammeln von Franzi, Vinja, Mattis und Anna<p>TÜ Heft Klasse 5</p>");
+        plan1.setBeschreibung("-Aufgaben laut vorlesen<br/>-1 Minute zum drüberschauen<br/>-Vergleichen");
+        db.createPlanentry(plan1);
+
+        PlanEntry plan2 = new PlanEntry();
+        plan2.setLength(7);
+        plan2.setStart(15);
+        plan2.setLessonId(1);
+        plan2.setId(2);
+        plan2.setTitle("Wiederholung");
+        plan2.setSocialForm("Frontalunterricht");
+        plan2.setComments("");
+        plan2.setBeschreibung("Wiederholung der schriftlichen Division ohne Rest<p>-6194:19 an Tafel schreiben<br/>" +
+                "-Überschlag mit SuS berechnen (6200:20=310)<br/>" +
+                "-gemeinsames Lösen</p>");
+        db.createPlanentry(plan2);
+
+        PlanEntry plan3 = new PlanEntry();
+        plan3.setLength(10);
+        plan3.setStart(22);
+        plan3.setLessonId(1);
+        plan3.setId(3);
+        plan3.setTitle("Übung");
+        plan3.setSocialForm("Einzelarbeit");
+        plan3.setComments("ohne Kontrollrechnung");
+        plan3.setBeschreibung("Division ohne Rest<p>LB, S. 61/3d</p>");
+        db.createPlanentry(plan3);
+
+        PlanEntry plan4 = new PlanEntry();
+        plan4.setLength(3);
+        plan4.setStart(32);
+        plan4.setLessonId(1);
+        plan4.setId(4);
+        plan4.setTitle("Kontrolle");
+        plan4.setSocialForm("Frontalunterricht");
+        plan4.setComments("Material: Lehrbuch");
+        plan4.setBeschreibung("Lösungen: <br/>" +
+                "1283 (800:10=80)<br/>" +
+                "462 (3200:10=320)<br/>" +
+                "2809 (20.000:10=2.000)<br/>" +
+                "20.036 (120.000:6=20.000)");
+        db.createPlanentry(plan4);
+
+        PlanEntry plan5 = new PlanEntry();
+        plan5.setLength(10);
+        plan5.setStart(35);
+        plan5.setLessonId(1);
+        plan5.setId(5);
+        plan5.setTitle("Übung");
+        plan5.setSocialForm("Einzelarbeit");
+        plan5.setComments("ohne Kontrollrechnung");
+        plan5.setBeschreibung("Division mit Rest<p>LB, S. 61/5c</p>");
+        db.createPlanentry(plan5);
+
+        PlanEntry plan6 = new PlanEntry();
+        plan6.setLength(10);
+        plan6.setStart(45);
+        plan6.setLessonId(1);
+        plan6.setId(6);
+        plan6.setTitle("Pause");
+        plan6.setSocialForm("");
+        plan6.setComments("");
+        plan6.setBeschreibung("");
+        db.createPlanentry(plan6);
+
+        PlanEntry plan7 = new PlanEntry();
+        plan7.setLength(2);
+        plan7.setStart(55);
+        plan7.setLessonId(1);
+        plan7.setId(7);
+        plan7.setTitle("Kontrolle");
+        plan7.setSocialForm("Frontalunterricht");
+        plan7.setComments("Material: Lehrbuch");
+        plan7.setBeschreibung("Lösungen: <br/>" +
+                "14 R 3<br/>" +
+                "60 R 3<br/>" +
+                "274 R 8");
+        db.createPlanentry(plan7);
+
+        PlanEntry plan8 = new PlanEntry();
+        plan8.setLength(20);
+        plan8.setStart(57);
+        plan8.setLessonId(1);
+        plan8.setId(8);
+        plan8.setTitle("Übung");
+        plan8.setSocialForm("Einzelarbeit (Partnerarbeit bei Problemen");
+        plan8.setComments("Ohne Kontrollrechnung<br/>Tipp: ersten 10 Zahlen der \"Divisorreihe\" aufschreiben");
+        plan8.setBeschreibung("Übung mit zweistelligem Divisor<p>LB, S. 61/4a,e</p>");
+        db.createPlanentry(plan8);
+
+        PlanEntry plan9 = new PlanEntry();
+        plan9.setLength(3);
+        plan9.setStart(77);
+        plan9.setLessonId(1);
+        plan9.setId(9);
+        plan9.setTitle("Kontrolle");
+        plan9.setSocialForm("Frontalunterricht");
+        plan9.setComments("Material: Lehrbuch");
+        plan9.setBeschreibung("Lösungen: <br/>" +
+                "a) 25, 31, 47<br/>" +
+                "e) 2608, 19740, 269");
+        db.createPlanentry(plan9);
+
+        PlanEntry plan10 = new PlanEntry();
+        plan10.setLength(7);
+        plan10.setStart(80);
+        plan10.setLessonId(1);
+        plan10.setId(10);
+        plan10.setTitle("Übung");
+        plan10.setSocialForm("Frontunterricht -> Einzelarbeit");
+        plan10.setComments("Material: Lehrbuch");
+        plan10.setBeschreibung("Sachaufgaben<p>LB, S. 63/13<br/>" +
+                "Aufgabe vorlesen lassen<br/>" +
+                "Ansatz gemeinsam an Tafel besprechen</p>");
+        db.createPlanentry(plan10);
+
+        PlanEntry plan11 = new PlanEntry();
+        plan11.setLength(2);
+        plan11.setStart(87);
+        plan11.setLessonId(1);
+        plan11.setId(11);
+        plan11.setTitle("Kontrolle");
+        plan11.setSocialForm("Frontunterricht");
+        plan11.setComments("");
+        plan11.setBeschreibung("Lösungen: <br/>" +
+                "63 Weinkartons<br/>" +
+                "49 Saftpakete");
+        db.createPlanentry(plan11);
+
+        PlanEntry plan12 = new PlanEntry();
+        plan12.setLength(10);
+        plan12.setStart(89);
+        plan12.setLessonId(1);
+        plan12.setId(12);
+        plan12.setTitle("Übung");
+        plan12.setSocialForm("Einzelarbeit");
+        plan12.setComments("SuS sollen Aufgabe alleine Lösen");
+        plan12.setBeschreibung("Sachaufgaben<p>LB, S. 63/15<br/>" +
+                "Zusatz für schnelle: LB, S. 63/14</p>");
+        db.createPlanentry(plan12);
+
+        PlanEntry pot1 = new PlanEntry();
+        pot1.setLength(15);
+        pot1.setStart(0);
+        pot1.setLessonId(2);
+        pot1.setId(13);
+        pot1.setTitle("TÜ");
+        pot1.setSocialForm("Einzelarbeit");
+        pot1.setComments("Einsammeln von Weda, Maria und Artjom<p>TÜ Heft Klasse 5</p>");
+        pot1.setBeschreibung("-Aufgaben laut vorlesen<br/>-1 Minute zum drüberschauen<br/>-Vergleichen");
+        db.createPlanentry(pot1);
+
+        PlanEntry pot2 = new PlanEntry();
+        pot2.setLength(25);
+        pot2.setStart(15);
+        pot2.setLessonId(2);
+        pot2.setId(14);
+        pot2.setTitle("Einführung Potenzen");
+        pot2.setSocialForm("Frontalunterricht");
+        pot2.setComments("Material: Bunte Kreide");
+        pot2.setBeschreibung("-Addition gleicher Summanden kann durch Umschreiben in Produkt verkürzt werden<br/>" +
+                "-Beispiel an der Tafel: 3+3+3+3+3=5*3<br/>" +
+                "-> geht das auch bei Produkt mit gleichen Faktoren?<br/>" +
+                "-Beispiel an der Tafel: 3*3*3*3*3=?<br/>" +
+                "Potenzen als Überschrift<br/>" +
+                "Merktext an die Tafel");
+        db.createPlanentry(pot2);
+
+        PlanEntry pot3 = new PlanEntry();
+        pot3.setLength(5);
+        pot3.setStart(40);
+        pot3.setLessonId(2);
+        pot3.setId(15);
+        pot3.setTitle("Übung");
+        pot3.setSocialForm("Einzelarbeit");
+        pot3.setComments("Bereits vor der Stunde an die Tafelrückseite schreiben");
+        pot3.setBeschreibung("3*3*3*3*3*3*3 = 3^7<br/>5*5*5*5 = 5^4<br/>7*7*7 = 7^3<br/>10*10*10*10*10*10 = 10^6");
+        db.createPlanentry(pot3);
+
+        PlanEntry pot4 = new PlanEntry();
+        pot4.setLength(10);
+        pot4.setStart(45);
+        pot4.setLessonId(2);
+        pot4.setId(16);
+        pot4.setTitle("Pause");
+        pot4.setSocialForm("Frontalunterricht");
+        pot4.setComments("Wilma, Alisa und Toni zur Begabtenförderung schicken");
+        pot4.setBeschreibung("");
+        db.createPlanentry(pot4);
+
+        PlanEntry pot5 = new PlanEntry();
+        pot5.setLength(15);
+        pot5.setStart(55);
+        pot5.setLessonId(2);
+        pot5.setId(17);
+        pot5.setTitle("Übung");
+        pot5.setSocialForm("Einzelarbeit");
+        pot5.setComments("");
+        pot5.setBeschreibung("Umwandeln und Berechnen<p>LB,S. 74/3f-i</p>");
+        db.createPlanentry(pot5);
+
+        PlanEntry pot6 = new PlanEntry();
+        pot6.setLength(3);
+        pot6.setStart(70);
+        pot6.setLessonId(2);
+        pot6.setId(18);
+        pot6.setTitle("Kontrolle");
+        pot6.setSocialForm("Frontalunterricht");
+        pot6.setComments("Material: Lehrbuch");
+        pot6.setBeschreibung("Lösungen:<br/>5^5 = 3125<br/>2^10 = 1024<br/>6^6 = 46656<br/>11^4 = 14641");
+        db.createPlanentry(pot6);
+
+        PlanEntry pot7 = new PlanEntry();
+        pot7.setLength(15);
+        pot7.setStart(73);
+        pot7.setLessonId(2);
+        pot7.setId(19);
+        pot7.setTitle("Übung");
+        pot7.setSocialForm("Einzelarbeit");
+        pot7.setComments("");
+        pot7.setBeschreibung("Berechnen <p>LB, S. 74/4a,c,e,g,i</p>");
+        db.createPlanentry(pot7);
+
+        PlanEntry pot8 = new PlanEntry();
+        pot8.setLength(3);
+        pot8.setStart(88);
+        pot8.setLessonId(2);
+        pot8.setId(20);
+        pot8.setTitle("Kontrolle");
+        pot8.setSocialForm("Frontalunterricht");
+        pot8.setComments("");
+        pot8.setBeschreibung("Lösungen:<br/>2^2 = 4<br/>8^3 = 512<br/>1^5 = 1<br/>0^7 = 0<br/>50^2 = 2500");
+        db.createPlanentry(pot8);
+
+        PlanEntry pot9 = new PlanEntry();
+        pot9.setLength(9);
+        pot9.setStart(91);
+        pot9.setLessonId(2);
+        pot9.setId(21);
+        pot9.setTitle("Übung");
+        pot9.setSocialForm("");
+        pot9.setComments("Wenn zu wenig Zeit erstmal nur als Produkt von Potenzen schreiben");
+        pot9.setBeschreibung("verscheidene Faktoren<p>LB,S. 74/6<br/>a gemeinsam bersprechen</p>");
+        db.createPlanentry(pot9);
+
+        /** Sequence sequence1 = new Sequence();
         sequence1.setTitle("anders");
         sequence1.setComments("viel Sprechen");
         sequence1.setGoal("interessanter");
@@ -591,7 +974,7 @@ public class MainActivity extends AppCompatActivity {
         db.createResource(resource2);
         db.createResource(resource3);
         db.createPlanentry(planEntry5);
-        db.createPlanentry(planEntry6);
+        db.createPlanentry(planEntry6); **/
     }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

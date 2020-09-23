@@ -98,7 +98,7 @@ public class SequenceActivity extends AppCompatActivity {
                     for (int i = 0; i < lesson.length; i++) {
                         final TextView value2TV = new TextView(context);
                         String lessonText = "<h3><u>"+lesson[i].getTitle()+"</u></h3><p><b>Länge:</b> " + lesson[i].getLength()+" Minuten</p><p><b>Ziele:</b> "+
-                                lesson[i].getGoal()+"</p><p><b>Beschreibung:</b> "+sequence[i].getBeschreibung()+"</p><p><b>Hausaufgaben:</b> "+lesson[i].getHomeworks()+"</p><p><b>Kommentare:</b> "+lesson[i].getComments()+"</p>";
+                                lesson[i].getGoal()+"</p><p><b>Beschreibung:</b> "+lesson[i].getBeschreibung()+"</p><p><b>Hausaufgaben:</b> "+lesson[i].getHomeworks()+"</p><p><b>Kommentare:</b> "+lesson[i].getComments()+"</p>";
                         value2TV.setText(HtmlCompat.fromHtml(lessonText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                         value2TV.setId(lesson[i].getId());
                         value2TV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
