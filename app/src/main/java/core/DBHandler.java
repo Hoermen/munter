@@ -26,9 +26,6 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_PLANENTRY = "CREATE TABLE planentry (planentryid INTEGER PRIMARY KEY, lessonid INTEGER, start INTEGER, length INTEGER, title TEXT, goal TEXT, socialform TEXT, comments TEXT, reserve TEXT, beschreibung TEXT, reallength INTEGER)";
 
     // todo_tag table create statement
-    private static final String CREATE_TABLE_CUSTOMFIELD = "CREATE TABLE customfield (customfieldid INTEGER PRIMARY KEY, name TEXT, binarycontent BLOB, sequenceid INTEGER, lessonid INTEGER, planentryid INTEGER)";
-
-    // todo_tag table create statement
     private static final String CREATE_TABLE_RESOURCE = "CREATE TABLE resource (resourceid INTEGER PRIMARY KEY, title TEXT,content BLOB, filename TEXT, type TEXT, thumbnail BLOB, lessonid INTEGER, planentryid INTEGER)";
 
     public DBHandler(Context context) {
@@ -42,7 +39,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SEQUENCE);
         db.execSQL(CREATE_TABLE_PLANENTRY);
         db.execSQL(CREATE_TABLE_RESOURCE);
-        db.execSQL(CREATE_TABLE_CUSTOMFIELD);
     }
 
     @Override
@@ -52,7 +48,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS sequence");
         db.execSQL("DROP TABLE IF EXISTS planentry");
         db.execSQL("DROP TABLE IF EXISTS resource");
-        db.execSQL("DROP TABLE IF EXISTS customfield");
 
         // create new tables
         onCreate(db);
@@ -317,38 +312,6 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         return planEntry;
-    }
-
-    public long createCustomfields(CustomField customField) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("customfieldid", customField.getId());
-        values.put("name", customField.getName());
-
-
-        // insert row
-        long key_id = db.insert("customfield", null, values);
-        return key_id;
-    }
-
-    public CustomField getCustomfileds() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        CustomField customField = new CustomField();
-
-        Cursor cursor = db.query("customfield", new String[]{"customfieldid", "name"}, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow("customfieldid"));
-
-        customField.setName(name);
-        customField.setId(id);
-
-        return customField;
     }
 
     public long createResource(Resource resource) {

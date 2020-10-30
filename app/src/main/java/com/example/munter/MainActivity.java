@@ -18,8 +18,6 @@ import android.widget.TextView;
 import core.DBHandler;
 import core.Lesson;
 import core.PlanEntry;
-import core.Resource;
-import core.ResourceType;
 import core.Sequence;
 
 public class MainActivity extends AppCompatActivity {
@@ -179,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         db.createResource(resource1);
         db.createResource(resource2); **/
 
-        Sequence vektoren = new Sequence();
+        /** Sequence vektoren = new Sequence();
         vektoren.setTitle("Klara");
         vektoren.setId(1);
         vektoren.setBeschreibung("");
@@ -458,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
         pot9.setSocialForm("");
         pot9.setComments("Wenn zu wenig Zeit erstmal nur als Produkt von Potenzen schreiben");
         pot9.setBeschreibung("verscheidene Faktoren<p>LB,S. 74/6<br/>a gemeinsam bersprechen</p>");
-        db.createPlanentry(pot9);
+        db.createPlanentry(pot9); **/
 
         /** Sequence sequence1 = new Sequence();
         sequence1.setTitle("anders");
@@ -975,6 +973,182 @@ public class MainActivity extends AppCompatActivity {
         db.createResource(resource3);
         db.createPlanentry(planEntry5);
         db.createPlanentry(planEntry6); **/
+
+        /** Sequence vektoren = new Sequence();
+        vektoren.setTitle("halbschriftliche Division");
+        vektoren.setId(1);
+        vektoren.setGoal("SuS wenden die halbschriftliche Division zum Lösen von Sachaufgaben an");
+        vektoren.setBeschreibung("");
+        vektoren.setGrade(5);
+        vektoren.setSubject("Mathematik");
+        db.createSequence(vektoren);
+
+        Lesson lesson1 = new Lesson();
+        lesson1.setTitle("Einführung der halbschriftlichen Division");
+        lesson1.setGoal("die SUS lernen das Verfahren der halbschriftlichen Division kennen");
+        lesson1.setId(1);
+        lesson1.setSequenceid(1);
+        lesson1.setLength(45);
+        db.createLesson(lesson1);
+
+        PlanEntry plan1 = new PlanEntry();
+        plan1.setLength(15);
+        plan1.setStart(0);
+        plan1.setLessonId(1);
+        plan1.setId(1);
+        plan1.setTitle("Einstieg (Einstimmung)");
+        plan1.setSocialForm("");
+        plan1.setComments("Aufgaben Rechenkönig");
+        plan1.setBeschreibung("Aufgaben siehe Anhang<br/>Auswertung Rechenkönig<br/>Ausgabe der Kronen");
+        db.createPlanentry(plan1);
+
+        PlanEntry plan2 = new PlanEntry();
+        plan2.setLength(10);
+        plan2.setStart(15);
+        plan2.setLessonId(1);
+        plan2.setId(2);
+        plan2.setTitle("Erarbeitung");
+        plan2.setSocialForm("Tafelarbeit");
+        plan2.setComments("ausführlichen Rechenweg verlangen, Astdiagramme nutzen");
+        plan2.setBeschreibung("TB: halbschriftliche Division<br/><u>57: 3=</u><br/>30: 3= 10<br/>27 : 3 = 9<br/><u>10 + 9 = 19</u><br/>57: 3 = 19<br/>" +
+                "<p>(Geschichte: Frau Thumer, Frau Höppner und Frau Nadolny - Lehrerzimmer:<br/>" +
+                "57 Kinder in drei dritten Klassen. Wie viele Kinder pro Klasse? Sind sie gerecht aufgeteilt?)</p>" +
+                "weitere Beispiele <br/>95: 5, <br/>" +
+                "220: 4<br/>" +
+                "abschreiben lassen");
+        plan2.setGoal("schreiben ab");
+        db.createPlanentry(plan2);
+
+        PlanEntry plan3 = new PlanEntry();
+        plan3.setLength(12);
+        plan3.setStart(25);
+        plan3.setLessonId(1);
+        plan3.setId(3);
+        plan3.setTitle("Übung");
+        plan3.setSocialForm("Arbeit im Heft<br/>einzeln");
+        plan3.setComments("- ausführlichen Weg verlangen, auf Arbeit mit Lineal hinweisen, Platz zwischen den Aufgaben lassen<br/>" +
+                "- Astdiagramme nutzen lassen<br/>" +
+                "- drei Aufgaben nebeneinander im Heft");
+        plan3.setBeschreibung("Aufgaben: <br/>60:6 = 10<br/>72:6 = 12<br/>108:6 = 18<br/><br/>40:4 = 10<br/>120:4 = 30<br/>72:4 = 18<br/>" +
+                "<br/>80:4 = 20<br/>" +
+                "200:8 = 25<br/>" +
+                "96:4 = 24<br/>" +
+                "<br/>" +
+                "Zusatz:<br/>" +
+                "50:5 = 10<br/>" +
+                "225:5 = 45<br/>" +
+                "90:5 = 18<br/>" +
+                "<br/>" +
+                "70:7 = 10<br/>" +
+                "112:7 = 16<br/>" +
+                "84:7 = 12<br/>");
+        db.createPlanentry(plan3);
+
+        PlanEntry plan4 = new PlanEntry();
+        plan4.setLength(4);
+        plan4.setStart(37);
+        plan4.setLessonId(1);
+        plan4.setId(4);
+        plan4.setTitle("Ergebnissicherung");
+        plan4.setSocialForm("");
+        plan4.setComments("");
+        plan4.setBeschreibung("Ergebnisse anschreiben, abhaken lassen");
+        db.createPlanentry(plan4);
+
+        PlanEntry plan5 = new PlanEntry();
+        plan5.setLength(4);
+        plan5.setStart(41);
+        plan5.setLessonId(1);
+        plan5.setId(5);
+        plan5.setTitle("Einschreiben der HA");
+        plan5.setSocialForm("");
+        plan5.setComments("");
+        plan5.setBeschreibung("HA zu Mittwoch: Ah. S. Ah. S. 6/ 5 und 6");
+        db.createPlanentry(plan5);
+
+        Resource resource1 = new Resource();
+        resource1.setId(1);
+        resource1.setFilename("Rechenkoenig.pdf");
+        //resource1.setTextContent("file:/storage/emulated/0/Download/Turnelemente.pdf");
+        resource1.setTextContent("file:/sdcard/Download/Rechenkoenig.pdf");
+        resource1.setTitle("Rechenkönig");
+        resource1.setType("application/pdf");
+        resource1.setLessonid(1);
+        resource1.setPlanentryid(1);
+        db.createResource(resource1);
+
+        Resource resource2 = new Resource();
+        resource2.setId(2);
+        resource2.setFilename("Kurzentwurf.pdf");
+        //resource1.setTextContent("file:/storage/emulated/0/Download/Turnelemente.pdf");
+        resource2.setTextContent("file:/sdcard/Download/Kurzentwurf.pdf");
+        resource2.setTitle("Kurzentwurf");
+        resource2.setType("application/pdf");
+        resource2.setLessonid(1);
+        db.createResource(resource2);
+
+         **/
+
+        Sequence vektoren = new Sequence();
+        vektoren.setTitle("Johanna");
+        vektoren.setId(1);
+        vektoren.setGoal("");
+        vektoren.setBeschreibung("");
+        vektoren.setGrade(0);
+        vektoren.setSubject("");
+        db.createSequence(vektoren);
+
+        Lesson lesson1 = new Lesson();
+        lesson1.setTitle("Plättchenmuster");
+        lesson1.setGoal("");
+        lesson1.setId(1);
+        lesson1.setSequenceid(1);
+        lesson1.setLength(45);
+        db.createLesson(lesson1);
+
+        PlanEntry plan1 = new PlanEntry();
+        plan1.setLength(5);
+        plan1.setStart(0);
+        plan1.setLessonId(1);
+        plan1.setId(1);
+        plan1.setTitle("Einstieg");
+        plan1.setSocialForm("");
+        plan1.setComments("");
+        plan1.setBeschreibung("Hände waschen, trinken, Pause");
+        db.createPlanentry(plan1);
+
+        PlanEntry plan2 = new PlanEntry();
+        plan2.setLength(10);
+        plan2.setStart(5);
+        plan2.setLessonId(1);
+        plan2.setId(2);
+        plan2.setTitle("Konzentration");
+        plan2.setSocialForm("");
+        plan2.setComments("rotes kleines Heft");
+        plan2.setBeschreibung("Konzentration: Ziffern schreiben lassen");
+        db.createPlanentry(plan2);
+
+        PlanEntry plan3 = new PlanEntry();
+        plan3.setLength(20);
+        plan3.setStart(15);
+        plan3.setLessonId(1);
+        plan3.setId(3);
+        plan3.setTitle("Muster legen");
+        plan3.setSocialForm("");
+        plan3.setComments("- AB<br/>- Plättchen<br/>- vorbereitete Tafel");
+        plan3.setBeschreibung("PA: Muster legen lassen <br/>- AB austeilen<br/>- roter & blauer Stift<br/>- Tafel: vorbereitetes Beispiel: - Wer erkennt Muster? Wie geht es weiter? Legt das Muster mit euren 20 Plättchen nach!<p>- SuS sagen an, wie an Tafel zu legen --> alle malen ab</p><p>- dann 2. & 3. Beispiel</p>");
+        db.createPlanentry(plan3);
+
+        PlanEntry plan4 = new PlanEntry();
+        plan4.setLength(10);
+        plan4.setStart(35);
+        plan4.setLessonId(1);
+        plan4.setId(4);
+        plan4.setTitle("Plättchenmuster");
+        plan4.setSocialForm("");
+        plan4.setComments("");
+        plan4.setBeschreibung("PA: Plättchenmuster<br/>- Kind nach vorne: Sichtschutz & Beispiel vormachen<br/>- ein eigenes Muster legen lassen und aufmalen");
+        db.createPlanentry(plan4);
     }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

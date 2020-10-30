@@ -13,10 +13,6 @@ public class Lesson implements Serializable {
 	private String goal = "";
 	private String homeworks = "";
 	private String comments = "";
-	private boolean markUnfinished = false;
-	private boolean markUnfinishedPlanEntries = false;
-	private ArrayList<CustomField> customFields = new ArrayList<>();
-	private boolean isMine = false;
 	private String beschreibung = "";
 	private String feedback = "";
 
@@ -124,47 +120,4 @@ public class Lesson implements Serializable {
 		this.comments = comments;
 	}
 
-	/**
-	 * @return the markUnfinished
-	 */
-	public boolean isMarkUnfinished() {
-		return markUnfinished;
-	}
-
-	/**
-	 * @param markUnfinished the markUnfinished to set
-	 */
-	public void setMarkUnfinished(boolean markUnfinished) {
-		this.markUnfinished = markUnfinished;
-	}
-
-	/**
-	 * @return the markUnfinishedPlanEntries
-	 */
-	public boolean isMarkUnfinishedPlanEntries() {
-		return markUnfinishedPlanEntries;
-	}
-
-	/**
-	 * @param markUnfinishedPlanEntries the markUnfinishedPlanEntries to set
-	 */
-	public void setMarkUnfinishedPlanEntries(boolean markUnfinishedPlanEntries) {
-		this.markUnfinishedPlanEntries = markUnfinishedPlanEntries;
-	}
-
-	public ArrayList<CustomField> getCustomFields() {
-		return customFields;
-	}
-
-	public void setCustomFields(ArrayList<CustomField> customFields) {
-		this.customFields = customFields;
-	}
-
-	public boolean isMine() {
-		return isMine;
-	}
-
-	public void setMine(boolean isMine) {
-		this.isMine = isMine;
-	}
 }

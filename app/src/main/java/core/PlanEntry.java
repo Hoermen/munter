@@ -15,8 +15,6 @@ public class PlanEntry implements Serializable {
 	private String color = "";
 	private int parentPlanEntryId;
 	private String comments = "";
-	private boolean markUnfinished = false;
-	private ArrayList<CustomField> customFields = new ArrayList<>();
 	private String reserve = "";
 	private String beschreibung = "";
 	private int reallength;
@@ -186,41 +184,6 @@ public class PlanEntry implements Serializable {
 		this.comments = comments;
 	}
 
-	/**
-	 * @return the markUnfinished
-	 */
-	public boolean isMarkUnfinished() {
-		return markUnfinished;
-	}
-
-	/**
-	 * @param markUnfinished the markUnfinished to set
-	 */
-	public void setMarkUnfinished(boolean markUnfinished) {
-		this.markUnfinished = markUnfinished;
-	}
-
-	public PlanEntry clonePlanEntry() {
-		PlanEntry clone = new PlanEntry();
-		// lessonId, start, track, parentPlanEntry are not cloned
-		clone.length = length;
-		clone.title = title;
-		clone.goal = goal;
-		clone.socialForm = socialForm;
-		clone.comments = comments;
-		clone.markUnfinished = markUnfinished;
-		clone.customFields.addAll(customFields);
-		clone.color = color;
-		return clone;
-	}
-
-	public ArrayList<CustomField> getCustomFields() {
-		return customFields;
-	}
-
-	public void setCustomFields(ArrayList<CustomField> customFields) {
-		this.customFields = customFields;
-	}
 
 	public String getColor() {
 		return color;

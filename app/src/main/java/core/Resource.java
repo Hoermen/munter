@@ -8,9 +8,7 @@ public class Resource implements Serializable {
 	private String title;
 	private String textContent;
 	private String filename;
-	private String anticipatedSolutionFilename = null;
 	private String type;
-	private boolean isMine = false;
 	private int lessonid;
 	private int planentryid;
 
@@ -90,25 +88,4 @@ public class Resource implements Serializable {
 		this.type = type;
 	}
 
-	public boolean isMine() {
-		return isMine;
-	}
-
-	public void setMine(boolean isMine) {
-		this.isMine = isMine;
-	}
-
-	/**
-	 * @return the anticipatedSolutionFilename
-	 */
-	public String getAnticipatedSolutionFilename() {
-		return anticipatedSolutionFilename;
-	}
-
-	/**
-	 * @param anticipatedSolutionFilename the anticipatedSolutionFilename to set
-	 */
-	public void setAnticipatedSolutionFilename(String anticipatedSolutionFilename) {
-		this.anticipatedSolutionFilename = anticipatedSolutionFilename;
-	}
 }
