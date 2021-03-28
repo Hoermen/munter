@@ -1,5 +1,12 @@
 # munter
 mobiles, unterrichtsbegleitendes Unterstützungsystem für angehende Lehrpersonen
+Features: Darstellung der Unterrichtseinheiten, Verknüpfung mit Materialien, Zeitstrahl für die Unterrichsdurchführung, Timer-Funktion, Notiz- und Whiteboard-Funktion, Auswertungsfunktion (Aufzeichnung benötigten Zeit für einzelne Unterrichtsphasen).
+
+Build mit dem Android-Studio. 
+
+Unterrichtsplanung muss aktuell noch händisch in die Datenbank über Objekte geschrieben werden.
+ToDo: Anbindung an PLATON (Unterrichtsplanungstool)
+
 ![image](https://user-images.githubusercontent.com/35698045/112750624-e51ccb00-8fc9-11eb-87ca-22ce3a290403.png)
 ![image](https://user-images.githubusercontent.com/35698045/112750626-ecdc6f80-8fc9-11eb-9029-8e71507e3076.png)
 ![image](https://user-images.githubusercontent.com/35698045/112750629-efd76000-8fc9-11eb-8706-f8bd202cbb7a.png)
