@@ -1,10 +1,10 @@
 # munter
-mobiles, unterrichtsbegleitendes Unterstützungsystem für angehende Lehrpersonen
+mobiles, unterrichtsbegleitendes Unterstützungsystem für angehende Lehrpersonen <br>
 Features: Darstellung der Unterrichtseinheiten, Verknüpfung mit Materialien, Zeitstrahl für die Unterrichsdurchführung, Timer-Funktion, Notiz- und Whiteboard-Funktion, Auswertungsfunktion (Aufzeichnung benötigten Zeit für einzelne Unterrichtsphasen).
 
 Build mit dem Android-Studio. 
 
-Unterrichtsplanung muss aktuell noch händisch in die Datenbank über Objekte geschrieben werden.
+Unterrichtsplanung muss aktuell noch händisch in die Datenbank über Objekte geschrieben werden. <br>
 ToDo: Anbindung an PLATON (Unterrichtsplanungstool)
 
 ![image](https://user-images.githubusercontent.com/35698045/112750624-e51ccb00-8fc9-11eb-87ca-22ce3a290403.png)
